@@ -1,0 +1,3 @@
+[submodule "vanilla"]
+	path = vanilla
+	url = https://charlesreid1.com:3000/dotfiles/vanilla.git
