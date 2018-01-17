@@ -9,4 +9,3 @@ BASH="/usr/local/bin/bash"
 echo "About to set shell to ${BASH}"
 chsh -s ${BASH}
 
-

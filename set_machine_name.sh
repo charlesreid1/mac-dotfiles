@@ -15,6 +15,8 @@ sudo scutil --set ComputerName    "${newhostname}"
 sudo scutil --set HostName        "${newhostname}"
 sudo scutil --set LocalHostName	  "${newhostname}"
 
+sudo echo "127.0.0.1 ${newhostname}" >> /etc/hosts
+
 echo "The new hostname is ${newhostname}"
 echo "Try logging out and back in."
 
