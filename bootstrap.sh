@@ -7,6 +7,7 @@ function doIt() {
 		--exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude "bootstrap.sh" \
+		--exclude "greenfield_codes.sh" \
 		--exclude "pre_bootstrap.sh" \
 		--exclude "set_machine_name.sh" \
 		--exclude "README.md" \
