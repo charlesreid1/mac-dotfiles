@@ -3,7 +3,8 @@
 # to add your own non-committed machine-specific settings,
 # use ~/.extra 
 
-
+# Add homebrew admin tools
+PATH="/usr/local/sbin:${PATH}"
 
 # This is a good idea generally
 PATH="/usr/local/bin:$PATH"
