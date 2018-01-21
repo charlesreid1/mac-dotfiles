@@ -7,8 +7,12 @@ function doIt() {
 		--exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude "bootstrap.sh" \
+		--exclude "brew_install.sh" \
 		--exclude "greenfield_codes.sh" \
+		--exclude "mac_settings.sh" \
 		--exclude "pre_bootstrap.sh" \
+		--exclude "python_install.sh" \
+		--exclude "python_setup.sh" \
 		--exclude "set_machine_name.sh" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
