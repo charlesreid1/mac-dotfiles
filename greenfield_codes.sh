@@ -10,39 +10,11 @@ DIR="${HOME}/${NAME}"
 mkdir -p ${DIR}
 cd ${DIR}
 
-# Deploy some directories:
-# - charlesreid1
-# - bots
-# - lit
-# - python
-# - pi
-# - dotfiles
-# - cs
-# - ipy
-# - docker
-# - data-engineering
-# - rubiks
-# - security
-
-mkdir charlesreid1
-cd charlesreid1
-
-git clone https://charlesreid1.com:3000/charlesreid1/atom-hammer-theme.git
-git clone https://charlesreid1.com:3000/charlesreid1/coffin-spore-theme.git
-
-git clone https://github.com/charlesreid1/charlesreid1-awesome.git
-
-git clone https://charlesreid1.com:3000/charlesreid1/charlesreid1.com.git
-git clone https://charlesreid1.com:3000/charlesreid1/charlesreid1.com-theme.git
-
-git clone https://charlesreid1.com:3000/charlesreid1/charlesreid1-githubio-theme.git
-git clone https://github.com/charlesreid1/charlesreid1.github.io.git
-
-
-
-
-
-
-
-
+git clone --recursive https://charlesreid1.com:3000/charlesreid1/bot-master.git bots
+git clone --recursive https://charlesreid1.com:3000/charlesreid1/charlesreid1-master.git charlesreid1
+git clone --recursive https://charlesreid1.com:3000/cs/cs-master.git cs
+git clone --recursive https://charlesreid1.com:3000/dotfiles/dotfiles-master.git dotfiles
+git clone --recursive https://charlesreid1.com:3000/kali/kali-master.git kali
+git clone --recursive https://charlesreid1.com:3000/charlesreid1/pelican-master.git pelican
+git clone --recursive https://charlesreid1.com:3000/rpi/pi-master.git rpi
 
