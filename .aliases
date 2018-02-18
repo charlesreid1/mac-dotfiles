@@ -88,8 +88,10 @@ alias clc='clear; pwd'
 alias cl='clc; ll'
 alias cll='clear; ll'
 alias cls='clear; ls'
+alias lcs='clear; ls'
 alias csl='cls'
 alias cla='clear; la'
+alias c='clear'
 
 
 
@@ -120,7 +122,8 @@ function jupiter() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="192.168.125.28"
+  #export IP="192.168.125.28"
+  export IP="10.6.0.1"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
@@ -130,7 +133,8 @@ function maya() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="192.168.125.123"
+  #export IP="192.168.125.123"
+  export IP="10.6.0.2"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
@@ -141,7 +145,8 @@ function cronus() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="192.168.125.50"
+  #export IP="192.168.125.50"
+  export IP="10.6.0.3"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
