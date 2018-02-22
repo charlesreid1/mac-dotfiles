@@ -3,6 +3,8 @@
 
 # lazy af
 alias mk='make'
+alias smk='snakemake'
+alias smake='snakemake'
 alias py='python3'
 
 
