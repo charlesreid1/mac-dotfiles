@@ -118,14 +118,23 @@ function charles() {
   ssh -Y charles@${IP} # the actual ssh call
 }
 
+alias rojo="rojo"
+function rojo() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file 
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="10.6.0.1"
+  ssh -Y charles@${IP} # the actual ssh call
+}
+
 alias jupiter="jupiter"
 function jupiter() {
   ssh-agent > ~/ssh.file # env vars in ssh.file 
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  #export IP="192.168.125.28"
-  export IP="10.6.0.1"
+  export IP="10.6.0.2"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
@@ -135,11 +144,9 @@ function maya() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  #export IP="192.168.125.123"
-  export IP="10.6.0.2"
+  export IP="10.6.0.10"
   ssh -Y charles@${IP} # the actual ssh call
 }
-
 
 alias cronus="cronus"
 function cronus() {
@@ -147,8 +154,7 @@ function cronus() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  #export IP="192.168.125.50"
-  export IP="10.6.0.3"
+  export IP="10.6.0.20"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
