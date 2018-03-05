@@ -153,7 +153,7 @@ let &guicursor = &guicursor . ",a:blinkon0"
 
 
 " ------------------------
-"       Makefiles
+"   Filetype Settings
 " -----------------------
 
 " Do special stuff for Makefiles:
@@ -161,12 +161,18 @@ let &guicursor = &guicursor . ",a:blinkon0"
 " needed, and have indentation at 8 chars to be sure that all indents are tabs
 " (despite the mappings later):
 au BufRead,BufNewFile Makefile*,*.make,*.mk set noexpandtab
-" otherwise = 4 or even 8 (the 8 looks nice)
+
+
+" C++ files: 4 or even 8 (the 8 looks nice)
 au BufRead,BufNewFile *.cpp,*.cxx,*.cc,*.c,*.h,*.hpp,*.hxx,*.hh set tabstop=4 shiftwidth=4 softtabstop=4 nowrap
 
 
-" ------------------------
-"     End Makefiles
+" Snakemake files are named Snakefile, or .rule, or .snake, or .smk
+au BufRead,BufNewFile Snakefile*,*.rule,*.snake,*.smk set filetype=python
+
+
+" -----------------------
+"  End Filetype Settings
 " -----------------------
 
 
