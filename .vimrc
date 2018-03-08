@@ -23,6 +23,7 @@ set ttimeoutlen=5
 " http://cscope.sourceforge.net/cscope_maps.vim
 
 
+" you have to do this a second time
 set nocompatible
 
 
