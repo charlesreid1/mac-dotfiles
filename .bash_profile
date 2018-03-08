@@ -7,6 +7,7 @@
 
 # Must
 EDITOR="vim"
+GIT_EDITOR="vim"
 
 
 # Set $PATH here
