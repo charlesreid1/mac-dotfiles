@@ -1,13 +1,17 @@
-
-
+# This is the bash profile.
+# 
+# This file sets PATH and bash options.
+#
 # to add your own non-committed machine-specific settings,
 # use ~/.extra 
 
-# Add homebrew admin tools
-PATH="/usr/local/sbin:${PATH}"
+# Must
+EDITOR="vim"
 
-# This is a good idea generally
+
+# Set $PATH here
 PATH="/usr/local/bin:$PATH"
+PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 
 if [[ "$HOSTNAME" == "maya" ]]; then
 
@@ -32,10 +36,17 @@ export PATH
 # Just let homebrew take care of PYTHONPATH, yeah?
 # But if you really needed to, you could set it here.
 
+# Bash history
+
+HISTFILE="$HOME/.bash_history"
+HISTFILESIZE=1000000000
+HISTIGNORE="ls:cls:clc:clear:pwd:l:ll:[ \t]*"
+HISTSIZE=1000000
+HISTTIMEFORMAT=': %Y-%m-%d_%H:%M:%S; '
+
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend;
-
-# Bash history 
+# Save Bash history 
 shopt -s cmdhist;
 
 
@@ -65,10 +76,7 @@ for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null;
 done;
 
-# Add tab completion for many Bash commands
-if which brew &> /dev/null && [ -f "$(brew --prefix)/share/bash-completion/bash_completion" ]; then
-	source "$(brew --prefix)/share/bash-completion/bash_completion";
-elif [ -f /etc/bash_completion ]; then
+if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
 
