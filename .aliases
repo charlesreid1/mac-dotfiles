@@ -7,6 +7,8 @@ alias smk='snakemake'
 alias smake='snakemake'
 alias py='python3'
 alias ipy='ipython --pylab'
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias ipaddr="dig +short myip.opendns.com @resolver1.opendns.com"
 
 
 # one-letter aliases
@@ -277,7 +279,6 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 ### alias canary='/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
 
 # IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
