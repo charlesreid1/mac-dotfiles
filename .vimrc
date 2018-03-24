@@ -169,7 +169,10 @@ au BufRead,BufNewFile *.cpp,*.cxx,*.cc,*.c,*.h,*.hpp,*.hxx,*.hh set tabstop=4 sh
 
 
 " Snakemake files are named Snakefile, or .rule, or .snake, or .smk
-au BufRead,BufNewFile Snakefile*,*.rule,*.snake,*.smk set filetype=python
+" https://snakemake.readthedocs.io/en/stable/project_info/faq.html#how-do-i-enable-syntax-highlighting-in-vim-for-snakefiles
+au BufNewFile,BufRead Snakefile set syntax=snakemake
+au BufNewFile,BufRead *rule set syntax=snakemake
+au BufNewFile,BufRead *.smk set syntax=snakemake
 
 
 " -----------------------

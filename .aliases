@@ -167,7 +167,7 @@ function krash() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="192.155.84.98"
+  export IP="45.56.87.232"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
