@@ -64,8 +64,6 @@ autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
 " http://blog.sanctum.geek.nz/vim-annoyances/
 " don't break words with wrap on
 set linebreak
-" put swap files in one place, instead of in-place
-set directory=~/.vim/swap
 " don't make these keys do annoying things
 nnoremap <F1> <nop>
 nnoremap J mzJ`z
@@ -175,11 +173,11 @@ au BufNewFile,BufRead *rule set syntax=snakemake
 au BufNewFile,BufRead *.smk set syntax=snakemake
 
 
-" -----------------------
-"  End Filetype Settings
+" ------------------------
+"     Yaml Files
 " -----------------------
 
-
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 
 
@@ -432,7 +430,7 @@ set noeol
 
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
-"set directory=~/.vim/swap
+set directory=~/.vim/swap
 if exists("&undodir")
 	set undodir=~/.vim/undo
 endif
