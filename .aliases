@@ -171,6 +171,16 @@ function krash() {
   ssh -Y charles@${IP} # the actual ssh call
 }
 
+alias wisko="wisko"
+function wisko() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file 
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="159.65.75.41"
+  ssh -Y melo@${IP} # the actual ssh call
+}
+
 
 
 
