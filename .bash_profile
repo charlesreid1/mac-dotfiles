@@ -32,6 +32,18 @@ if [[ "$HOSTNAME" == "maya" ]]; then
 
 fi
 
+if [[ "$HOSTNAME" == "cronus" ]]; then
+
+    # pyenv installer
+    # https://github.com/pyenv/pyenv-installer
+    export PATH="/Users/charles/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+
+fi
+
+
+
 export PATH
 
 # Just let homebrew take care of PYTHONPATH, yeah?
