@@ -121,8 +121,8 @@ function charles() {
   ssh -Y charles@${IP} # the actual ssh call
 }
 
-alias rojo="blackbeard"
-function rojo() {
+alias blackbeard="blackbeard"
+function blackbeard() {
   ssh-agent > ~/ssh.file # env vars in ssh.file 
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
