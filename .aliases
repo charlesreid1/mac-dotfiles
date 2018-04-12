@@ -121,13 +121,13 @@ function charles() {
   ssh -Y charles@${IP} # the actual ssh call
 }
 
-alias rojo="rojo"
+alias rojo="blackbeard"
 function rojo() {
   ssh-agent > ~/ssh.file # env vars in ssh.file 
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="10.6.0.1"
+  export IP="54.191.178.27"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
