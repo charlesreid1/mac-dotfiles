@@ -31,6 +31,8 @@ set blink-matching-paren on
 "\M-?":	dump-functions
 
 
+## Change the mode of everything that uses readline
+#set editing-mode vi
 
 
 # Immediately add a trailing slash when autocompleting symlinks to directories
