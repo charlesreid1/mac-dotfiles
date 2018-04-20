@@ -84,7 +84,7 @@ endif " has("autocmd")
 au! FileType python setl nosmartindent
 " allow visual mode to go to blank space at end of lines
 set virtualedit=block
-" horizontal and vertical splits should go in right place
+" put horz./vert. splits in the right place
 set splitbelow
 set splitright
 
@@ -99,7 +99,7 @@ set splitright
 "      For Sanity
 " -----------------------
 
-" turn on syntax highlighting
+" this turns on syntax highlighting
 syntax on
 set ic
 " this highlights search items
@@ -135,11 +135,13 @@ let &guicursor = &guicursor . ",a:blinkon0"
 
 " Makefiles
 au BufRead,BufNewFile Makefile*,*.make,*.mk set noexpandtab
-# C++
+" C++
 au BufRead,BufNewFile *.cpp,*.cxx,*.cc,*.c,*.h,*.hpp,*.hxx,*.hh set tabstop=4 shiftwidth=4 softtabstop=4 nowrap
-# Snakemake files: .rule, .snake, .smk
+" Snakemake files: Snakefile, .rule, .snake, .settings, .smk
 au BufNewFile,BufRead Snakefile set syntax=snakemake
 au BufNewFile,BufRead *rule set syntax=snakemake
+au BufNewFile,BufRead *.snake set syntax=snakemake
+au BufNewFile,BufRead *.settings set syntax=snakemake
 au BufNewFile,BufRead *.smk set syntax=snakemake
 " Yaml
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
@@ -368,6 +370,10 @@ set wildmenu
 set backspace=indent,eol,start
 " Optimize for fast terminal connections
 set ttyfast
+""""""""""""""""""""""""
+"" EVIL
+"set binary
+""""""""""""""""""""""""
 " Don’t add empty newlines at the end of files
 set noeol
 " Centralize backups, swapfiles and undo history
