@@ -14,6 +14,11 @@ GIT_EDITOR="vim"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 
+# some weird new homebrew thing??
+# this is where python -> python3 lives now
+# https://stackoverflow.com/a/45228901
+PATH="/usr/local/opt/python/libexec/bin:${PATH}"
+
 if [[ "$HOSTNAME" == "maya" ]]; then
 
 	# Setting PATH for homebrew
