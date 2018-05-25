@@ -14,16 +14,16 @@ GIT_EDITOR="vim"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 
-# some weird new homebrew thing??
-# this is where python -> python3 lives now
-# https://stackoverflow.com/a/45228901
-PATH="/usr/local/opt/python/libexec/bin:${PATH}"
-
 if [[ "$HOSTNAME" == "maya" ]]; then
 
 	# Setting PATH for homebrew
 	PATH="/Users/charles/.local/bin:$PATH"
 	PATH="/Users/charles/Library/Python/3.6/bin:$PATH"
+
+    ### # some weird new homebrew thing??
+    ### # this is where python -> python3 lives now
+    ### # https://stackoverflow.com/a/45228901
+    ### PATH="/usr/local/opt/python/libexec/bin:${PATH}"
 
 	# Set up google cloud SDK
 	F1="/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
@@ -37,16 +37,11 @@ if [[ "$HOSTNAME" == "maya" ]]; then
 
 fi
 
-if [[ "$HOSTNAME" == "cronus" ]]; then
-
-    # pyenv installer
-    # https://github.com/pyenv/pyenv-installer
-    export PATH="/Users/charles/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-
-fi
-
+# pyenv installer
+# https://github.com/pyenv/pyenv-installer
+export PATH="/Users/charles/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 
 export PATH
