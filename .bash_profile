@@ -41,7 +41,7 @@ fi
 # https://github.com/pyenv/pyenv-installer
 export PATH="/Users/charles/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 
 export PATH
