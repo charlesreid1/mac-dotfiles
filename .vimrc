@@ -169,12 +169,21 @@ set nosmartindent   " die die die
 "colorscheme desert
 "colorscheme solarized
 "
-" Turn character 80 red
+"
+" 88, not 80
+set textwidth=88
+"
+" if you're curious about the reasoning behind B950, 
+" Bugbear's documentation explains it. The tl;dr is 
+" "it's like highway speed limits, we won't bother 
+" you if you overdo it by a few km/h".
+"
+" Turn character 88 red
 " (for visibility conforming to
 "  coding standards)
 " https://stackoverflow.com/questions/23246962/vim-highlight-a-single-character-at-column-80#23247938
 hi Bang ctermfg=red guifg=red
-match Bang /\%>79v.*\%<81v/
+match Bang /\%>87v.*\%<89v/
 
 " ------------------------
 "     End Lines & Tabs
