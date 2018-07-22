@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
 
+git() {
+    if [[ $@ == "push origin master" ]]; then
+        echo "nope"
+    else
+        command git "$@"
+    fi
+}
+
+
 # lazy af
 alias mk='make'
 alias smk='snakemake'
