@@ -27,6 +27,13 @@
     # View the current working tree status using the short format
     s = status -s
 
+    b = branch -v
+    bv = branch -v
+    ba = branch -a
+
+    r = remote -v
+    rv = remote -v
+
     cdiff = diff --cached
 
     # Show the diff between the latest commit and the current state
