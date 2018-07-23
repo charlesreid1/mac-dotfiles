@@ -458,6 +458,6 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
 " Mark special characters
-set listchars=nbsp:☠,tab:▸␣
-"set listchars=tab:▸␣
-set list
+"set listchars=nbsp:☠,tab:▸␣
+set listchars=tab:▸␣
+"set list
