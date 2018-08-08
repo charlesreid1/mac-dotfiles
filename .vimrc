@@ -9,7 +9,9 @@ set nofoldenable    " disable folding
 
 
 
-
+" ----------------------------------
+" Extremely Important Fix
+" ----------------------------------
 " Turn off Esc+O key sequences (eliminates one-second delay when pressing O):
 " https://superuser.com/questions/161178/why-does-vim-delay-for-a-second-whenever-i-use-the-o-command-open-a-new-line#161216
 " if this is re-enabled i may stab someone.
@@ -18,6 +20,35 @@ set ttimeoutlen=5
 
 " you have to do this a second time
 set nocompatible
+
+
+
+
+" -----------------------------------
+" TwiddleCase function
+" -----------------------------------
+" TwiddleCase cycles a visual selection through
+" lower case/UPPER CASE/Capital Case
+"
+" Originallly mapped to ~
+" Switched to Control+P 
+"   b/c it was not doing anything useful
+function! TwiddleCase(str)
+  if a:str ==# toupper(a:str)
+    let result = tolower(a:str)
+  elseif a:str ==# tolower(a:str)
+    let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+  else
+    let result = toupper(a:str)
+  endif
+  return result
+endfunction
+"" Map twiddle to ~ 
+"vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
+" Map twiddle to C-p
+vnoremap <C-p> y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
+
+
 
 
 
@@ -43,7 +74,6 @@ endfunction
 
 " Call everytime we open a Markdown file
 autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
-
 
 
 
@@ -88,10 +118,6 @@ set virtualedit=block
 set splitbelow
 set splitright
 
-" ------------------------
-"    End Vim Annoyances
-" -----------------------
-
 
 
 
@@ -120,9 +146,6 @@ set backspace=indent,eol,start
 " murder that cursed blinking cursor
 let &guicursor = &guicursor . ",a:blinkon0"
 
-" ------------------------
-"   End For Sanity
-" -----------------------
 
 
 
@@ -186,9 +209,6 @@ hi Bang ctermfg=red guifg=red
 "match Bang /\%>87v.*\%<89v/
 match Bang /\%>79v.*\%<81v/
 
-" ------------------------
-"     End Lines & Tabs
-" ------------------------
 
 
 
@@ -211,9 +231,6 @@ abbreviate slef self
 abbreviate paramters parameters
 abbreviate exmaple example
 
-" ------------------------
-"   End Lines & Tabs
-" -----------------------
 
 
 
@@ -234,9 +251,6 @@ endif
 " Running command :CD will change to current file's directory
 com! CD cd %:p:h
 
-" ------------------------
-"   End Tab Wild Mode
-" -----------------------
 
 
 
@@ -266,9 +280,6 @@ if has("user_commands")
     command! -bang Qa qa<bang>
 endif
 
-" ------------------------
-"    End Fat Fingers
-" -----------------------
 
 
 
@@ -291,9 +302,6 @@ function! DisableIndent()
         set indentexpr&
 endfunction
 
-" ------------------------
-"       End Markdown
-" -----------------------
 
 
 
@@ -309,9 +317,6 @@ if has("persistent_undo")
     set undofile
 endif
 
-" ------------------------
-"       End Reddit
-" -----------------------
 
 
 
@@ -354,10 +359,6 @@ endif
 " Don't copy the contents of an overwritten selection.
 vnoremap p "_dP
 
-" -----------------------------
-"  End Github Maximum Awesome
-" -----------------------------
-"
 
 
 
