@@ -191,15 +191,20 @@ set nosmartindent   " die die die
 " color scheme stuff
 "colorscheme desert
 "colorscheme solarized
-"
-"
+
+
+" set the text width at
 " 80 or 88, whatever
 set textwidth=80
-"
-" if you're curious about the reasoning behind B950, 
-" Bugbear's documentation explains it. The tl;dr is 
-" "it's like highway speed limits, we won't bother 
-" you if you overdo it by a few km/h".
+" IMPORTANT - 
+" above directive will auto-wrap
+" your text as you type it, and may
+" end up driving you mad.
+
+
+" > Bugbear's documentation explains 88 vs 80:
+" > "it's like highway speed limits, we won't bother 
+" > you if you overdo it by a few km/h".
 "
 " Turn character 80/88 red
 " (for visibility conforming to

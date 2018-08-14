@@ -1,3 +1,10 @@
+######################
+## see bottom for url shorthands,
+## but worth mentioning here:
+#
+## replace any git@github stuff with gh:
+## replace any ssh://git@g.... with cmr:
+
 [user]
     email = charlesreid1@gmail.com
     name = Charles Reid
@@ -30,17 +37,19 @@
     b = branch -v
     bv = branch -v
     ba = branch -a
+    bb = branch -v -a
 
     r = remote -v
     rv = remote -v
+    ra = remote -v
 
     cdiff = diff --cached
 
     # Show the diff between the latest commit and the current state
     d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
-    # `git di $number` shows the diff between the state `$number` revisions ago and the current state
-    di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+    ### # `git di $number` shows the diff between the state `$number` revisions ago and the current state
+    ### di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 
     # Pull in remote changes for the current repository and all its submodules
     p = !"git pull; git submodule foreach git pull origin master"
@@ -51,7 +60,8 @@
     # Commit all changes
     ca = !git add -A && git commit -av
 
-    # Switch to a branch, creating it if necessary
+    # Switch to a branch, creating it 
+    # from the current branch if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
     # Show verbose output about tags, branches or remotes
@@ -65,6 +75,11 @@
     # Amend the currently staged files to the latest commit
     amend = commit --amend --reuse-message=HEAD
 
+    # Oops
+    fix = commit --amend --reuse-message=HEAD --edit
+
+
+
     # Credit an author on the latest commit
     credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 
@@ -74,17 +89,17 @@
     # Remove the old tag with this name and tag the latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
-    # Find branches containing commit
-    fb = "!f() { git branch -a --contains $1; }; f"
+    ### # Find branches containing commit
+    ### fb = "!f() { git branch -a --contains $1; }; f"
 
-    # Find tags containing commit
-    ft = "!f() { git describe --always --contains $1; }; f"
+    ### # Find tags containing commit
+    ### ft = "!f() { git describe --always --contains $1; }; f"
 
-    # Find commits by source code
-    fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+    ### # Find commits by source code
+    ### fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
 
-    # Find commits by commit message
-    fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+    ### # Find commits by commit message
+    ### fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
 
     # List contributors with number of commits
     contributors = shortlog --summary --numbered
@@ -167,6 +182,12 @@
     followTags = true
 
 # URL shorthands
+
+
+[url "ssh://git@git.charlesreid1.com:222/"]
+
+    insteadOf = "cmr:"
+
 
 [url "git@github.com:"]
 
