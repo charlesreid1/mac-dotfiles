@@ -4,7 +4,7 @@
 set nocompatible              " iMproved
 filetype off                  " required
 filetype plugin indent on
-setlocal spell spelllang=en_us
+"setlocal spell spelllang=en_us
 set nofoldenable    " disable folding
 
 
@@ -189,13 +189,12 @@ set tabstop=4 shiftwidth=4 expandtab
 set nosmartindent   " die die die
 
 " color scheme stuff
-"colorscheme desert
-"colorscheme solarized
+colorscheme desert
 
 
 " set the text width at
 " 80 or 88, whatever
-set textwidth=80
+"set textwidth=80
 " IMPORTANT - 
 " above directive will auto-wrap
 " your text as you type it, and may
@@ -376,9 +375,9 @@ vnoremap p "_dP
 " " (woah.)
 
 " Use the Solarized Dark theme
-set background=dark
-colorscheme solarized
-let g:solarized_termtrans=1
+"set background=dark
+"colorscheme solarized
+"let g:solarized_termtrans=1
 
 " Enhance command-line completion
 set wildmenu
