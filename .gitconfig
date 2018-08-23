@@ -43,6 +43,8 @@
     rv = remote -v
     ra = remote -v
 
+    f = fetch --all
+
     cdiff = diff --cached
 
     # Show the diff between the latest commit and the current state
@@ -110,6 +112,8 @@
     whitespace = fix
 
 [core]
+
+    editor = vim
 
     # Use custom `.gitignore` and `.gitattributes`
     excludesfile = ~/.gitignore
