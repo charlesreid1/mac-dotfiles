@@ -193,7 +193,7 @@ function wisko() {
 }
 
 alias bluebear="bluebear"
-function krash() {
+function bluebear() {
   ssh-agent > ~/ssh.file # env vars in ssh.file 
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
