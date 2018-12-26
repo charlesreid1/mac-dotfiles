@@ -15,6 +15,7 @@ function doIt() {
 		--exclude "python_install.sh" \
 		--exclude "python_setup.sh" \
 		--exclude "set_machine_name.sh" \
+		--exclude "vim_setup.sh" \
 		--exclude "README.md" \
 		--exclude "LICENSE" \
 		-avh --no-perms . ~;
