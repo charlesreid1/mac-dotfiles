@@ -139,8 +139,10 @@ execute pathogen#infect()
 
 " --------------------------
 " Go settings
-" https://github.com/paulswanson/congo/blob/master/congo.sh
 " --------------------------
+"
+" https://github.com/paulswanson/congo/blob/master/congo.sh
+"
 filetype indent plugin on
 "set number
 "set mouse=a
@@ -152,7 +154,6 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_fmt_command = "goimports"
-
 
 
 " ------------------------
@@ -402,8 +403,8 @@ set modelines=4
 """set secure
 " Enable line numbers
 set number
-" Enable syntax highlighting
-syntax on
+"""""""""""""" Enable syntax highlighting
+"""""""""""""syntax on
 " Highlight current line
 set cursorline
 " Highlight searches
@@ -459,8 +460,8 @@ if has("autocmd")
 endif
 " Mark special characters
 "set listchars=nbsp:☠,tab:▸␣
-set listchars=tab:▸␣
-set list
+"set listchars=tab:▸␣
+"set list
 
 
 
@@ -469,6 +470,8 @@ set list
 " ----------------------------
 
 set background=dark
+
+set t_Co=256
 
 function! BgToggle()
   if &background == "light"
