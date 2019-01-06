@@ -57,11 +57,15 @@ HISTIGNORE="ls:cls:clc:clear:pwd:l:ll:[ ]*"
 HISTSIZE=1000000
 HISTTIMEFORMAT=': %Y-%m-%d_%H:%M:%S; '
 
-# Append to the Bash history file, rather than overwriting it
-shopt -s histappend;
 # Save Bash history 
 shopt -s cmdhist;
-
+# Append to the Bash history file, rather than overwriting it
+shopt -s histappend;
+# Write history to .bash_history immediately. 
+# -a writes current/new lines to history file
+# -n reloads only new commands
+# https://askubuntu.com/a/673283
+PROMPT_COMMAND='history -a;history -n'
 
 
 
