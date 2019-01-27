@@ -23,6 +23,20 @@ set ttimeoutlen=5
 set nocompatible
 
 
+" ------------------------
+"  Lazy stuffs
+"  -----------------------
+"  https://spf13.com/post/perfect-vimrc-vim-config-file/
+"
+" make ; work like : to save us from Shift
+nnoremap ; :
+" 
+"""" Remove trailing whitespaces and \^M chars
+"""autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd
+"""BufWritePre <buffer> :call
+"""setline(1,map(getline(1,"$"),'substitute(v:val,"\\\\s\\\\+$","","")'))
+
+
 
 " -----------------------------------
 " TwiddleCase function
@@ -502,4 +516,19 @@ let g:solarized_contrast = "normal"
 let g:solarized_visibility= "normal"
 "
 colorscheme solarized
+
+" ------------------------
+" Move Faster
+" ------------------------
+"
+" default shift + j (combines lines)
+" moves to shift + L
+nnoremap <S-L> :join<CR>
+
+" shift + j and shift + k
+" move up and down 5 lines
+map <S-j> 5j
+map <S-k> 5k
+
+" these have to go at the end
 
