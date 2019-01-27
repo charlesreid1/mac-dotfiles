@@ -526,9 +526,9 @@ colorscheme solarized
 nnoremap <S-L> :join<CR>
 
 " shift + j and shift + k
-" move up and down 5 lines
-map <S-j> 5j
-map <S-k> 5k
+" move up and down n lines
+map <S-j> 7j
+map <S-k> 7k
 
 " these have to go at the end
 
