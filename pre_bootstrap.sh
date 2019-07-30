@@ -1,5 +1,17 @@
 #!/bin/sh
 
+echo "About to generate SSH keys"
+sleep 2
+if [ -f "$HOME/.ssh/id_rsa" ]; then
+    echo "Keys already exist"
+else
+    yes | ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -N ''
+    chmod 700 $HOME/.ssh
+    touch $HOME/.ssh/authorized_keys
+    chmod 600 $HOME/.ssh/authorized_keys
+    echo "Done generating keys"
+fi
+
 echo "About to change Mac settings"
 sleep 2
 ./mac_settings.sh
@@ -13,12 +25,13 @@ echo "About to run brew installation script"
 sleep 2
 ./brew_install.sh
 
+echo "About to set shell to bash"
 if [ -f "/usr/local/bin/bash" ]; then
     BASH="/usr/local/bin/bash"
 else
     BASH="/bin/bash"
 fi
-echo "About to set shell to ${BASH}"
+echo "Found ${BASH}"
 sleep 2
 chsh -s ${BASH}
 
