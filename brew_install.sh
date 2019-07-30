@@ -37,17 +37,26 @@ if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
   chsh -s /usr/local/bin/bash;
 fi;
 
-# Install `wget` with IRI support.
+# Install wget
 brew install wget
 
 # Install GnuPG to enable PGP-signing commits.
 brew install gnupg
+
+# Install joplin for note-taking
+brew install joplin
+
+# Install aws cli
+brew install awscli
 
 # Install more recent versions of some macOS tools.
 brew install vim
 brew install grep
 brew install openssh
 brew install screen
+
+# Install openjdk
+brew cask install adoptopenjdk
 
 # Install font tools.
 brew tap bramstein/webfonttools
