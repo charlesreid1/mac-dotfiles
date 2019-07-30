@@ -414,6 +414,8 @@ set ttyfast
 """"""""""""""""""""""""
 " Don’t add empty newlines at the end of files
 set noeol
+" Set swap file dir
+set directory=/tmp
 " Respect modeline in files
 set modeline
 set modelines=4
