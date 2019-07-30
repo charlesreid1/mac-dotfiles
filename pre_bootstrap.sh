@@ -1,11 +1,26 @@
 #!/bin/sh
 
-# Actually make the swap directory vim is going to use
-mkdir -p ~/.vim/swap
-mkdir -p ~/.vim/undo
+echo "About to change Mac settings"
+sleep 2
+./mac_settings.sh
 
-# Change shell to homebrew bash
-BASH="/usr/local/bin/bash"
+echo "About to install and set up python"
+sleep 2
+./python_install.sh
+./python_setup.sh
+
+echo "About to run brew installation script"
+sleep 2
+./brew_install.sh
+
+
+# Change shell to bash
+if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+    BASH="/usr/local/bin/bash"
+else
+    BASH="/bin/bash"
+fi
 echo "About to set shell to ${BASH}"
+sleep 2
 chsh -s ${BASH}
 
