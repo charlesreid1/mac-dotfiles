@@ -44,7 +44,7 @@ brew install wget
 brew install gnupg
 
 # Install joplin for note-taking
-brew install joplin
+brew cask install joplin
 
 # Install aws cli
 brew install awscli
