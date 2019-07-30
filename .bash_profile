@@ -14,6 +14,7 @@ GIT_EDITOR="vim"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${HOME}/go/bin:${PATH}"
+PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
 
 if [[ "$HOSTNAME" == "maya" ]]; then
 
