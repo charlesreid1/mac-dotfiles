@@ -18,8 +18,8 @@ PATH="${HOME}/go/bin:${PATH}"
 if [[ "$HOSTNAME" == "maya" ]]; then
 
 	# Setting PATH for homebrew
-	PATH="/Users/charles/.local/bin:$PATH"
-	PATH="/Users/charles/Library/Python/3.6/bin:$PATH"
+	PATH="$HOME/.local/bin:$PATH"
+	PATH="$HOME/Library/Python/3.6/bin:$PATH"
 
     ### # some weird new homebrew thing??
     ### # this is where python -> python3 lives now
@@ -40,7 +40,7 @@ fi
 
 # pyenv installer
 # https://github.com/pyenv/pyenv-installer
-export PATH="/Users/charles/.pyenv/bin:$PATH"
+export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 #eval "$(pyenv virtualenv-init -)"
 
