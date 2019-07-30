@@ -13,9 +13,7 @@ echo "About to run brew installation script"
 sleep 2
 ./brew_install.sh
 
-
-# Change shell to bash
-if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+if [ -f "/usr/local/bin/bash" ]; then
     BASH="/usr/local/bin/bash"
 else
     BASH="/bin/bash"
