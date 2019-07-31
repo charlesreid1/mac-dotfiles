@@ -2,6 +2,9 @@
 #
 # Homebrew setup/install
 
+sudo chown -R $(whoami) /usr/local/var/homebrew
+sudo chmod -R g+rwx /usr/local
+
 brew update
 
 # Install command-line tools using Homebrew.
