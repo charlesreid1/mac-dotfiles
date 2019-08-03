@@ -415,7 +415,12 @@ set ttyfast
 " Don’t add empty newlines at the end of files
 set noeol
 " Set swap file dir
-set directory=/tmp
+set directory=~/.vim/swap
+if exists("&undodir")
+	set undodir=~/.vim/undo
+endif
+" Don’t create backups when editing files in certain directories
+set backupskip=/tmp/*,/private/tmp/*
 " Respect modeline in files
 set modeline
 set modelines=4
