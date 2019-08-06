@@ -1,11 +1,37 @@
 #!/bin/sh
 
-# Actually make the swap directory vim is going to use
-mkdir -p ~/.vim/swap
-mkdir -p ~/.vim/undo
+echo "About to generate SSH keys"
+sleep 2
+if [ -f "$HOME/.ssh/id_rsa" ]; then
+    echo "Keys already exist"
+else
+    yes | ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -N ''
+    chmod 700 $HOME/.ssh
+    touch $HOME/.ssh/authorized_keys
+    chmod 600 $HOME/.ssh/authorized_keys
+    echo "Done generating keys"
+fi
 
-# Change shell to homebrew bash
-BASH="/usr/local/bin/bash"
-echo "About to set shell to ${BASH}"
+echo "About to change Mac settings"
+sleep 2
+./mac_settings.sh
+
+echo "About to install and set up python"
+sleep 2
+./python_install.sh
+./python_setup.sh
+
+echo "About to run brew installation script"
+sleep 2
+./brew_install.sh
+
+echo "About to set shell to bash"
+if [ -f "/usr/local/bin/bash" ]; then
+    BASH="/usr/local/bin/bash"
+else
+    BASH="/bin/bash"
+fi
+echo "Found ${BASH}"
+sleep 2
 chsh -s ${BASH}
 
