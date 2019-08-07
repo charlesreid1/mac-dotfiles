@@ -12,6 +12,10 @@ else
     echo "Done generating keys"
 fi
 
+echo "About to set up vim."
+sleep 2
+./vim_setup.sh
+
 echo "About to change Mac settings"
 sleep 2
 ./mac_settings.sh
