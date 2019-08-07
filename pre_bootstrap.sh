@@ -5,7 +5,7 @@ sleep 2
 if [ -f "$HOME/.ssh/id_rsa" ]; then
     echo "Keys already exist"
 else
-    yes | ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -N ''
+    yes | ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -C 'charlesreid1@gmail.com' -N ''
     chmod 700 $HOME/.ssh
     touch $HOME/.ssh/authorized_keys
     chmod 600 $HOME/.ssh/authorized_keys
