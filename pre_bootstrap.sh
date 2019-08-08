@@ -1,11 +1,14 @@
 #!/bin/sh
 
+echo "Type the email that you would like to associate with the SSH key, then press [ENTER]:"
+read SSH_EMAIL
+
 echo "About to generate SSH keys"
 sleep 2
 if [ -f "$HOME/.ssh/id_rsa" ]; then
     echo "Keys already exist"
 else
-    yes | ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -C 'charlesreid1@gmail.com' -N ''
+    yes | ssh-keygen -f $HOME/.ssh/id_rsa -t rsa -C "${SSH_EMAIL}" -N ''
     chmod 700 $HOME/.ssh
     touch $HOME/.ssh/authorized_keys
     chmod 600 $HOME/.ssh/authorized_keys

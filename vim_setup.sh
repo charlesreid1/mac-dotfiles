@@ -19,3 +19,10 @@ mkdir -p \
 echo "Installing vim-go ..."
 git clone https://github.com/fatih/vim-go.git ~/.vim/bundle/vim-go || echo "Existing vim-go folder already found, skipping this step ..."
 
+echo "Installing black for vim..."
+mkdir -p \
+    ~/.vim/plugin \
+    && curl -LSso \
+    ~/.vim/plugin/black.vim \
+    https://raw.githubusercontent.com/psf/black/master/plugin/black.vim
+

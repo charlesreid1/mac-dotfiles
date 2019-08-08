@@ -5,18 +5,10 @@ if [ "$(id -u)" == "0" ]; then
     exit 1;
 fi
 
-pip2 install -U --user numpy scipy pandas
-pip3 install -U --user numpy scipy pandas
-                
-pip2 install -U --user matplotlib seaborn
-pip3 install -U --user matplotlib seaborn
-                
-pip2 install -U --user jupyter ipython
-pip3 install -U --user jupyter ipython
-                
-pip2 install -U --user tornado pyzmq pygments
-pip3 install -U --user tornado pyzmq pygments
-                
-pip2 install -U --user pygments pillow pelican
-pip3 install -U --user pygments pillow pelican
+PKG="numpy scipy pandas"
+PKG="$PKG matplotlib seaborn jupyter ipython"
+PKG="$PKG tornado pyzmq pygments pillow pelican"
+PKG="$PKG flake8 black yapf pep8ify"
+
+pip install ${PKG}
 
