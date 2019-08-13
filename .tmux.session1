@@ -1,0 +1,5 @@
+# https://stackoverflow.com/a/5753059
+new-session -A -s dev -n dev
+send-keys 'vim' C-m
+split-window -v -p 20
+select-pane -t 1

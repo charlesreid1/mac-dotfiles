@@ -15,6 +15,10 @@ else
     echo "Done generating keys"
 fi
 
+echo "About to set up scripts directory."
+sleep 2
+./scripts_setup.sh
+
 echo "About to set up vim."
 sleep 2
 ./vim_setup.sh
