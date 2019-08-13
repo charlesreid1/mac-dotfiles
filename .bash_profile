@@ -9,8 +9,11 @@
 EDITOR="vim"
 GIT_EDITOR="vim"
 
+# Better man pages
+PAGER="most"
 
 # Set $PATH here
+PATH="${HOME}/scripts:${PATH}"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${HOME}/go/bin:${PATH}"

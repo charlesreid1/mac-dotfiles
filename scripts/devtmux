@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if [ -z "$TMUX" ] && [ ${UID} != 0 ]
+then
+    # Adding -A and -s 'dev' means that
+    # we will try and reconnect to session
+    # named "dev" if it exists, and will
+    # only start a new "dev" session if 
+    # an existing one is not found.
+    tmux new-session -A -s 'dev' \; \
+      send-keys 'vim' C-m \; \
+      \
+      split-window -v -p 20 \; \
+      \
+      select-pane -t 1 \;
+
+    ## Example: ipython (80%) + top (20%)
+    #tmux new-session -A -s 'dev' \; \
+    #  send-keys 'ipython' C-m \; \
+    #  \
+    #  split-window -v -p 20 \; \
+    #  send-keys 'top' C-m \; \
+    #  \
+    #  select-pane -t 1 \;
+fi
+

@@ -58,6 +58,7 @@ brew install grep
 brew install openssh
 brew install screen
 brew install tmux
+brew install most
 
 # Install openjdk
 brew cask install adoptopenjdk
