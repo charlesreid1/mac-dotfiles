@@ -9,6 +9,8 @@
 EDITOR="vim"
 GIT_EDITOR="vim"
 
+# Better man pages
+PAGER="most"
 
 # Set $PATH here
 PATH="/usr/local/bin:$PATH"
