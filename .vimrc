@@ -62,6 +62,8 @@ endfunction
 "" Map twiddle to ~ 
 "vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 " Map twiddle to C-p
+" (You have to have a visual selection first!!!)
+" (This is complete black magic, no idea where this comes from)
 vnoremap <C-p> y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
 

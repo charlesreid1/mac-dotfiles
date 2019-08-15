@@ -3,32 +3,34 @@
 git pull origin master;
 
 function doIt() {
-	rsync \
-		--exclude ".git" \
-		--exclude ".gitignore" \
-		--exclude ".DS_Store" \
-		--exclude "bootstrap.sh" \
-		--exclude "brew_install.sh" \
-		--exclude "greenfield_codes.sh" \
-		--exclude "mac_settings.sh" \
-		--exclude "pre_bootstrap.sh" \
-		--exclude "python_install.sh" \
-		--exclude "python_setup.sh" \
-		--exclude "set_machine_name.sh" \
-		--exclude "vim_setup.sh" \
-		--exclude "README.md" \
-		--exclude "LICENSE" \
-		-avh --no-perms . ~;
-	source ~/.bash_profile;
+    rsync \
+        --exclude ".git" \
+        --exclude ".gitignore" \
+        --exclude ".DS_Store" \
+        --exclude "bootstrap.sh" \
+        --exclude "brew_install.sh" \
+        --exclude "diff_dotfiles.sh" \
+        --exclude "mac_settings.sh" \
+        --exclude "pre_bootstrap.sh" \
+        --exclude "python_install.sh" \
+        --exclude "python_setup.sh" \
+        --exclude "scripts_setup.sh" \
+        --exclude "set_machine_name.sh" \
+        --exclude "vim_setup.sh" \
+        --exclude "README.md" \
+        --exclude "LICENSE" \
+        -avh --no-perms . ~;
+    source ~/.bash_profile;
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	doIt;
+    doIt;
 else
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-	echo "";
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-		doIt;
-	fi;
+    ./diff_dotfiles.sh
+    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+    echo "";
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        doIt;
+    fi;
 fi;
 unset doIt;
