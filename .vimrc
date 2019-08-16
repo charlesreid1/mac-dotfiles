@@ -32,7 +32,7 @@ set nocompatible
 " nnoremap --> extra n means normal mode only,
 " nore means no recursive
 nnoremap ; :
-" 
+"
 """" Remove trailing whitespaces and \^M chars
 """autocmd FileType c,cpp,java,php,js,python,twig,xml,yml autocmd
 """BufWritePre <buffer> :call
@@ -47,7 +47,7 @@ nnoremap ; :
 " lower case/UPPER CASE/Capital Case
 "
 " Originallly mapped to ~
-" Switched to Control+P 
+" Switched to Control+P
 "   b/c it was not doing anything useful
 function! TwiddleCase(str)
   if a:str ==# toupper(a:str)
@@ -59,7 +59,7 @@ function! TwiddleCase(str)
   endif
   return result
 endfunction
-"" Map twiddle to ~ 
+"" Map twiddle to ~
 "vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 " Map twiddle to C-p
 " (You have to have a visual selection first!!!)
@@ -206,7 +206,7 @@ au BufNewFile,BufRead Snakefile*,*.rule,*.snake,*.smk set syntax=snakemake
 
 " Yaml
 " ------------------------
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab 
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 " don't autoindent yaml files
 filetype plugin indent on
 au filetype yaml call DisableIndentY()
@@ -236,13 +236,13 @@ set nosmartindent   " die die die
 " set the text width at
 " 80 or 88, whatever
 "set textwidth=80
-" IMPORTANT - 
+" IMPORTANT -
 " above directive will auto-wrap
 " your text as you type it, and may
 " end up driving you mad.
 
 " > Bugbear's documentation explains 88 vs 80:
-" > "it's like highway speed limits, we won't bother 
+" > "it's like highway speed limits, we won't bother
 " > you if you overdo it by a few km/h".
 "
 " Turn character 80/88 red
@@ -370,7 +370,7 @@ endif
 let mapleader = ','
 " now shortcuts are as easy as
 " ,A ,B ,C
-"
+
 " Shift+Tab should de-indent
 " Control + D is de-indent
 inoremap <S-Tab> <C-d>
@@ -490,8 +490,8 @@ endif
 "  <leader> is set to , above
 "  and gives us a whole namespace
 "  of shortcuts to work with.
-"  
-"  Can map things to: 
+"
+"  Can map things to:
 "  - custom functions
 "  - system comands
 
@@ -550,7 +550,7 @@ let g:solarized_italic = 1
 let g:solarized_contrast = "normal"
 let g:solarized_visibility= "normal"
 
-" install solarized by getting the 
+" install solarized by getting the
 " solarized color scheme in vim format
 " (solarized.vim) from here:
 "
@@ -562,6 +562,7 @@ colorscheme solarized
 " ------------------------
 " Move Faster
 " ------------------------
+" (these MUST go at the end)
 "
 " default shift + j (combines lines)
 " moves to shift + L
@@ -572,5 +573,7 @@ nnoremap <S-L> :join<CR>
 map <S-j> 7j
 map <S-k> 7k
 
-" (these have to go at the end)
-
+" -----------------------------
+" Jedi Autocomplete Plugin
+" -----------------------------
+let g:jedi#auto_initialization = 0
