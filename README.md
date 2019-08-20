@@ -21,9 +21,18 @@ This script does the following:
 * Installs scripts to the `~/scripts` directory
 * Installs vim plugins and creates the `~/.vim` directory structure
 * Changes Mac settings and defaults
+* Installs and configures python (we use [pyenv](https://github.com/pyenv/pyenv)
+  to install and manage multiple versions of Python
+  side-by-side)
+* Installs Homebrew (the Mac package manager)
+* Installs useful packages using Homebrew
+* Sets bash as the default shell (happens after
+  the Homebrew version of bash has been installed)
 
-It is recommended you review the `mac_settings.sh`
-script before starting.
+It is recommended you review the settings that will
+be changed on your Mac (`mac_settings.sh`) and the
+software that will be installed (`brew_install.sh`)
+before you run any scripts.
 
 Step 2: Do a diff of dotfiles in this repository
 with your existing dotfiles so that you can review
