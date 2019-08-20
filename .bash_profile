@@ -12,11 +12,15 @@ GIT_EDITOR="vim"
 # Better man pages
 PAGER="most"
 
+# Go stuff
+GOROOT=$HOME/go
+GOPATH=$HOME/go
+
 # Set $PATH here
 PATH="${HOME}/scripts:${PATH}"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
-PATH="${HOME}/go/bin:${PATH}"
+PATH="${PATH}:${GOROOT}/bin"
 PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
 
 if [[ "$HOSTNAME" == "maya" ]]; then
