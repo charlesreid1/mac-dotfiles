@@ -120,6 +120,10 @@ brew install tree
 #brew install webkit2png
 #brew install zopfli
 
+# man pages SUUUUCK
+brew install tldr
+brew install cheat
+
 # Install go stuff
 brew install go
 brew install goenv
