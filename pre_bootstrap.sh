@@ -32,6 +32,11 @@ sleep 2
 ./python_install.sh
 ./python_setup.sh
 
+echo "About to install and set up go"
+sleep 2
+./go_install.sh
+./go_setup.sh
+
 echo "About to run brew installation script"
 sleep 2
 ./brew_install.sh

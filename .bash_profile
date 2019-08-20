@@ -46,11 +46,18 @@ if [[ "$HOSTNAME" == "maya" ]]; then
 
 fi
 
+
+# goenv installer
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+
+
 # pyenv installer
 # https://github.com/pyenv/pyenv-installer
-export PATH="$HOME/.pyenv/bin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
 
 
 export PATH

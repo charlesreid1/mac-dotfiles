@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# install python packages
 
 if [ "$(id -u)" == "0" ]; then
     echo "DO NOT RUN THIS AS ROOT" 1>&2
