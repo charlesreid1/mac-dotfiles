@@ -62,14 +62,15 @@ endfunction
 "" Map twiddle to ~ 
 "vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 " Map twiddle to C-p
+" (You have to have a visual selection first!!!)
+" (This is complete black magic, no idea where this comes from)
 vnoremap <C-p> y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
 
 
 " ----------------------------------------
 " insert new line without leaving normal mode
-" by typing, literally, backslash o or O
-" \o   \O
+" by literally typing ,o or ,O
 " (this still sucks.)
 " https://vi.stackexchange.com/a/3877
 " ----------------------------------------
@@ -363,6 +364,13 @@ endif
 "  Github Maximum Awesome
 " -----------------------
 "
+" By default, <Leader> is \
+" but that's hard to reach,
+" and no one uses , anyway
+let mapleader = ','
+" now shortcuts are as easy as
+" ,A ,B ,C
+"
 " Shift+Tab should de-indent
 " Control + D is de-indent
 inoremap <S-Tab> <C-d>
@@ -374,8 +382,6 @@ set ruler                                                    " show where you ar
 set showcmd
 set smartcase                                                " case-sensitive search if any caps
 set wildignore=log/**,node_modules/**,target/**,tmp/**,*.pyc
-" keyboard shortcuts
-let mapleader = ','
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
@@ -458,23 +464,13 @@ set title
 " Show the (partial) command as it’s being typed
 set showcmd
 " Use relative line numbers
-if exists("&relativenumber")
-	set relativenumber
-	au BufReadPost * set relativenumber
-endif
+""" if exists("&relativenumber")
+""" 	set relativenumber
+""" 	au BufReadPost * set relativenumber
+""" endif
 " Start scrolling N lines before the horizontal window border
 set scrolloff=5
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-	let save_cursor = getpos(".")
-	let old_query = getreg('/')
-	:%s/\s\+$//e
-	call setpos('.', save_cursor)
-	call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
-" Save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
+
 " Automatic commands
 if has("autocmd")
     " Enable file type detection
@@ -488,6 +484,33 @@ endif
 "set listchars=nbsp:☠,tab:▸␣
 "set listchars=tab:▸␣
 "set list
+
+
+" ---------------------------
+"  <leader> is set to , above
+"  and gives us a whole namespace
+"  of shortcuts to work with.
+"  
+"  Can map things to: 
+"  - custom functions
+"  - system comands
+
+" Show leader in bottom right
+set showcmd
+
+" Strip trailing whitespace (,ss)
+function! StripWhitespace()
+	let save_cursor = getpos(".")
+	let old_query = getreg('/')
+	:%s/\s\+$//e
+	call setpos('.', save_cursor)
+	call setreg('/', old_query)
+endfunction
+noremap <Leader>ss :call StripWhitespace()<cr>
+
+" Save a file as root (,W)
+noremap <Leader>W :w !sudo tee % > /dev/null<cr>
+
 
 
 
@@ -549,5 +572,5 @@ nnoremap <S-L> :join<CR>
 map <S-j> 7j
 map <S-k> 7k
 
-" these have to go at the end
+" (these have to go at the end)
 
