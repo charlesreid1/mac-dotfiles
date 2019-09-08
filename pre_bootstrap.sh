@@ -29,8 +29,13 @@ sleep 2
 
 echo "About to install and set up python"
 sleep 2
-./python_install.sh
 ./python_setup.sh
+./python_install.sh
+
+echo "About to install and set up go"
+sleep 2
+./go_setup.sh
+./go_install.sh
 
 echo "About to run brew installation script"
 sleep 2

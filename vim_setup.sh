@@ -26,3 +26,6 @@ mkdir -p \
     ~/.vim/plugin/black.vim \
     https://raw.githubusercontent.com/psf/black/master/plugin/black.vim
 
+echo "Installing jedi autocomplete for vim..."
+git clone --recursive https://github.com/davidhalter/jedi-vim.git ~/.vim/bundle/jedi-vim || echo "Existing jedi-vim folder already found, skipping this step..."
+
