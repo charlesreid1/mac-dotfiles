@@ -6,7 +6,7 @@
 ## replace any ssh://git@g.... with cmr:
 
 [user]
-    email = charlesreid1@gmail.com
+    email = chmreid@ucsc.edu
     name = Charles Reid
 [credential]
     helper = cache
@@ -33,9 +33,12 @@
 
     # View the current working tree status using the short format
     s = status -s
+    ss = status
 
     b = branch -v
     bv = branch -v
+    bb = branch -v
+
     ba = branch -a
     bb = branch -v -a
 
@@ -46,18 +49,30 @@
     f = fetch --all
 
     cdiff = diff --cached
+    cd = diff --cached
+
+    # Interactive rebase with the given number of latest commits
+    reb = "!r() { git rebase -i HEAD~$1; }; r"
 
     # Show the diff between the latest commit and the current state
     d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
-    ### # `git di $number` shows the diff between the state `$number` revisions ago and the current state
-    ### di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+    # `git di $number` shows the diff between the state `$number` revisions ago and the current state
+    di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+
+    p = "!f() { git pull $1 $2; }; f"
 
     # Pull in remote changes for the current repository and all its submodules
-    p = !"git pull; git submodule foreach git pull origin master"
+    pp = !"git pull; git submodule foreach git pull origin master"
 
     # Clone a repository including all submodules
     c = clone --recursive
+
+    # Amend the currently staged files to the latest commit
+    amend = commit --amend --reuse-message=HEAD
+
+    # Oops
+    fix = commit --amend --reuse-message=HEAD --edit
 
     # Commit all changes
     ca = !git add -A && git commit -av
@@ -73,20 +88,6 @@
 
     # List aliases
     aliases = config --get-regexp alias
-
-    # Amend the currently staged files to the latest commit
-    amend = commit --amend --reuse-message=HEAD
-
-    # Oops
-    fix = commit --amend --reuse-message=HEAD --edit
-
-
-
-    # Credit an author on the latest commit
-    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
-
-    # Interactive rebase with the given number of latest commits
-    reb = "!r() { git rebase -i HEAD~$1; }; r"
 
     # Remove the old tag with this name and tag the latest commit with it.
     retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
