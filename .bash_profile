@@ -21,7 +21,7 @@ PATH="${HOME}/scripts:${PATH}"
 PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
-PATH="$(brew --prefix coreutils)/libexec/gnubin:${PATH}"
+PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 
 if [[ "$HOSTNAME" == "maya" ]]; then
 
@@ -50,7 +50,11 @@ fi
 # goenv installer
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
+
+# Only enable this if you are using go.
+# This will add half a second every time you
+# open a new shell.
+#eval "$(goenv init -)"
 
 
 # pyenv installer
@@ -85,6 +89,12 @@ PROMPT_COMMAND='history -a;history -n'
 
 
 
+# aws cli tab-completion
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
+complete -C "$(pyenv which aws_completer)" aws
+
+
+
 #############################
 # modified mathias
 
@@ -102,13 +112,6 @@ shopt -s nocaseglob;
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell;
 
-# Enable some Bash 4 features when possible:
-# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
-# * Recursive globbing, e.g. `echo **/*.txt`
-for option in autocd globstar; do
-	shopt -s "$option" 2> /dev/null;
-done;
-
 if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
@@ -117,7 +120,3 @@ fi;
 if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
 	complete -o default -o nospace -F _git g;
 fi;
-
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
-
