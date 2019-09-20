@@ -10,6 +10,10 @@ git() {
 }
 
 
+# check on deployed lambdas on AWS
+alias check_lambdas='aws lambda get-function-configuration --function-name dss-dev | jq .Environment.Variables'
+
+
 # lazy af
 alias mk='make'
 alias smk='snakemake'
