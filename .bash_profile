@@ -23,6 +23,26 @@ PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 
+if [[ "$HOSTNAME" == "seawater" ]]; then
+    # Begin Elasticsearch crap
+    #
+    # To install elasticsearch 5.4.2 (or whichever version) manually:
+    # - install Java (preferably using brew)
+    # - download elasticsearch 5.4.2 from here: https://www.elastic.co/downloads/past-releases/elasticsearch-5-4-2
+    #   any other version of elasticsearch x.y.z is available at https://www.elastic.co/downloads/past-releases/elasticsearch-x-y-z
+    # - extract elasticsearch
+    # - set ES_HOME to the directory where you extracted elasticsearch 5.4.2
+    # - set JAVA_HOME to the directory where your Java binary lives
+    # - set PATH to include both of these directories at the front of the path
+    export ES_HOME="${HOME}/pkg/elasticsearch-5.4.2"
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+    if [[ -d "$ES_HOME" ]]; then
+        export PATH="${ES_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
+    fi
+    # 
+    # End Elasticsearch crap
+fi
+
 if [[ "$HOSTNAME" == "maya" ]]; then
 
 	# Setting PATH for homebrew
