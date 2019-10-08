@@ -235,7 +235,7 @@ set nosmartindent   " die die die
 
 " set the text width at
 " 80 or 88, whatever
-"set textwidth=80
+set textwidth=115
 " IMPORTANT -
 " above directive will auto-wrap
 " your text as you type it, and may
@@ -267,6 +267,11 @@ abbreviate recomend recommend
 abbreviate slef self
 abbreviate paramters parameters
 abbreviate exmaple example
+abbreviate improt import
+abbreviate impot import
+abbreviate imrpot import
+abbreviate surpress suppress
+abbreviate supress suppress
 
 
 
@@ -498,7 +503,7 @@ endif
 " Show leader in bottom right
 set showcmd
 
-" Strip trailing whitespace (,ss)
+" Strip whitespace - trailing whitespace - with (,ss)
 function! StripWhitespace()
 	let save_cursor = getpos(".")
 	let old_query = getreg('/')
@@ -507,6 +512,16 @@ function! StripWhitespace()
 	call setreg('/', old_query)
 endfunction
 noremap <Leader>ss :call StripWhitespace()<cr>
+
+" Strip annoying windows newline characters ^M
+function! StripWinLineBreaks()
+    let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    :%s///g
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
+endfunction
+noremap <Leader>sn :call StripWinLineBreaks()<cr>
 
 " Save a file as root (,W)
 noremap <Leader>W :w !sudo tee % > /dev/null<cr>
