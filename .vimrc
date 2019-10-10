@@ -574,6 +574,28 @@ let g:solarized_visibility= "normal"
 " put it in ~/.vim/colors/solarized.vim
 colorscheme solarized
 
+" more color schemes:
+"colorscheme blue
+"colorscheme darkblue
+"colorscheme default
+"colorscheme delek
+"colorscheme desert " <-- old standby
+"colorscheme elflord
+"colorscheme evening
+"colorscheme industry
+"colorscheme koehler
+"colorscheme macvim
+"colorscheme morning
+"colorscheme murphy
+"colorscheme pablo
+"colorscheme peachpuff " <-- not bad
+"colorscheme ron
+"colorscheme shine
+"colorscheme slate
+"colorscheme solarized
+"colorscheme torte
+"colorscheme zellner
+
 " ------------------------
 " Move Faster
 " ------------------------
