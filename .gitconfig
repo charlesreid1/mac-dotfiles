@@ -223,3 +223,4 @@
 [rerere]
 
     enabled = true
+    autoupdate = true
