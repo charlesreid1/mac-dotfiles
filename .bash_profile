@@ -22,9 +22,11 @@ PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
-PATH="$HOME/pkg/terraform:${PATH}"
 
 if [[ "$HOSTNAME" == "seawater" ]]; then
+
+    PATH="$HOME/pkg/terraform:${PATH}"
+
     # Begin Elasticsearch crap
     #
     # To install elasticsearch 5.4.2 (or whichever version) manually:
