@@ -79,18 +79,17 @@ export PATH="$GOENV_ROOT/bin:$PATH"
 # open a new shell.
 #eval "$(goenv init -)"
 
-
 # pyenv installer
 # https://github.com/pyenv/pyenv-installer
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-
 export PATH
 
 # Just let homebrew take care of PYTHONPATH, yeah?
 # But if you really needed to, you could set it here.
+
 
 # Bash history
 
@@ -110,12 +109,9 @@ shopt -s histappend;
 # https://askubuntu.com/a/673283
 PROMPT_COMMAND='history -a;history -n'
 
-
-
 # aws cli tab-completion
 # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
 complete -C "$(pyenv which aws_completer)" aws
-
 
 
 #############################
