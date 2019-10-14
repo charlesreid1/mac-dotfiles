@@ -31,9 +31,14 @@
     cehckout = checkout
     commti = commit
 
+    # https://victorzhou.com/blog/git-aliases/
+    a = add .
+    cm = commit -m
+    rh = reset --hard
+    lo = log --oneline -n 10
+
     # View abbreviated SHA, description, and history graph of the latest 20 commits
     l = log --pretty=oneline -n 20 --graph --abbrev-commit
-    lo = log --oneline -n 10
 
     # View the current working tree status: short format and long format
     s = status -s
@@ -62,7 +67,11 @@
     cd = diff --cached
 
     # Interactive rebase with the given number of latest commits
+    # reb N = interactive rebase with last N commits (inclusive)
     reb = "!r() { git rebase -i HEAD~$1; }; r"
+
+    # continue the rebase
+    rebc = "rebase --continue"
 
     # Show the diff between the latest commit and the current state
     d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
