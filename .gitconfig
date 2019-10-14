@@ -32,7 +32,7 @@
     commti = commit
 
     # https://victorzhou.com/blog/git-aliases/
-    a = add .
+    a = add
     cm = commit -m
     rh = reset --hard
     lo = log --oneline -n 10
