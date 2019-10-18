@@ -12,5 +12,5 @@ PKG="$PKG matplotlib seaborn jupyter ipython"
 PKG="$PKG tornado pyzmq pygments pillow pelican"
 PKG="$PKG flake8 black yapf pep8ify"
 
-pip install ${PKG}
+pip3 install ${PKG}
 
