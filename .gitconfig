@@ -62,12 +62,18 @@
 
     f = fetch --all
 
-    # show log history of commits on this branch
+    # Show log history of commits on this branch
     # that are different from master
+    # (these aliases are useful for rebases)
+    #
     # dm = *Different from *Master (log)
-    # dms = *Different from *Master, *Status
     dm = "lo master..HEAD"
+
+    # dms = *Different from *Master, *Status
     dms = "diff --stat master..HEAD"
+
+    # dmf = *Different from *Master, *Files
+    dmf = "diff --name-only master..HEAD"
 
     # show diff of staged changes
     cdiff = diff --cached
