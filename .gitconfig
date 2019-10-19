@@ -62,6 +62,13 @@
 
     f = fetch --all
 
+    # show log history of commits on this branch
+    # that are different from master
+    # dm = *Different from *Master (log)
+    # dms = *Different from *Master, *Status
+    dm = "lo master..HEAD"
+    dms = "diff --stat master..HEAD"
+
     # show diff of staged changes
     cdiff = diff --cached
     cd = diff --cached
