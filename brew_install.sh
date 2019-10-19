@@ -19,6 +19,10 @@ brew upgrade
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
 brew install coreutils
 
+# gettext, envsubst, and other utils
+brew install gettext
+brew link --force gettext
+
 # Install some other useful utilities like `sponge`.
 brew install moreutils
 

@@ -10,6 +10,8 @@ function doIt() {
         --exclude "bootstrap.sh" \
         --exclude "brew_install.sh" \
         --exclude "diff_dotfiles.sh" \
+        --exclude "go_install.sh" \
+        --exclude "go_setup.sh" \
         --exclude "mac_settings.sh" \
         --exclude "pre_bootstrap.sh" \
         --exclude "python_install.sh" \
