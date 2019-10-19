@@ -23,6 +23,10 @@ PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 
+# Tell git not to look for getext.sh
+# since pyenv has trouble with that
+export GIT_INTERNAL_GETTEXT_TEST_FALLBACKS=1
+
 if [[ "$HOSTNAME" == "seawater" ]]; then
 
     PATH="$HOME/pkg/terraform:${PATH}"
