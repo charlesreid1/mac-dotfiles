@@ -7,10 +7,11 @@ if [ "$(id -u)" == "0" ]; then
     exit 1;
 fi
 
-PKG="numpy scipy pandas"
+PKG="virtualenv boto3"
+PKG="$PKG numpy scipy pandas"
 PKG="$PKG matplotlib seaborn jupyter ipython"
 PKG="$PKG tornado pyzmq pygments pillow pelican"
 PKG="$PKG flake8 black yapf pep8ify"
 
-pip install ${PKG}
+pip3 install ${PKG}
 
