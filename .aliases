@@ -15,6 +15,7 @@ alias check_lambdas='aws lambda get-function-configuration --function-name dss-d
 
 
 # lazy af
+# -------
 alias mk='make'
 alias smk='snakemake'
 alias smake='snakemake'
@@ -22,6 +23,12 @@ alias py='python3'
 alias ipy='ipython --pylab'
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias ipaddr="dig +short myip.opendns.com @resolver1.opendns.com"
+
+
+# python stuff
+# ------------
+# https://unix.stackexchange.com/a/459586
+alias vp="[ -d vp ] || virtualenv vp && source vp/bin/activate"
 
 
 # one-letter aliases
