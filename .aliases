@@ -71,26 +71,26 @@ fi
 
 
 
-alias ls="ls -1 ${colorflag} ${groupflag}"
+alias ls="/bin/ls -1 ${colorflag} ${groupflag}"
 alias sl='ls'
 
 
 
 # List all files colorized in long format
-alias l="ls -lhAF ${colorflag}"
+alias l="/bin/ls -lhAF ${colorflag}"
 alias ll="l"
 
 # List all files colorized in long format, including dot files
 alias la="l -a"
 
 # List only directories
-alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
+alias lsd="/bin/ls -lF ${colorflag} | grep --color=never '^d'"
 
 
 alias lr='ls -r' # reverse
 alias llr='ll -r' # reverse
 
-alias lt='ls -lhAFt -G' # time
+alias lt='/bin/ls -lhAFt -G' # time
 
 alias lt='ls -t' # time
 alias llt='ll -t' # time
@@ -117,8 +117,8 @@ alias c='clear'
 
 
 
-# socks proxy thru rojo
-# (forwards http traffic thru rojo port 8080)
+# socks proxy thru charlesreid1
+# (forwards http traffic thru charlesreid1 port 8080)
 # ---------------
 alias socks='ssh -fN -D 8080 charles@charlesreid1.com'
 
@@ -282,14 +282,15 @@ alias back='cd $OLDPWD'
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
-### alias ....="cd ../../.."
-### alias .....="cd ../../../.."
-### alias ~="cd ~" # `cd` is probably faster to type though
-### alias -- -="cd -"
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
 
 # Shortcuts
 alias d="cd ~/Desktop"
 alias g="git"
+alias gs="git status"
 alias h="history"
 
 #alias s="screen"
