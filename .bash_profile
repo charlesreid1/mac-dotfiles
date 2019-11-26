@@ -22,6 +22,7 @@ PATH="/usr/local/bin:$PATH"
 PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+PATH="${HOME}/bin:${PATH}"
 
 # Tell git not to look for getext.sh
 # since pyenv has trouble with that
