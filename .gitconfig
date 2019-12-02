@@ -6,7 +6,7 @@
 ## replace any ssh://git@g.... with cmr:
 
 [user]
-    email = chmreid@ucsc.edu
+    email = charlesreid1@gmail.com
     name = Charles Reid
 [credential]
     helper = cache
@@ -29,7 +29,9 @@
 
     # typo stuff
     cehckout = checkout
+    chekout = checkout
     commti = commit
+    comit = commit
 
     # https://victorzhou.com/blog/git-aliases/
     a = add
