@@ -13,6 +13,8 @@
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
+[push]
+    default = simple
 [alias]
 
     # courtesy of https://stackoverflow.com/a/34467298
