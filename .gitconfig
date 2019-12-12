@@ -67,7 +67,8 @@
     # (these aliases are useful for rebases)
     #
     # dm = *Different from *Master (log)
-    dm = "lo master..HEAD"
+    # https://stackoverflow.com/a/59273667/463213
+    dm = "log --boundary --right-only --graph --oneline master..HEAD"
 
     # dms = *Different from *Master, *Status
     dms = "diff --stat master..HEAD"
