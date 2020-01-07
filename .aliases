@@ -48,6 +48,7 @@ alias sha1='openssl sha1'
 alias du='du -kh'
 alias dh='dh -kTh'
 alias pc='pelican content'
+alias lsop='lsof -nP +c 15 | /usr/bin/grep LISTEN'
 
 
 
