@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+alias pgi='eval $(assume-role gi)'
+alias phca='eval $(assume-role hca-id)'
 
 git() {
     if [[ $@ == "push origin master" ]]; then
@@ -21,8 +23,8 @@ alias smk='snakemake'
 alias smake='snakemake'
 alias py='python3'
 alias ipy='ipython --pylab'
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias ipaddr="dig +short myip.opendns.com @resolver1.opendns.com"
+alias ip="curl https://www.canihazip.com/s"
+alias ipaddr="curl https://www.canihazip.com/s"
 
 
 # python stuff
