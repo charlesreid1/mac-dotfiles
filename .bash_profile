@@ -23,10 +23,27 @@ PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 PATH="${HOME}/bin:${PATH}"
+PATH="${HOME}/bin/elasticsearch-5.4.2/bin:${PATH}"
+
+# Ruby stuff
+
+# Add homebrew-installed ruby to path:
+# (WARNING: THIS CAN CAUSE PROBLEMS!)
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+# Add homebrew-ruby-gem-installed packages to path:
+export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
+
+
+# aws - load config file when using assume-role
+export AWS_SDK_LOAD_CONFIG="1"
 
 # Tell git not to look for getext.sh
 # since pyenv has trouble with that
 export GIT_INTERNAL_GETTEXT_TEST_FALLBACKS=1
+
+# git tab completion
+source ${HOME}/.git-completion.bash
 
 if [[ "$HOSTNAME" == "seawater" ]]; then
 
@@ -49,6 +66,11 @@ if [[ "$HOSTNAME" == "seawater" ]]; then
     fi
     # 
     # End Elasticsearch crap
+
+    # non-symlinked zlib
+    export LDFLAGS="-L/usr/local/opt/zlib/lib"
+    export CPPFLAGS="-I/usr/local/opt/zlib/include"
+
 fi
 
 if [[ "$HOSTNAME" == "maya" ]]; then
