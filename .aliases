@@ -308,7 +308,7 @@ alias h="history"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
-alias grep='grep -i --color=auto'
+alias grep='grep -i --color=auto --exclude-dir=vp'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
