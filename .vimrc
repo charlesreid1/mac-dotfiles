@@ -121,7 +121,7 @@ set splitright
 
 " this turns on syntax highlighting
 syntax on
-set synmaxcol=120 " don't syntax highlight past this many chars
+set synmaxcol=200 " don't syntax highlight past this many chars
 set ic
 " this highlights search items
 set hls
