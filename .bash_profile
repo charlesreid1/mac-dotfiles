@@ -71,6 +71,12 @@ if [[ "$HOSTNAME" == "seawater" ]]; then
     export LDFLAGS="-L/usr/local/opt/zlib/lib"
     export CPPFLAGS="-I/usr/local/opt/zlib/include"
 
+    # The next line updates PATH for the Google Cloud SDK.
+    if [ -f '/Users/charles/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/Users/charles/Downloads/google-cloud-sdk/path.bash.inc'; fi
+    
+    # The next line enables shell command completion for gcloud.
+    if [ -f '/Users/charles/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/charles/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+
 fi
 
 if [[ "$HOSTNAME" == "maya" ]]; then
@@ -169,3 +175,4 @@ fi;
 if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
 	complete -o default -o nospace -F _git g;
 fi;
+
