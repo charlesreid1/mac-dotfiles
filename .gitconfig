@@ -33,6 +33,7 @@
     ceckout = checkout
     chekout = checkout
     commti = commit
+    comimt = commit
     comit = commit
 
     # https://victorzhou.com/blog/git-aliases/
