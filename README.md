@@ -7,9 +7,11 @@ Repository containing dotfiles appropriate for use on Mac laptops.
 Before you begin, you should review all of the
 steps in this quick start, so that you understand
 what will happen when you run these scripts.
-Otherwise, you may lose your dotfiles!!!
+Otherwise, you may lose your dotfiles!
 
-Step 1: Run pre bootstrap script
+## Step 1: Pre-Bootstrap
+
+Step 1: Run pre bootstrap script:
 
 ```
 ./pre_bootstrap.sh
@@ -34,19 +36,24 @@ be changed on your Mac (`mac_settings.sh`) and the
 software that will be installed (`brew_install.sh`)
 before you run any scripts.
 
-Step 2: Do a diff of dotfiles in this repository
-with your existing dotfiles so that you can review
-what will change in your existing dotfiles.
+## Step 2: Bootstrap
 
-Step 3: Run bootstrap script
+The bootstrap script will do a diff between your
+dotfiles and the new dotfiles, so you can see
+all the changes that you will lose (in red) and
+all of the new content (in green).
 
-```
-./bootstrap.sh
-```
+If there are many changes, do the diff manually by
+running the script:
 
-This script will install all of the dotfiles
-in the top level of this repository into
-your home directory. It will ask you for
+    ./diff_dotfiles.sh
+
+Otherwise, run the bootstrap script, review the 
+changes, and type "y" or "yes":
+
+    ./bootstrap.sh
+
+Again, the bootstrap script will ask you for your
 confirmation before overwriting your files,
 but **you _will_ lose unsaved changes in your
 existing dotfiles**!
@@ -65,8 +72,3 @@ perform those tasks.
 
 We recommend you open the scripts and read them
 to see what they do.
-
-
-
-
-
