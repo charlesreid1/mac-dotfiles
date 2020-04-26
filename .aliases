@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-alias pgi='eval $(assume-role gi)'
-alias phca='eval $(assume-role hca-id)'
+if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
+    alias pgi='eval $(assume-role gi)'
+    alias phca='eval $(assume-role hca-id)'
+
+    # check on deployed lambdas on AWS
+    alias check_lambdas='aws lambda get-function-configuration --function-name dss-dev | jq .Environment.Variables'
+fi
 
 git() {
     if [[ $@ == "push origin master" ]]; then
@@ -12,8 +17,6 @@ git() {
 }
 
 
-# check on deployed lambdas on AWS
-alias check_lambdas='aws lambda get-function-configuration --function-name dss-dev | jq .Environment.Variables'
 
 
 # lazy af
@@ -147,79 +150,6 @@ function charles() {
   export IP="charlesreid1.com"
   ssh -Y charles@${IP} # the actual ssh call
 }
-
-alias blackbeard="blackbeard"
-function blackbeard() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file 
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="54.191.178.27"
-  ssh -Y charles@${IP} # the actual ssh call
-}
-
-alias jupiter="jupiter"
-function jupiter() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file 
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="10.6.0.2"
-  ssh -Y charles@${IP} # the actual ssh call
-}
-
-alias maya="maya"
-function maya() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file 
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="10.6.0.10"
-  ssh -Y charles@${IP} # the actual ssh call
-}
-
-alias cronus="cronus"
-function cronus() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file 
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="10.6.0.20"
-  ssh -Y charles@${IP} # the actual ssh call
-}
-
-alias krash="krash"
-function krash() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file 
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="krash"
-  ssh -Y charles@${IP} # the actual ssh call
-}
-
-alias wisko="wisko"
-function wisko() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file 
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="159.65.75.41"
-  ssh -Y melo@${IP} # the actual ssh call
-}
-
-alias bluebear="bluebear"
-function bluebear() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file 
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="bluebear"
-  ssh -Y charles@${IP} # the actual ssh call
-}
-
-
-
 
 # tmux shortcuts
 # constructed with help from https://robots.thoughtbot.com/a-tmux-crash-course

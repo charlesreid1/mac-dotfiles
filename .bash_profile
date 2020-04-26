@@ -23,20 +23,20 @@ PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 PATH="${HOME}/bin:${PATH}"
-PATH="${HOME}/bin/elasticsearch-5.4.2/bin:${PATH}"
+if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
+    PATH="${HOME}/bin/elasticsearch-5.4.2/bin:${PATH}"
 
-# Ruby stuff
+    # assume-role cli util:
+    # Add homebrew-installed ruby to path:
+    # (WARNING: THIS CAN CAUSE PROBLEMS!)
+    export PATH="/usr/local/opt/ruby/bin:$PATH"
 
-# Add homebrew-installed ruby to path:
-# (WARNING: THIS CAN CAUSE PROBLEMS!)
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+    # Add homebrew-ruby-gem-installed packages to path:
+    export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
 
-# Add homebrew-ruby-gem-installed packages to path:
-export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
-
-
-# aws - load config file when using assume-role
-export AWS_SDK_LOAD_CONFIG="1"
+    # aws - load config file when using assume-role
+    export AWS_SDK_LOAD_CONFIG="1"
+fi
 
 # Tell git not to look for getext.sh
 # since pyenv has trouble with that
@@ -45,7 +45,8 @@ export GIT_INTERNAL_GETTEXT_TEST_FALLBACKS=1
 # git tab completion
 source ${HOME}/.git-completion.bash
 
-if [[ "$HOSTNAME" == "seawater" ]]; then
+
+if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
 
     PATH="$HOME/pkg/terraform:${PATH}"
 
@@ -175,4 +176,3 @@ fi;
 if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
 	complete -o default -o nospace -F _git g;
 fi;
-
