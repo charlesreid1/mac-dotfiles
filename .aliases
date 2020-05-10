@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
-    alias pgi='eval $(assume-role gi)'
-    alias phca='eval $(assume-role hca-id)'
-
-    # check on deployed lambdas on AWS
-    alias check_lambdas='aws lambda get-function-configuration --function-name dss-dev | jq .Environment.Variables'
-fi
-
 git() {
     if [[ $@ == "push origin master" ]]; then
         echo "nope"
@@ -15,8 +7,6 @@ git() {
         command git "$@"
     fi
 }
-
-
 
 
 # lazy af
