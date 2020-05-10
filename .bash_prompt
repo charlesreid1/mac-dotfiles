@@ -80,9 +80,10 @@ PS1+="\[${white}\] on ";
 PS1+="\[${hostStyle}\]\h"; # host
 PS1+="\[${white}\] at ";
 PS1+="[ \D{%Y-%m-%d} - \t ] "; # date and time stamp
-PS1+="\$(dss_msg)";
+if [[ "$HOSTNAME" == "bascom" ]]; then
+    PS1+="\$(dss_msg)";
+fi
 PS1+="in ";
-#PS1+="\[${green}\]\w"; # working directory full path
 PS1+="\w"; # working directory full path
 PS1+="\n";
 PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
