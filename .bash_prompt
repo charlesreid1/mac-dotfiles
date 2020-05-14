@@ -61,17 +61,6 @@ if [[ "${USER}" == "root" ]]; then
 	userStyle="${red}";
 fi;
 
-if [[ "$HOSTNAME" == "bascom" ]]; then
-    dss_msg()
-    {
-        DSS_MSG=" "
-        if [[ ! -z "$DSS_DEPLOYMENT_STAGE" ]]; then
-            DSS_MSG="${red}(on $DSS_DEPLOYMENT_STAGE) ${reset}"
-        fi
-        echo $DSS_MSG
-    }
-fi
-
 # Set the terminal title and prompt.
 PS1="\[\033]0;\W\007\]"; # working directory base name
 PS1+="\[${bold}\]\n"; # newline
@@ -80,11 +69,6 @@ PS1+="\[${white}\] on ";
 PS1+="\[${hostStyle}\]\h"; # host
 PS1+="\[${white}\] at ";
 PS1+="[ \D{%Y-%m-%d} - \t ] "; # date and time stamp
-if [[ "$HOSTNAME" == "bascom"]]; then
-    if [[ "$(whoami)" != "root" ]]; then
-        PS1+="\$(dss_msg)";
-    fi
-fi
 PS1+="in ";
 PS1+="\w"; # working directory full path
 PS1+="\n";
