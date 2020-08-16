@@ -569,7 +569,7 @@ let g:solarized_visibility= "normal"
 " solarized color scheme in vim format
 " (solarized.vim) from here:
 "
-" https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim
+" wget https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim -O ~/.vim/colors/solarized.vim
 "
 " put it in ~/.vim/colors/solarized.vim
 colorscheme solarized
