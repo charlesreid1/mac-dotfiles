@@ -139,7 +139,7 @@ function charles() {
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
   export IP="charlesreid1.com"
-  ssh -Y charles@${IP} # the actual ssh call
+  ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
 alias bear="bear"
@@ -149,7 +149,7 @@ function bear() {
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
   export IP="173.255.249.79"
-  ssh -Y charles@${IP} # the actual ssh call
+  ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
 alias bespin="bespin"
