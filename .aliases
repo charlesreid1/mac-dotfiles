@@ -9,6 +9,11 @@ git() {
 }
 
 
+if [[ ("$HOSTNAME" == "bascom") ]]; then
+    function pgi { eval $( $(which assume-role) gi); }
+fi
+
+
 # lazy af
 # -------
 alias mk='make'
