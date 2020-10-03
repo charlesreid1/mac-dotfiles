@@ -546,40 +546,13 @@ function! BgToggle()
 endfunction
 nnoremap <F5> :call BgToggle()<cr>
 
-" to install vim-colors-solarized plugin:
-" git clone git://github.com/altercation/vim-colors-solarized.git ~/.vim/bundle/vim-colors-solarized
-"
-let g:solarized_termcolors=256
-
-"" If the following line is commented out,
-"" F5/background toggle will change from
-"" dark to light. If the line is enabled,
-"" the background color will remain the same
-"" dark default terminal backgorund color.
-"let g:solarized_termtrans = 1
-"
-let g:solarized_degrade = 0
-let g:solarized_bold = 1
-let g:solarized_underline = 1
-let g:solarized_italic = 1
-let g:solarized_contrast = "normal"
-let g:solarized_visibility= "normal"
-
-" install solarized by getting the
-" solarized color scheme in vim format
-" (solarized.vim) from here:
-"
-" wget https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim -O ~/.vim/colors/solarized.vim
-"
-" put it in ~/.vim/colors/solarized.vim
-colorscheme solarized
 
 " more color schemes:
 "colorscheme blue
 "colorscheme darkblue
 "colorscheme default
 "colorscheme delek
-"colorscheme desert " <-- old standby
+colorscheme desert " <-- old standby
 "colorscheme elflord
 "colorscheme evening
 "colorscheme industry
