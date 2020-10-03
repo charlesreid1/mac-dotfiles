@@ -1,9 +1,9 @@
 # This is the bash profile.
-# 
+#
 # This file sets PATH and bash options.
 #
 # to add your own non-committed machine-specific settings,
-# use ~/.extra 
+# use ~/.extra
 
 # Must
 EDITOR="vim"
@@ -42,8 +42,12 @@ fi
 # since pyenv has trouble with that
 export GIT_INTERNAL_GETTEXT_TEST_FALLBACKS=1
 
+if [[ "$HOSTNAME" == "bascom" ]]; then
+    # git tab completion
+    source ${HOME}/.git-completion.bash
+fi
 
-if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
+if [[ "$HOSTNAME" == "seawater" ]]; then
 
     PATH="$HOME/pkg/terraform:${PATH}"
 
@@ -62,7 +66,7 @@ if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
     if [[ -d "$ES_HOME" ]]; then
         export PATH="${ES_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
     fi
-    # 
+    #
     # End Elasticsearch crap
 
     # non-symlinked zlib
@@ -71,7 +75,7 @@ if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
 
     # The next line updates PATH for the Google Cloud SDK.
     if [ -f '/Users/charles/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/Users/charles/Downloads/google-cloud-sdk/path.bash.inc'; fi
-    
+
     # The next line enables shell command completion for gcloud.
     if [ -f '/Users/charles/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/charles/Downloads/google-cloud-sdk/completion.bash.inc'; fi
 
@@ -144,11 +148,11 @@ HISTIGNORE="ls:cls:clc:clear:pwd:l:ll:[ ]*"
 HISTSIZE=1000000
 HISTTIMEFORMAT=': %Y-%m-%d_%H:%M:%S; '
 
-# Save Bash history 
+# Save Bash history
 shopt -s cmdhist;
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend;
-# Write history to .bash_history immediately. 
+# Write history to .bash_history immediately.
 # -a writes current/new lines to history file
 # -n reloads only new commands
 # https://askubuntu.com/a/673283
@@ -157,9 +161,11 @@ PROMPT_COMMAND='history -a;history -n'
 # don't try to autocomplete commands when tab is pressed and line is empty
 shopt -s no_empty_cmd_completion
 
-# aws cli tab-completion
-# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
-complete -C "$(pyenv which aws_completer)" aws
+if [[ "$HOSTNAME" == "bascom" ]]; then
+    # aws cli tab-completion
+    # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
+    complete -C "$(pyenv which aws_completer)" aws
+fi
 
 
 #############################
@@ -183,3 +189,9 @@ if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
 
+if [[ "$HOSTNAME" == "bascom" ]]; then
+    # Enable tab completion for `g` by marking it as an alias for `git`
+    if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
+    	complete -o default -o nospace -F _git g;
+    fi;
+fi
