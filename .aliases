@@ -29,7 +29,7 @@ alias ipaddr="curl -4 icanhazip.com"
 # python stuff
 # ------------
 # https://unix.stackexchange.com/a/459586
-alias vp="[ -d vp ] || virtualenv -p python3.6 vp && source vp/bin/activate"
+alias vp="[ -d vp ] || virtualenv -p python3 vp && source vp/bin/activate"
 
 
 # one-letter aliases
