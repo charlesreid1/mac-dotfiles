@@ -257,3 +257,5 @@
 
     enabled = true
     autoupdate = true
+[pull]
+	rebase = true

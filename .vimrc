@@ -217,6 +217,10 @@ function! DisableIndentY()
         set indentexpr&
 endfunction
 
+" Javascript
+" -------------------------
+au BufRead,BufNewFile *.js,*.javascript set tabstop=2 shiftwidth=2 softtabstop=2 nowrap
+
 
 
 " ------------------------
@@ -582,6 +586,14 @@ nnoremap <S-L> :join<CR>
 " move up and down n lines
 map <S-j> 7j
 map <S-k> 7k
+
+" Bubble text up/down
+" Single line:
+nmap <C-k> ddkP
+nmap <C-j> ddp
+" Multiple lines:
+vmap <C-k> xkP`[V`]
+vmap <C-j> xp`[V`]
 
 " -----------------------------
 " Jedi Autocomplete Plugin
