@@ -47,7 +47,7 @@ if [[ "$HOSTNAME" == "bascom" ]]; then
     source ${HOME}/.git-completion.bash
 fi
 
-if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
+if [[ "$HOSTNAME" == "seawater" ]]; then
 
     PATH="$HOME/pkg/terraform:${PATH}"
 
