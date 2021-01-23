@@ -598,4 +598,4 @@ vmap <C-j> xp`[V`]
 " -----------------------------
 " Jedi Autocomplete Plugin
 " -----------------------------
-let g:jedi#auto_initialization = 0
+"let g:jedi#auto_initialization = 0
