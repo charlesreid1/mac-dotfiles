@@ -599,3 +599,8 @@ vmap <C-j> xp`[V`]
 " Jedi Autocomplete Plugin
 " -----------------------------
 "let g:jedi#auto_initialization = 0
+
+" -----------------------
+"  Black shortcut
+" -----------------------
+noremap <Leader>bb :Black<cr>
