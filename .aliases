@@ -15,6 +15,11 @@ if [[ ("$HOSTNAME" == "bascom") ]]; then
 fi
 
 
+# get rid of stupid annoying badges
+# ---------------------------------
+alias clearbadges='defaults write com.apple.systempreferences AttentionPrefBundleIDs 0 && killall Dock'
+
+
 # lazy af
 # -------
 alias mk='make'
