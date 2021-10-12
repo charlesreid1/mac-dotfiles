@@ -184,20 +184,24 @@ let g:go_fmt_command = "goimports"
 " don't move comment hashtag to the first column.
 " smartindent is unnecessary for python anyway.
 " http://stackoverflow.com/questions/2063175/vim-insert-mode-comments-go-to-start-of-line
-au! FileType python setl nosmartindent
+au! FileType python setl textwidth=0 nosmartindent
 
 " golang
 " see https://github.com/paulswanson/congo/blob/master/congo.sh
 " ------------------------
-au BufRead,BufNewFile *.go set noexpandtab
+au BufRead,BufNewFile *.go set textwidth=0 noexpandtab
 
 " Makefiles
 " ------------------------
-au BufRead,BufNewFile Makefile*,*.make,*.mk set noexpandtab
+au BufRead,BufNewFile Makefile*,*.make,*.mk set textwidth=0 noexpandtab
 
 " C++
 " ------------------------
-au BufRead,BufNewFile *.cpp,*.cxx,*.cc,*.c,*.h,*.hpp,*.hxx,*.hh set tabstop=4 shiftwidth=4 softtabstop=4 nowrap
+au BufRead,BufNewFile *.cpp,*.cxx,*.cc,*.c,*.h,*.hpp,*.hxx,*.hh set textwidth=0 tabstop=4 shiftwidth=4 softtabstop=4 nowrap
+
+" shell scripts
+" ------------------------
+au BufRead,BufNewFile *.sh set textwidth=0 noexpandtab
 
 " Snakemake files: Snakefile, .rule, .snake, .settings, .smk
 " ------------------------
@@ -219,7 +223,7 @@ endfunction
 
 " Javascript
 " -------------------------
-au BufRead,BufNewFile *.js,*.javascript set tabstop=2 shiftwidth=2 softtabstop=2 nowrap
+au BufRead,BufNewFile *.js,*.javascript set textwidth=0 tabstop=2 shiftwidth=2 softtabstop=2 nowrap
 
 
 
@@ -244,6 +248,7 @@ set textwidth=115
 " above directive will auto-wrap
 " your text as you type it, and may
 " end up driving you mad.
+" Set textwidth to 0 or a different number for known (code) filetypes.
 
 " > Bugbear's documentation explains 88 vs 80:
 " > "it's like highway speed limits, we won't bother
