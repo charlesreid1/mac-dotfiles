@@ -47,7 +47,7 @@ if [[ "$HOSTNAME" == "bascom" ]]; then
     source ${HOME}/.git-completion.bash
 fi
 
-if [[ "$HOSTNAME" == "seawater" ]]; then
+if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
 
     PATH="$HOME/pkg/terraform:${PATH}"
 
@@ -166,29 +166,6 @@ if [[ "$HOSTNAME" == "bascom" ]]; then
     # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-completion.html
     complete -C "$(pyenv which aws_completer)" aws
 fi
-
-
-
-### #############################
-### # ssh-agent setup
-### SSH_ENV="$HOME/.ssh/agent-environment"
-### 
-### function start_agent {
-###     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-###     chmod 600 "${SSH_ENV}"
-###     . "${SSH_ENV}" > /dev/null
-###     /usr/bin/ssh-add;
-### }
-### 
-### # Source SSH settings, if applicable
-### if [ -f "${SSH_ENV}" ]; then
-###     . "${SSH_ENV}" > /dev/null
-###     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-###         start_agent;
-###     }
-### else
-###     start_agent;
-### fi
 
 
 #############################
