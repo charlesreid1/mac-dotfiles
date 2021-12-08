@@ -51,23 +51,8 @@ if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
 
     PATH="$HOME/pkg/terraform:${PATH}"
 
-    # Begin Elasticsearch crap
-    #
-    # To install elasticsearch 5.4.2 (or whichever version) manually:
-    # - install Java (preferably using brew)
-    # - download elasticsearch 5.4.2 from here: https://www.elastic.co/downloads/past-releases/elasticsearch-5-4-2
-    #   any other version of elasticsearch x.y.z is available at https://www.elastic.co/downloads/past-releases/elasticsearch-x-y-z
-    # - extract elasticsearch
-    # - set ES_HOME to the directory where you extracted elasticsearch 5.4.2
-    # - set JAVA_HOME to the directory where your Java binary lives
-    # - set PATH to include both of these directories at the front of the path
-    export ES_HOME="${HOME}/pkg/elasticsearch-5.4.2"
-    export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
-    if [[ -d "$ES_HOME" ]]; then
-        export PATH="${ES_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
-    fi
-    #
-    # End Elasticsearch crap
+    export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/"
+    export PATH="${JAVA_HOME}/bin:${PATH}"
 
     # non-symlinked zlib
     export LDFLAGS="-L/usr/local/opt/zlib/lib"
