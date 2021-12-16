@@ -162,17 +162,27 @@ function bear() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="173.255.249.79"
+  export IP="charlesreid1.com"
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
-alias bespin="bespin"
+alias bear="emmett"
+function emmett() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="wiki.golly.life"
+  ssh -p 5778 -Y charles@${IP} # the actual ssh call
+}
+
+alias bespin="randal"
 function bespin() {
   ssh-agent > ~/ssh.file # env vars in ssh.file
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="bespin"
+  export IP="randal"
   ssh -Y charles@${IP} # the actual ssh call
 }
 
