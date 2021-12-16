@@ -143,6 +143,39 @@ alias socks='ssh -fN -D 8080 charles@charlesreid1.com'
 
 
 
+# Local machines
+# ---------------
+
+alias maya="maya"
+function maya() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="192.168.30.20"
+  ssh -Y charles@${IP} # the actual ssh call
+}
+
+alias bascom="bascom"
+function bascom() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="192.168.30.30"
+  ssh -Y charles@${IP} # the actual ssh call
+}
+
+alias bespin="randal"
+function bespin() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="randal"
+  ssh -Y -p 5778 charles@${IP} # the actual ssh call
+}
+
 # Remote machines
 # ---------------
 
@@ -166,7 +199,7 @@ function bear() {
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
-alias bear="emmett"
+alias emmett="emmett"
 function emmett() {
   ssh-agent > ~/ssh.file # env vars in ssh.file
   chmod +x ~/ssh.file # execute file
@@ -174,16 +207,6 @@ function emmett() {
   rm -f ~/ssh.file
   export IP="wiki.golly.life"
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
-}
-
-alias bespin="randal"
-function bespin() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="randal"
-  ssh -Y charles@${IP} # the actual ssh call
 }
 
 alias dorky="dorky"
