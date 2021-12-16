@@ -542,18 +542,18 @@ noremap <Leader>W :w !sudo tee % > /dev/null<cr>
 " colorrrzzzzz
 " ----------------------------
 
-set background=dark
-
-set t_Co=256
-
-function! BgToggle()
-  if &background == "light"
-    execute ":set background=dark"
-  else
-    execute ":set background=light"
-  endif
-endfunction
-nnoremap <F5> :call BgToggle()<cr>
+""" set background=dark
+""" 
+""" set t_Co=256
+""" 
+""" function! BgToggle()
+"""   if &background == "light"
+"""     execute ":set background=dark"
+"""   else
+"""     execute ":set background=light"
+"""   endif
+""" endfunction
+""" nnoremap <F5> :call BgToggle()<cr>
 
 
 " more color schemes:
@@ -561,7 +561,7 @@ nnoremap <F5> :call BgToggle()<cr>
 "colorscheme darkblue
 "colorscheme default
 "colorscheme delek
-colorscheme desert " <-- old standby
+"colorscheme desert " <-- old standby
 "colorscheme elflord
 "colorscheme evening
 "colorscheme industry
