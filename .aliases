@@ -30,6 +30,10 @@ alias ipy='ipython --pylab'
 alias ip="curl -4 icanhazip.com"
 alias ipaddr="curl -4 icanhazip.com"
 
+# uuid generator
+# install with "go get github.com/syumai/uuidgenseeded"
+# unique input is iso-8601 formatted datetime stamp + nanoseconds
+alias uuid="date -Ins | uuidgenseeded -lower"
 
 # python stuff
 # ------------
