@@ -79,6 +79,10 @@ if [[ "$HOSTNAME" == "maya" ]]; then
 	PATH="$HOME/.local/bin:$PATH"
 	PATH="$HOME/Library/Python/3.6/bin:$PATH"
 
+    # pypy
+    # this should go after /usr/local/bin
+    PATH="${PATH}:/usr/local/share/pypy3"
+
     ### # some weird new homebrew thing??
     ### # this is where python -> python3 lives now
     ### # https://stackoverflow.com/a/45228901
@@ -117,6 +121,7 @@ export PATH="$GOENV_ROOT/bin:$PATH"
 # https://github.com/pyenv/pyenv-installer
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 
 export PATH
