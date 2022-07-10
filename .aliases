@@ -143,11 +143,31 @@ alias socks='ssh -fN -D 8080 charles@charlesreid1.com'
 
 
 
-# Local machines
+# tinc vpn
 # ---------------
 
-alias maya="maya"
-function maya() {
+alias seawatervpn="seawatervpn"
+function seawatervpn() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="192.168.30.1"
+  ssh -Y charles@${IP} # the actual ssh call
+}
+
+alias randalvpn="randalvpn"
+function randalvpn() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="192.168.30.10"
+  ssh -Y -p 5778 charles@${IP} # the actual ssh call
+}
+
+alias mayavpn="mayavpn"
+function mayavpn() {
   ssh-agent > ~/ssh.file # env vars in ssh.file
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
@@ -156,15 +176,28 @@ function maya() {
   ssh -Y charles@${IP} # the actual ssh call
 }
 
-alias bascom="bascom"
-function bascom() {
+alias bearvpn="bearvpn"
+function bearvpn() {
   ssh-agent > ~/ssh.file # env vars in ssh.file
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="192.168.30.30"
-  ssh -Y charles@${IP} # the actual ssh call
+  export IP="192.168.30.40"
+  ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
+
+alias emmettvpn="emmettvpn"
+function emmettvpn() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="192.168.30.55"
+  ssh -p 5778 -Y charles@${IP} # the actual ssh call
+}
+
+# Local machines
+# ---------------
 
 alias randal="randal"
 function randal() {
@@ -172,7 +205,7 @@ function randal() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="randal"
+  export IP="192.168.0.10"
   ssh -Y -p 5778 charles@${IP} # the actual ssh call
 }
 
@@ -195,7 +228,7 @@ function bear() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="192.168.30.40"
+  export IP="173.255.249.79"
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
@@ -205,12 +238,12 @@ function emmett() {
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
-  export IP="192.168.30.55"
+  export IP="173.255.252.181"
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
-alias dorky="dorky"
-function dorky() {
+alias seawater="seawater"
+function seawater() {
   ssh-agent > ~/ssh.file # env vars in ssh.file
   chmod +x ~/ssh.file # execute file
   ~/ssh.file > /dev/null
