@@ -605,7 +605,7 @@ vmap <C-j> xp`[V`]
 " -----------------------------
 "let g:jedi#auto_initialization = 0
 
-" -----------------------
-"  Black shortcut
-" -----------------------
-noremap <Leader>bb :Black<cr>
+"" -----------------------
+""  Black shortcut
+"" -----------------------
+"noremap <Leader>bb :Black<cr>
