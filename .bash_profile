@@ -47,32 +47,6 @@ if [[ "$HOSTNAME" == "bascom" ]]; then
     source ${HOME}/.git-completion.bash
 fi
 
-if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
-
-    PATH="$HOME/pkg/terraform:${PATH}"
-
-    export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/"
-    export PATH="${JAVA_HOME}/bin:${PATH}"
-
-    # non-symlinked zlib
-    export LDFLAGS="-L/usr/local/opt/zlib/lib"
-    export CPPFLAGS="-I/usr/local/opt/zlib/include"
-
-    # The next line updates PATH for the Google Cloud SDK.
-    if [ -f '/Users/charles/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/Users/charles/Downloads/google-cloud-sdk/path.bash.inc'; fi
-
-    # The next line enables shell command completion for gcloud.
-    if [ -f '/Users/charles/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/charles/Downloads/google-cloud-sdk/completion.bash.inc'; fi
-
-    # git tab completion
-    source ${HOME}/.git-completion.bash
-
-    # Enable tab completion for `g` by marking it as an alias for `git`
-    if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
-    	complete -o default -o nospace -F _git g;
-    fi;
-fi
-
 if [[ "$HOSTNAME" == "maya" ]]; then
 
 	# Setting PATH for homebrew
@@ -151,6 +125,26 @@ PROMPT_COMMAND='history -a;history -n'
 # don't try to autocomplete commands when tab is pressed and line is empty
 shopt -s no_empty_cmd_completion
 
+#############################
+# ssh-agent setup
+SSH_ENV="$HOME/.ssh/agent-environment"
+
+function start_agent {
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+        start_agent;
+    }
+else
+    start_agent;
+fi
 
 
 #############################
