@@ -10,11 +10,6 @@ git() {
 }
 
 
-if [[ ("$HOSTNAME" == "bascom") ]]; then
-    function pgi { eval $( $(which assume-role) gi); }
-fi
-
-
 # get rid of stupid annoying badges
 # ---------------------------------
 alias clearbadges='defaults write com.apple.systempreferences AttentionPrefBundleIDs 0 && killall Dock'
