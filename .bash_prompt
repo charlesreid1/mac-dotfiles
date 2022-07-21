@@ -47,6 +47,8 @@ if [[ "${HOSTNAME}" == "maya" ]]; then
     userStyle="${orange}"
 elif [[ "${HOSTNAME}" == "cronus" ]]; then
     userStyle="${yellow}"
+elif [[ "${HOSTNAME}" == "aptos" ]]; then
+    userStyle="${blue}"
 else
     userStyle="${green}"
 fi
