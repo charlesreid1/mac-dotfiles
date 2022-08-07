@@ -34,6 +34,7 @@ alias uuid="date -Ins | uuidgenseeded -lower"
 # ------------
 # https://unix.stackexchange.com/a/459586
 alias vp="[ -d vp ] || virtualenv -p python3 vp && source vp/bin/activate"
+alias vpp="[ -d vpp ] || virtualenv -p pypy3 vpp && source vpp/bin/activate"
 
 
 # one-letter aliases
