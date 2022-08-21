@@ -131,11 +131,10 @@ alias c='clear'
 
 
 
-# socks proxy thru charlesreid1
-# (forwards https traffic thru bear)
+# socks proxy thru seawater for private wiki access
 # (use with foxyproxy, point to localhost:5778)
 # ---------------
-alias socks='ssh -D 5778 -p 5778 charles@173.255.249.79 -f -N'
+alias socks='ssh -D 5778 -p 5778 charles@charlesreid1.party -f -N'
 
 
 
