@@ -132,9 +132,10 @@ alias c='clear'
 
 
 # socks proxy thru charlesreid1
-# (forwards http traffic thru charlesreid1 port 8080)
+# (forwards https traffic thru bear)
+# (use with foxyproxy, point to localhost:5778)
 # ---------------
-alias socks='ssh -fN -D 8080 charles@charlesreid1.com'
+alias socks='ssh -D 5778 -p 5778 charles@173.255.249.79 -f -N'
 
 
 
