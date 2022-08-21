@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-git pull gh master;
+git pull gh main;
 
 function doIt() {
     rsync \
