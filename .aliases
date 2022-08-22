@@ -26,16 +26,17 @@ alias ip="curl -4 icanhazip.com"
 alias ipaddr="curl -4 icanhazip.com"
 
 # uuid generator
-# install with "go get github.com/syumai/uuidgenseeded"
-# unique input is iso-8601 formatted datetime stamp + nanoseconds
-alias uuid="date -Ins | uuidgenseeded -lower"
+alias uuid="uuidgen"
 
 # python stuff
 # ------------
 # https://unix.stackexchange.com/a/459586
 alias vp="[ -d vp ] || virtualenv -p python3 vp && source vp/bin/activate"
-alias vpp="[ -d vpp ] || virtualenv -p pypy3 vpp && source vpp/bin/activate"
-
+if [[ "${HOSTNAME}" == "aptos" ]]; then
+    alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.9-7.3.9/bin/pypy3 vpp && source vpp/bin/activate"
+else
+    alias vpp="[ -d vpp ] || virtualenv -p pypy3 vpp && source vpp/bin/activate"
+fi
 
 # one-letter aliases
 # ---------------
@@ -245,6 +246,16 @@ function seawater() {
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
   export IP="charlesreid1.party"
+  ssh -p 5778 -Y charles@${IP} # the actual ssh call
+}
+
+alias burro="burro"
+function burro() {
+  ssh-agent > ~/ssh.file # env vars in ssh.file
+  chmod +x ~/ssh.file # execute file
+  ~/ssh.file > /dev/null
+  rm -f ~/ssh.file
+  export IP="173.255.210.178"
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
