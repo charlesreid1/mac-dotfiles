@@ -13,8 +13,10 @@
     signingkey = 078B7759B68B353A # aptos
 [includeIf "gitdir:~/codes/"] 
     path = .gitconfig_charlesreid1
+    # path = ~/.gitconfig_charlesreid1
 [includeIf "gitdir:~/golly/"] 
     path = .gitconfig_ch4zm
+    # path = ~/.gitconfig_ch4zm
 
 [credential]
     helper = cache
