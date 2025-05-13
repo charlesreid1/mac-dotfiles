@@ -8,15 +8,12 @@
 [commit]
     gpgsign = true
 [user]
-    email = charlesreid1@gmail.com
-    name = Charles Reid
-    signingkey = 078B7759B68B353A # aptos
-[includeIf "gitdir:~/codes/"] 
+    email = creid@natera.com
+    name = Chaz Reid
+    signingkey = 836EB56BCCC83AE08C8A6F966DCC6C631CC1CC59
+[includeIf "gitdir:~/charlesreid1/"] 
     path = .gitconfig_charlesreid1
     # path = ~/.gitconfig_charlesreid1
-[includeIf "gitdir:~/golly/"] 
-    path = .gitconfig_ch4zm
-    # path = ~/.gitconfig_ch4zm
 
 [credential]
     helper = cache
@@ -235,33 +232,6 @@
     # Make `git push` push relevant annotated tags when pushing branches out.
     followTags = true
 
-# URL shorthands
-
-
-[url "ssh://git@git.charlesreid1.com:222/"]
-
-    insteadOf = "cmr:"
-
-
-[url "git@github.com:"]
-
-    insteadOf = "gh:"
-    pushInsteadOf = "github:"
-    pushInsteadOf = "git://github.com/"
-
-[url "git://github.com/"]
-
-    insteadOf = "github:"
-
-[url "git@gist.github.com:"]
-
-    insteadOf = "gst:"
-    pushInsteadOf = "gist:"
-    pushInsteadOf = "git://gist.github.com/"
-
-[url "git://gist.github.com/"]
-
-    insteadOf = "gist:"
 
 [rerere]
 

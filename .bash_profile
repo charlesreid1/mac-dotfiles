@@ -5,6 +5,9 @@
 # to add your own non-committed machine-specific settings,
 # use ~/.extra
 
+# SILENCE
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # Must
 EDITOR="vim"
 GIT_EDITOR="vim"
@@ -12,76 +15,24 @@ GIT_EDITOR="vim"
 # Better man pages
 PAGER="most"
 
-# Go stuff
-GOROOT=$HOME/go
-GOPATH=$HOME/go
-
 # Set $PATH here
 PATH="${HOME}/scripts:${PATH}"
-PATH="/usr/local/bin:$PATH"
-PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
-PATH="${PATH}:${GOROOT}/bin"
-PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
+PATH="/opt/homebrew/bin:$PATH"
+PATH="/opt/homebrew/sbin:${PATH}" # homebrew admin tools
 PATH="${HOME}/bin:${PATH}"
-if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
-    PATH="${HOME}/bin/elasticsearch-5.4.2/bin:${PATH}"
-
-    # assume-role cli util:
-    # Add homebrew-installed ruby to path:
-    # (WARNING: THIS CAN CAUSE PROBLEMS!)
-    export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-    # Add homebrew-ruby-gem-installed packages to path:
-    export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
-
-    # aws - load config file when using assume-role
-    export AWS_SDK_LOAD_CONFIG="1"
-fi
+PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
 # Tell git not to look for getext.sh
 # since pyenv has trouble with that
 export GIT_INTERNAL_GETTEXT_TEST_FALLBACKS=1
 
-if [[ "$HOSTNAME" == "bascom" ]]; then
-    # git tab completion
-    source ${HOME}/.git-completion.bash
-fi
+##################################################
+# Natera-specific things
 
-if [[ "$HOSTNAME" == "maya" ]]; then
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-	# Setting PATH for homebrew
-	PATH="$HOME/.local/bin:$PATH"
-	PATH="$HOME/Library/Python/3.6/bin:$PATH"
-
-    # pypy
-    # this should go after /usr/local/bin
-    PATH="${PATH}:/usr/local/share/pypy3"
-
-    ### # some weird new homebrew thing??
-    ### # this is where python -> python3 lives now
-    ### # https://stackoverflow.com/a/45228901
-    ### PATH="/usr/local/opt/python/libexec/bin:${PATH}"
-
-	# Set up google cloud SDK
-	F1="/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
-	F2="/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
-	if [[ -f $F1 ]]; then
-		source $F1
-	fi
-	if [[ -f $F2 ]]; then
-		source $F2
-	fi
-
-    # git tab completion
-    source ${HOME}/.git-completion.bash
-
-    # Enable tab completion for `g` by marking it as an alias for `git`
-    if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
-    	complete -o default -o nospace -F _git g;
-    fi;
-fi
-
-
+##################################################
 # goenv installer
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"
@@ -96,7 +47,6 @@ export PATH="$GOENV_ROOT/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
 
 export PATH
 
@@ -167,10 +117,3 @@ shopt -s cdspell;
 if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
-
-if [[ "$HOSTNAME" == "bascom" ]]; then
-    # Enable tab completion for `g` by marking it as an alias for `git`
-    if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
-    	complete -o default -o nospace -F _git g;
-    fi;
-fi

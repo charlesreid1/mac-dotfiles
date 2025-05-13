@@ -82,7 +82,7 @@ if $LS --color > /dev/null 2>&1; then # GNU `ls`
 else # macOS `ls`
     colorflag="-G"
     export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
-    groupflag="--group-directories-first"
+    groupflag=""
 fi
 
 
