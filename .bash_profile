@@ -5,6 +5,17 @@
 # to add your own non-committed machine-specific settings,
 # use ~/.extra
 
+##################################
+# Natera Claude Code
+# https://go.confluence.natera.com/wiki/spaces/SRETOOLS/pages/383356332/Claude+Code+Onboarding
+export CLAUDE_CODE_USE_BEDROCK=1
+export AWS_REGION=us-west-2
+export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2
+#export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-20250514-v1:0
+export ANTHROPIC_MODEL=us.anthropic.claude-opus-4-1-20250805-v1:0
+export ANTHROPIC_SMALL_FAST_MODEL=us.anthropic.claude-3-5-haiku-20241022-v1:0
+###################################
+
 # SILENCE
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
@@ -117,3 +128,8 @@ shopt -s cdspell;
 if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
