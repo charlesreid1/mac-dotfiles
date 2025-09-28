@@ -152,7 +152,7 @@ let &guicursor = &guicursor . ",a:blinkon0"
 "
 "  now you need to "infect" yourself
 "  (questionable word choices...)
-execute pathogen#infect()
+" execute pathogen#infect()
 
 
 

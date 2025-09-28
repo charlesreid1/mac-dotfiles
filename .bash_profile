@@ -81,17 +81,22 @@ if [[ "$HOSTNAME" == "maya" ]]; then
     fi;
 fi
 
+if [[ "$HOSTNAME" == "kraken" ]]; then
 
-# goenv installer
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
+    # homebrew
+    eval "$(/usr/local/bin/brew shellenv)"
 
-# Only enable this if you are using go.
-# This will add half a second every time you
-# open a new shell.
-#eval "$(goenv init -)"
+    # node
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# pyenv installer
+    # gemini
+    source .gemini_api_key
+fi
+
+
+# pyenv
 # https://github.com/pyenv/pyenv-installer
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -174,3 +179,7 @@ if [[ "$HOSTNAME" == "bascom" ]]; then
     	complete -o default -o nospace -F _git g;
     fi;
 fi
+
+# shut up
+touch ${HOME}/.hushlogin
+export BASH_SILENCE_DEPRECATION_WARNING=1
