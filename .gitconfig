@@ -5,8 +5,8 @@
 ## replace any git@github stuff with gh:
 ## replace any ssh://git@g.... with cmr:
 
-[commit]
-    gpgsign = true
+#[commit]
+#    gpgsign = true
 [user]
     email = charlesreid1@gmail.com
     name = Charles Reid
