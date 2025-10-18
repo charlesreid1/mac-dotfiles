@@ -92,7 +92,7 @@ if [[ "$HOSTNAME" == "kraken" ]]; then
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
     # gemini
-    source .gemini_api_key
+    source $HOME/.gemini_api_key
 fi
 
 
@@ -183,3 +183,4 @@ fi
 # shut up
 touch ${HOME}/.hushlogin
 export BASH_SILENCE_DEPRECATION_WARNING=1
+export FILTER_BRANCH_SQUELCH_WARNING=1
