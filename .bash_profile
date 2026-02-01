@@ -5,6 +5,7 @@
 # to add your own non-committed machine-specific settings,
 # use ~/.extra
 
+
 # Must
 EDITOR="vim"
 GIT_EDITOR="vim"
@@ -16,6 +17,7 @@ PAGER="most"
 GOROOT=$HOME/go
 GOPATH=$HOME/go
 
+
 # Set $PATH here
 PATH="${HOME}/scripts:${PATH}"
 PATH="/usr/local/bin:$PATH"
@@ -23,29 +25,6 @@ PATH="/usr/local/sbin:${PATH}" # homebrew admin tools
 PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 PATH="${HOME}/bin:${PATH}"
-if [[ ("$HOSTNAME" == "seawater") || ("$HOSTNAME" == "bascom") ]]; then
-    PATH="${HOME}/bin/elasticsearch-5.4.2/bin:${PATH}"
-
-    # assume-role cli util:
-    # Add homebrew-installed ruby to path:
-    # (WARNING: THIS CAN CAUSE PROBLEMS!)
-    export PATH="/usr/local/opt/ruby/bin:$PATH"
-
-    # Add homebrew-ruby-gem-installed packages to path:
-    export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
-
-    # aws - load config file when using assume-role
-    export AWS_SDK_LOAD_CONFIG="1"
-fi
-
-# Tell git not to look for getext.sh
-# since pyenv has trouble with that
-export GIT_INTERNAL_GETTEXT_TEST_FALLBACKS=1
-
-if [[ "$HOSTNAME" == "bascom" ]]; then
-    # git tab completion
-    source ${HOME}/.git-completion.bash
-fi
 
 if [[ "$HOSTNAME" == "maya" ]]; then
 
@@ -93,8 +72,16 @@ if [[ "$HOSTNAME" == "kraken" ]]; then
 
     # gemini
     source $HOME/.gemini_api_key
-fi
 
+    # spicetify
+    export PATH=$PATH:/Users/charles/.spicetify
+    
+    # claude code
+    export PATH="$HOME/.local/bin:$PATH"
+    
+    # opencode
+    #export PATH=/Users/charles/.opencode/bin:$PATH
+fi
 
 # pyenv
 # https://github.com/pyenv/pyenv-installer

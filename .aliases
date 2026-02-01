@@ -10,6 +10,9 @@ git() {
 }
 
 
+alias gemini-flash='gemini --model gemini-2.5-flash'
+alias gemini-pro='gemini --model gemini-2.5-pro'
+
 # get rid of stupid annoying badges
 # ---------------------------------
 alias clearbadges='defaults write com.apple.systempreferences AttentionPrefBundleIDs 0 && killall Dock'
@@ -34,8 +37,10 @@ alias uuid="uuidgen"
 alias vp="[ -d vp ] || virtualenv -p python3 vp && source vp/bin/activate"
 if [[ "${HOSTNAME}" == "aptos" ]]; then
     alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.9-7.3.9/bin/pypy3 vpp && source vpp/bin/activate"
-else
-    alias vpp="[ -d vpp ] || virtualenv -p pypy3 vpp && source vpp/bin/activate"
+elif [[ "${HOSTNAME}" == "maya" ]]; then
+    alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.10-7.3.13/bin/pypy3 vpp && source vpp/bin/activate"
+elif [[ "${HOSTNAME}" == "kraken" ]]; then
+    alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.11-7.3.20/bin/pypy3 vpp && source vpp/bin/activate"
 fi
 
 # one-letter aliases
