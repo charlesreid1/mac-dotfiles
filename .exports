@@ -44,3 +44,5 @@ export MANPAGER='less -X';
 # https://stackoverflow.com/a/42265848/96656
 export GPG_TTY=$(tty);
 
+# custom ls colors - use light blue for directories
+export LSCOLORS=Gxfxcxdxbxegedabagacad
