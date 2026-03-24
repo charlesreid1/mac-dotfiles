@@ -10,6 +10,9 @@ git() {
 }
 
 
+alias gemini-flash='gemini --model gemini-2.5-flash'
+alias gemini-pro='gemini --model gemini-2.5-pro'
+
 # get rid of stupid annoying badges
 # ---------------------------------
 alias clearbadges='defaults write com.apple.systempreferences AttentionPrefBundleIDs 0 && killall Dock'
@@ -34,8 +37,10 @@ alias uuid="uuidgen"
 alias vp="[ -d vp ] || virtualenv -p python3 vp && source vp/bin/activate"
 if [[ "${HOSTNAME}" == "aptos" ]]; then
     alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.9-7.3.9/bin/pypy3 vpp && source vpp/bin/activate"
-else
-    alias vpp="[ -d vpp ] || virtualenv -p pypy3 vpp && source vpp/bin/activate"
+elif [[ "${HOSTNAME}" == "maya" ]]; then
+    alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.10-7.3.13/bin/pypy3 vpp && source vpp/bin/activate"
+elif [[ "${HOSTNAME}" == "kraken" ]]; then
+    alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.11-7.3.20/bin/pypy3 vpp && source vpp/bin/activate"
 fi
 
 # one-letter aliases
@@ -73,34 +78,29 @@ alias mv='mv -i'
 # ls aliases
 # --------------------
 # Detect which `ls` flavor is in use
+# https://gist.github.com/skyzyx/3438280b18e4f7c490db8a2a2ca0b9da
 
-LS=$(which ls)
-if $LS --color > /dev/null 2>&1; then # GNU `ls`
-    colorflag="--color"
-    export LS_COLORS='no=00:fi=00:di=01;31:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
-    groupflag="--group-directories-first"
-else # macOS `ls`
-    colorflag="-G"
-    export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
-    groupflag=""
-fi
+#if ls --version >/dev/null 2>&1; then 
+#    # GNU ls
+#else
+#    # BSD ls
+#fi
 
+LSBIN=$(which ls)
 
-
-alias ls="$LS -1 ${colorflag} ${groupflag}"
+# the --color flag works with either verison of ls
+alias ls='$LSBIN -lh --color'
 alias sl='ls'
 
-
-
 # List all files colorized in long format
-alias l="$LS -lhAF ${colorflag}"
+alias l="ls -lhAF --color"
 alias ll="l"
 
 # List all files colorized in long format, including dot files
 alias la="l -a"
 
 # List only directories
-alias lsd="$LS -lF ${colorflag} | grep --color=never '^d'"
+alias lsd="ls -lF --color | grep --color=never '^d'"
 
 
 alias lr='ls -r' # reverse

@@ -152,7 +152,7 @@ let &guicursor = &guicursor . ",a:blinkon0"
 "
 "  now you need to "infect" yourself
 "  (questionable word choices...)
-execute pathogen#infect()
+" execute pathogen#infect()
 
 
 
@@ -250,17 +250,17 @@ set textwidth=115
 " end up driving you mad.
 " Set textwidth to 0 or a different number for known (code) filetypes.
 
-" > Bugbear's documentation explains 88 vs 80:
-" > "it's like highway speed limits, we won't bother
-" > you if you overdo it by a few km/h".
-"
-" Turn character 80/88 red
-" (for visibility conforming to
-"  coding standards)
-" https://stackoverflow.com/questions/23246962/vim-highlight-a-single-character-at-column-80#23247938
-hi Bang ctermfg=red guifg=red
-"match Bang /\%>87v.*\%<89v/
-match Bang /\%>79v.*\%<81v/
+""" " > Bugbear's documentation explains 88 vs 80:
+""" " > "it's like highway speed limits, we won't bother
+""" " > you if you overdo it by a few km/h".
+""" "
+""" " Turn character 80/88 red
+""" " (for visibility conforming to
+""" "  coding standards)
+""" " https://stackoverflow.com/questions/23246962/vim-highlight-a-single-character-at-column-80#23247938
+""" hi Bang ctermfg=red guifg=red
+""" "match Bang /\%>87v.*\%<89v/
+""" match Bang /\%>79v.*\%<81v/
 
 
 
@@ -340,25 +340,25 @@ function! DisableIndent()
         set indentexpr&
 endfunction
 
-" fix latex highlighting in markdown
-function! MathAndLiquid()
-    "" Define certain regions
-    " Block math. Look for "$$[anything]$$"
-    syn region math start=/\$\$/ end=/\$\$/
-    " inline math. Look for "$[not $][anything]$"
-    syn match math_block '\$[^$].\{-}\$'
-
-    " Fenced code blocks, used in GitHub Flavored Markdown (GFM)
-    syn region highlight_block start='```' end='```'
-
-    "" Actually highlight those regions.
-    hi link math Statement
-    hi link math_block Function
-    hi link highlight_block Function
-endfunction
-
-" Call everytime we open a Markdown file
-autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
+""" " fix latex highlighting in markdown
+""" function! MathAndLiquid()
+"""     "" Define certain regions
+"""     " Block math. Look for "$$[anything]$$"
+"""     syn region math start=/\$\$/ end=/\$\$/
+"""     " inline math. Look for "$[not $][anything]$"
+"""     syn match math_block '\$[^$].\{-}\$'
+""" 
+"""     " Fenced code blocks, used in GitHub Flavored Markdown (GFM)
+"""     syn region highlight_block start='```' end='```'
+""" 
+"""     "" Actually highlight those regions.
+"""     hi link math Statement
+"""     hi link math_block Function
+"""     hi link highlight_block Function
+""" endfunction
+""" 
+""" " Call everytime we open a Markdown file
+""" autocmd BufRead,BufNewFile,BufEnter *.md,*.markdown call MathAndLiquid()
 
 
 
