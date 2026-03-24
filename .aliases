@@ -10,8 +10,18 @@ git() {
 }
 
 
-alias gemini-flash='gemini --model gemini-2.5-flash'
-alias gemini-pro='gemini --model gemini-2.5-pro'
+# ai tools
+# ---------------
+# Use the aws profile claude to run the command claude
+alias aws-claude="aws-vault exec claude -- claude"
+
+# Use the aws profile claude to run the command opencode
+alias aws-opencode="aws-vault exec claude -- opencode"
+
+alias aws-qwen="aws-vault exec claude -- opencode --model amazon-bedrock/qwen.qwen3-coder-480b-a35b-v1:0"
+alias aws-gemma="aws-vault exec claude -- opencode --model amazon-bedrock/google.gemma-3-27b-it"
+alias aws-kimi="aws-vault exec claude -- opencode --model amazon-bedrock/moonshot.kimi-k2-thinking"
+
 
 # get rid of stupid annoying badges
 # ---------------------------------
