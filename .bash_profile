@@ -5,15 +5,34 @@
 # to add your own non-committed machine-specific settings,
 # use ~/.extra
 
+
+###################################
+# Natera Netskope
+export AWS_CA_BUNDLE=~/.aws/nskp_config/netskope-cert-bundle.pem
+export REQUESTS_CA_BUNDLE=~/.aws/nskp_config/netskope-cert-bundle.pem
+export SSL_CERT_FILE=~/.aws/nskp_config/netskope-cert-bundle.pem
+export NODE_EXTRA_CA_CERTS=~/.aws/nskp_config/netskope-cert-bundle.pem
+
 ##################################
 # Natera Claude Code
 # https://go.confluence.natera.com/wiki/spaces/SRETOOLS/pages/383356332/Claude+Code+Onboarding
 export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=us-west-2
 export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2
+export AWS_PROFILE="claude"
+
+export CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000
+export MAX_THINKING_TOKENS=4096
+
 #export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-20250514-v1:0
-export ANTHROPIC_MODEL=us.anthropic.claude-opus-4-1-20250805-v1:0
-export ANTHROPIC_SMALL_FAST_MODEL=us.anthropic.claude-3-5-haiku-20241022-v1:0
+#export ANTHROPIC_MODEL=us.anthropic.claude-opus-4-1-20250805-v1:0
+#export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0
+#export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-5-20251101-v1:0
+#export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-6-v1:0
+export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-6-v1
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=us.anthropic.claude-haiku-4-5-20251001-v1:0
+
+export AWS_VAULT_KEYCHAIN_NAME="login"
 ###################################
 
 # SILENCE
@@ -129,7 +148,12 @@ if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# # nvm
+# # This is infuriatingly slow.
+# # Takes a full second to get through this, every terminal tab, every terminal window, every time
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Added by Antigravity
+export PATH="/Users/creid/.antigravity/antigravity/bin:$PATH"
