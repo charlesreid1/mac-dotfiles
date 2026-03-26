@@ -29,17 +29,11 @@ PATH="${HOME}/bin:${PATH}"
 if [[ "$HOSTNAME" == "maya" ]]; then
 
 	# Setting PATH for homebrew
-	PATH="$HOME/.local/bin:$PATH"
 	PATH="$HOME/Library/Python/3.6/bin:$PATH"
 
     # pypy
     # this should go after /usr/local/bin
     PATH="${PATH}:/usr/local/share/pypy3"
-
-    ### # some weird new homebrew thing??
-    ### # this is where python -> python3 lives now
-    ### # https://stackoverflow.com/a/45228901
-    ### PATH="/usr/local/opt/python/libexec/bin:${PATH}"
 
 	# Set up google cloud SDK
 	F1="/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
@@ -58,6 +52,11 @@ if [[ "$HOSTNAME" == "maya" ]]; then
     if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
     	complete -o default -o nospace -F _git g;
     fi;
+
+    # claude code
+    export PATH="$HOME/.local/bin:$PATH"
+    export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-6"
+    export ANTHROPIC_MODEL="claude-opus-4-6"
 fi
 
 if [[ "$HOSTNAME" == "kraken" ]]; then
@@ -65,10 +64,10 @@ if [[ "$HOSTNAME" == "kraken" ]]; then
     # homebrew
     eval "$(/usr/local/bin/brew shellenv)"
 
-    # node
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+    ### # node
+    ### export NVM_DIR="$HOME/.nvm"
+    ### [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    ### [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
     # gemini
     source $HOME/.gemini_api_key
@@ -78,6 +77,8 @@ if [[ "$HOSTNAME" == "kraken" ]]; then
     
     # claude code
     export PATH="$HOME/.local/bin:$PATH"
+    export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-6"
+    export ANTHROPIC_MODEL="claude-opus-4-6"
     
     # opencode
     #export PATH=/Users/charles/.opencode/bin:$PATH
