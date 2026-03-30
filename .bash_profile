@@ -16,6 +16,7 @@ export NODE_EXTRA_CA_CERTS=~/.aws/nskp_config/netskope-cert-bundle.pem
 ##################################
 # Natera Claude Code
 # https://go.confluence.natera.com/wiki/spaces/SRETOOLS/pages/383356332/Claude+Code+Onboarding
+export PATH="$HOME/.local/bin:$PATH"
 export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=us-west-2
 export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2
