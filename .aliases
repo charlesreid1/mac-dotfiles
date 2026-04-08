@@ -12,6 +12,7 @@ git() {
 
 # ai tools
 # ---------------
+alias opencode="echo 'use aws-* aliases (opus, deepseek, llama, mistral, qwen, gemma, kimi)'"
 # Use the aws profile claude to run the command claude
 alias aws-claude="aws-vault exec claude -- claude"
 
@@ -28,7 +29,7 @@ alias aws-sonnet35="aws-vault exec claude -- opencode --model amazon-bedrock/ant
 alias aws-opus="aws-vault exec claude -- opencode --model amazon-bedrock/anthropic.claude-opus-4-5-20251101-v1:0"
 
 # Advanced Reasoning / Specialist
-alias aws-deepseek-pro="aws-vault exec claude -- opencode --model amazon-bedrock/deepseek.r1-v1:0"
+alias aws-deepseek="aws-vault exec claude -- opencode --model amazon-bedrock/deepseek.r1-v1:0"
 alias aws-deepseek-flash="aws-vault exec claude -- opencode --model amazon-bedrock/deepseek.v3.2"
 alias aws-qwen="aws-vault exec claude -- opencode --model amazon-bedrock/qwen.qwen3-coder-next"
 
