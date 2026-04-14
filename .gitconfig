@@ -10,13 +10,10 @@
 [user]
     email = charlesreid1@gmail.com
     name = Charles Reid
-    signingkey = 078B7759B68B353A # aptos
-[includeIf "gitdir:~/codes/"] 
+[includeIf "gitdir:~/code/"]
     path = .gitconfig_charlesreid1
-    # path = ~/.gitconfig_charlesreid1
-[includeIf "gitdir:~/golly/"] 
+[includeIf "gitdir:~/golly/"]
     path = .gitconfig_ch4zm
-    # path = ~/.gitconfig_ch4zm
 
 [credential]
     helper = cache
@@ -126,7 +123,7 @@
     # Commit all changes
     ca = !git add -A && git commit -av
 
-    # Switch to a branch, creating it 
+    # Switch to a branch, creating it
     # from the current branch if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
