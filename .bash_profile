@@ -26,6 +26,18 @@ PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 PATH="${HOME}/bin:${PATH}"
 
+# claude code
+export PATH="$HOME/.local/bin:$PATH"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-6"
+export ANTHROPIC_MODEL="claude-opus-4-6"
+
+# gemini
+source $HOME/.gemini_api_key
+
+# deepseek
+source $HOME/.deepseek_api_key
+
+
 if [[ "$HOSTNAME" == "maya" ]]; then
 
 	# Setting PATH for homebrew
@@ -52,11 +64,6 @@ if [[ "$HOSTNAME" == "maya" ]]; then
     if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
     	complete -o default -o nospace -F _git g;
     fi;
-
-    # claude code
-    export PATH="$HOME/.local/bin:$PATH"
-    export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-6"
-    export ANTHROPIC_MODEL="claude-opus-4-6"
 fi
 
 if [[ "$HOSTNAME" == "kraken" ]]; then
@@ -69,19 +76,8 @@ if [[ "$HOSTNAME" == "kraken" ]]; then
     ### [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     ### [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-    # gemini
-    source $HOME/.gemini_api_key
-
     # spicetify
     export PATH=$PATH:/Users/charles/.spicetify
-    
-    # claude code
-    export PATH="$HOME/.local/bin:$PATH"
-    export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-6"
-    export ANTHROPIC_MODEL="claude-opus-4-6"
-    
-    # opencode
-    #export PATH=/Users/charles/.opencode/bin:$PATH
 fi
 
 # pyenv
@@ -121,14 +117,14 @@ shopt -s no_empty_cmd_completion
 #############################
 # ssh-agent setup
 ### SSH_ENV="$HOME/.ssh/agent-environment"
-### 
+###
 ### function start_agent {
 ###     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
 ###     chmod 600 "${SSH_ENV}"
 ###     . "${SSH_ENV}" > /dev/null
 ###     /usr/bin/ssh-add;
 ### }
-### 
+###
 ### # Source SSH settings, if applicable
 ### if [ -f "${SSH_ENV}" ]; then
 ###     . "${SSH_ENV}" > /dev/null
@@ -161,14 +157,14 @@ if [ -f /etc/bash_completion ]; then
 	source /etc/bash_completion;
 fi;
 
-if [[ "$HOSTNAME" == "bascom" ]]; then
-    # Enable tab completion for `g` by marking it as an alias for `git`
-    if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
-    	complete -o default -o nospace -F _git g;
-    fi;
-fi
-
 # shut up
 touch ${HOME}/.hushlogin
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export FILTER_BRANCH_SQUELCH_WARNING=1
+
+# rustup
+source "$HOME/.cargo/env"
+
+# Added by Antigravity
+export PATH="/Users/charles/.antigravity/antigravity/bin:$PATH"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
