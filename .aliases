@@ -88,11 +88,6 @@ alias mv='mv -i'
 # Detect which `ls` flavor is in use
 # https://gist.github.com/skyzyx/3438280b18e4f7c490db8a2a2ca0b9da
 
-#if ls --version >/dev/null 2>&1; then 
-#    # GNU ls
-#else
-#    # BSD ls
-#fi
 
 LSBIN=$(which ls)
 
@@ -254,16 +249,6 @@ function seawater() {
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
   export IP="charlesreid1.party"
-  ssh -p 5778 -Y charles@${IP} # the actual ssh call
-}
-
-alias burro="burro"
-function burro() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="173.255.210.178"
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
