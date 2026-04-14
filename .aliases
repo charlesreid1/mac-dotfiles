@@ -10,8 +10,16 @@ git() {
 }
 
 
-alias gemini-flash='gemini --model gemini-2.5-flash'
-alias gemini-pro='gemini --model gemini-2.5-pro'
+alias gemini-flash='gemini --model gemini-3-flash-preview'
+alias gemini-pro='gemini --model gemini-3-pro-preview'
+
+alias claude-haiku='claude --model claude-haiku-4-5'
+alias claude-sonnet='claude --model claude-sonnet-4-6'
+
+alias claude-deep='ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic" ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY" ANTHROPIC_MODEL="deepseek-chat" ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-chat" API_TIMEOUT_MS=600000 claude'
+# Also need to add:
+# export CLAUDE_CODE_MAX_TOKENS=4000
+# export CLAUDE_CODE_COMPACT_LEVEL=aggressive
 
 # get rid of stupid annoying badges
 # ---------------------------------
