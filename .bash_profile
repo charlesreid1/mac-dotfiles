@@ -161,10 +161,3 @@ fi;
 touch ${HOME}/.hushlogin
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export FILTER_BRANCH_SQUELCH_WARNING=1
-
-# rustup
-source "$HOME/.cargo/env"
-
-# Added by Antigravity
-export PATH="/Users/charles/.antigravity/antigravity/bin:$PATH"
-export PATH="/usr/local/opt/openjdk/bin:$PATH"
