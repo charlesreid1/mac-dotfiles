@@ -16,11 +16,16 @@ alias gemini-pro='gemini --model gemini-3-pro-preview'
 alias claude-haiku='claude --model claude-haiku-4-5'
 alias claude-sonnet='claude --model claude-sonnet-4-6'
 
-alias claude-deep="ANTHROPIC_BASE_URL='https://api.deepseek.com/anthropic'     ANTHROPIC_AUTH_TOKEN='$DEEPSEEK_API_KEY' ANTHROPIC_MODEL='deepseek-v4-pro'   ANTHROPIC_DEFAULT_HAIKU_MODEL='deepseek-v4-flash' API_TIMEOUT_MS=600000 claude"
-alias claude-deeplite="ANTHROPIC_BASE_URL='https://api.deepseek.com/anthropic' ANTHROPIC_AUTH_TOKEN='$DEEPSEEK_API_KEY' ANTHROPIC_MODEL='deepseek-v4-flash' ANTHROPIC_DEFAULT_HAIKU_MODEL='deepseek-v4-flash' API_TIMEOUT_MS=600000 claude"
-# Also need to add:
-# export CLAUDE_CODE_MAX_TOKENS=4000
-# export CLAUDE_CODE_COMPACT_LEVEL=aggressive
+alias claude-deep="ANTHROPIC_BASE_URL='https://api.deepseek.com/anthropic'     ANTHROPIC_AUTH_TOKEN='$DEEPSEEK_API_KEY' ANTHROPIC_MODEL='deepseek-v4-pro'   ANTHROPIC_DEFAULT_HAIKU_MODEL='deepseek-v4-flash' MAX_THINKING_TOKENS=0 API_TIMEOUT_MS=600000 claude"
+alias claude-deeplite="ANTHROPIC_BASE_URL='https://api.deepseek.com/anthropic' ANTHROPIC_AUTH_TOKEN='$DEEPSEEK_API_KEY' ANTHROPIC_MODEL='deepseek-v4-flash' ANTHROPIC_DEFAULT_HAIKU_MODEL='deepseek-v4-flash' MAX_THINKING_TOKENS=0 API_TIMEOUT_MS=600000 claude"
+
+# oh-my-openagent personal profiles
+alias omo-pd="command cp ~/code/oh-my-openagent-config/personal-deepseek.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: personal-deepseek'"
+alias omo-pg="command cp ~/code/oh-my-openagent-config/personal-gemini.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: personal-gemini'"
+alias omo-pm="command cp ~/code/oh-my-openagent-config/personal-multi.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: personal-multi'"
+alias omo-pb="command cp ~/code/oh-my-openagent-config/personal-budget.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: personal-budget'"
+
+alias council="OPENCODE_CONFIG_DIR=$HOME/code/opencode-config/bedrock-council-markdown-bio opencode --pure"
 
 # get rid of stupid annoying badges
 # ---------------------------------
