@@ -122,6 +122,8 @@ set splitright
 " this turns on syntax highlighting
 syntax on
 set synmaxcol=200 " don't syntax highlight past this many chars
+set maxmempattern=5000 " raise from default 1000 KB to avoid "maxmempattern" errors on large syntax regions
+set redrawtime=10000 " give syntax more time before giving up and disabling highlight
 set ic
 " this highlights search items
 set hls
