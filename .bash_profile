@@ -28,8 +28,8 @@ PATH="${HOME}/bin:${PATH}"
 
 # claude code
 export PATH="$HOME/.local/bin:$PATH"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-6"
-export ANTHROPIC_MODEL="claude-opus-4-6"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-7"
+export ANTHROPIC_MODEL="claude-opus-4-7"
 
 # gemini
 source $HOME/.gemini_api_key
@@ -64,6 +64,7 @@ if [[ "$HOSTNAME" == "maya" ]]; then
     if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
     	complete -o default -o nospace -F _git g;
     fi;
+
 fi
 
 if [[ "$HOSTNAME" == "kraken" ]]; then
