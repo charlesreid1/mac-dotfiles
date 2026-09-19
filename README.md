@@ -21,7 +21,8 @@ This script does the following:
 
 * Creates an SSH key
 * Installs scripts to the `~/scripts` directory
-* Installs vim plugins and creates the `~/.vim` directory structure
+* Creates the `~/.vim` directory structure and installs the
+  solarized color scheme (no vim plugins; see below)
 * Changes Mac settings and defaults
 * Installs and configures python (we use [pyenv](https://github.com/pyenv/pyenv)
   to install and manage multiple versions of Python
@@ -73,3 +74,11 @@ perform those tasks.
 We recommend you open the scripts and read them
 to see what they do.
 
+# Notes on Large Changes
+
+Big refactors of individual dotfiles get a standalone write-up so the git
+history is not a pile of unexplained magic:
+
+* [VIMRC_REFACTOR.md](VIMRC_REFACTOR.md): September 2026 rewrite of `.vimrc`
+  with Claude Code. Bugs fixed, dead weight removed, behaviour changes,
+  and the new plugin-free `,bb` Black shortcut.
