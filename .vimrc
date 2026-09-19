@@ -67,6 +67,8 @@ set splitright            " new vertical splits go right
 set nowrap                " no line wrapping ...
 set linebreak             " ... but if wrap is turned on, don't break mid-word
 set synmaxcol=200         " don't syntax highlight past this column (speed)
+set maxmempattern=5000    " raise from 1000 KB to avoid maxmempattern errors on large syntax regions
+set redrawtime=10000      " give syntax more time before it gives up and disables highlighting
 set mouse=a               " mouse in all modes
 let &guicursor .= ',a:blinkon0'  " murder that cursed blinking cursor (gvim)
 
