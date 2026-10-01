@@ -19,14 +19,21 @@ git() {
 alias aws-claude="ANTHROPIC_MODEL='global.anthropic.claude-opus-4-6-v1' aws-vault exec claude -- claude"
 alias aws-opus="ANTHROPIC_MODEL='global.anthropic.claude-opus-4-6-v1' aws-vault exec claude -- claude"
 alias aws-sonnet="ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-6' aws-vault exec claude -- claude"
+alias claude55="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5' aws-vault exec claude -- claude"
 
 # OPENCODE ANTHROPIC
-alias aws-opencode-claude="aws-vault exec claude -- opencode --model amazon-bedrock/anthropic.claude-opus-4-6-v1"
-alias aws-opencode-opus="aws-vault   exec claude -- opencode --model amazon-bedrock/anthropic.claude-opus-4-6-v1"
-alias aws-opencode-sonnet="aws-vault exec claude -- opencode --model amazon-bedrock/anthropic.claude-sonnet-4-6"
+alias opencode-claude="aws-vault exec claude -- opencode --model amazon-bedrock/anthropic.claude-opus-4-6-v1"
+alias opencode-opus="aws-vault   exec claude -- opencode --model amazon-bedrock/anthropic.claude-opus-4-6-v1"
+alias opencode-sonnet="aws-vault exec claude -- opencode --model amazon-bedrock/anthropic.claude-sonnet-5"
 
 # Plain Opencode
-alias aws-opencode="aws-vault        exec claude -- opencode"
+alias opencode="aws-vault        exec claude -- opencode"
+
+# backwards-compat: aws-* variants -> canonical opencode-*
+alias aws-opencode="opencode"
+alias aws-opencode-claude="opencode-claude"
+alias aws-opencode-opus="opencode-opus"
+alias aws-opencode-sonnet="opencode-sonnet"
 
 # Advanced Reasoning / Specialist
 alias aws-deepseek="aws-vault exec claude -- opencode --model amazon-bedrock/deepseek.v3.2"
