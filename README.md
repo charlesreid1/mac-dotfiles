@@ -66,6 +66,12 @@ level of the repository. These dotfiles are
 installed using the `bootstrap.sh` script.
 That's the main purpose of the repository.
 
+Config files that live under `~/.config/` (e.g.
+`~/.config/ghostty/config`) are kept at the same
+path under `.config/` in this repository. The
+bootstrap script's rsync creates the directories
+in your home directory if they don't exist yet.
+
 But because there are a lot of supplementary
 things to do when customizing a new or existing
 Mac, we have the `pre_boostrap.sh` script to
