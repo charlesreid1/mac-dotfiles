@@ -6,6 +6,29 @@
 # use ~/.extra
 
 
+#######################################################
+# okta-aws-cli for legacy account cli access
+
+export OKTA_AWSCLI_ORG_DOMAIN=natera.okta.com
+export OKTA_AWSCLI_OIDC_CLIENT_ID=0oaqmmhpit3hj0xl2297
+export OKTA_AWSCLI_OPEN_BROWSER="true"
+export OKTA_AWSCLI_WRITE_AWS_CREDENTIALS="true"
+
+# make sure to create ~/.okta/okta.yaml with this:
+# ---
+# awscli:
+#   profiles:
+#     natera-ecd-dev:
+#       aws-acct-fed-app-id: "0oa1oj1zdvEEV8WPJ297"
+#       aws-iam-idp: "arn:aws:iam::169413595963:saml-provider/OktaSSO-TF"
+#       aws-iam-role: "arn:aws:iam::169413595963:role/ReadOnly"
+
+export AWS_VAULT_BACKEND=file
+export AWS_VAULT_PROMPT=terminal
+# AWS_VAULT_FILE_PASSPHRASE lives in ~/.extra (mode 600, sourced below)
+
+
+
 ###################################
 # Natera Netskope
 export AWS_CA_BUNDLE=~/.aws/nskp_config/netskope-cert-bundle.pem
@@ -22,19 +45,28 @@ export AWS_REGION=us-west-2
 export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2
 export AWS_PROFILE="claude"
 
-export CLAUDE_CODE_MAX_OUTPUT_TOKENS=64000
-export MAX_THINKING_TOKENS=4096
 
+# Thinking depth and output length are governed by effortLevel in ~/.claude/settings.json
+
+# # Just pick the one you want through claude code, or set it in ~/.claude/settings.json
+# # This way of managing things gets too messy, available bedrock model names are inconsistent, it is a pain
 #export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-20250514-v1:0
 #export ANTHROPIC_MODEL=us.anthropic.claude-opus-4-1-20250805-v1:0
 #export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0
 #export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-5-20251101-v1:0
 #export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-6-v1:0
-export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-6-v1
-export ANTHROPIC_DEFAULT_HAIKU_MODEL=us.anthropic.claude-haiku-4-5-20251001-v1:0
+#export ANTHROPIC_MODEL=global.anthropic.claude-sonnet-5
+#export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-8-v1
+#export ANTHROPIC_DEFAULT_HAIKU_MODEL=us.anthropic.claude-haiku-4-5-20251001-v1:0
 
 export AWS_VAULT_KEYCHAIN_NAME="login"
+
+
 ###################################
+# Natera Synapse
+
+source ~creid/.synapse_api_key
+
 
 # SILENCE
 export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -157,9 +189,20 @@ fi;
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # shut up
-touch ${HOME}/.hushlogin
+[ -e "${HOME}/.hushlogin" ] || touch "${HOME}/.hushlogin"
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export FILTER_BRANCH_SQUELCH_WARNING=1
 
 # Added by Antigravity
 export PATH="/Users/creid/.antigravity/antigravity/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+. "$HOME/.cargo/env"
+
+# Dedupe PATH (first occurrence wins). ~/.bashrc re-sources this file in
+# non-login shells, which would otherwise prepend every entry again.
+PATH="$(printf '%s' "$PATH" | awk -v RS=: -v ORS=: '!seen[$0]++')"; PATH="${PATH%:}"
+export PATH
