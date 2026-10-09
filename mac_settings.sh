@@ -172,7 +172,12 @@ defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
 defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true
 
 # Disable press-and-hold for keys in favor of key repeat
+# (stops the accent popup when holding j/k in vim; apps read this at launch,
+# so quit and reopen the terminal after changing it)
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+# Per-app overrides win over the global setting; pin terminals explicitly
+defaults write com.cmuxterm.app ApplePressAndHoldEnabled -bool false
+defaults write com.googlecode.iterm2 ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 1
