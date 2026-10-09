@@ -1,0 +1,3 @@
+# Never download Pythons on demand; only `uv python install` may. Without this,
+# uv quietly fetches its own Pythons and prefers them over the pyenv default.
+python-downloads = "manual"
