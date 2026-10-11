@@ -17,6 +17,8 @@ PAGER="most"
 GOROOT=$HOME/go
 GOPATH=$HOME/go
 
+# v3sp3r
+export ANDROID_HOME="/usr/local/share/android-commandlinetools"
 
 # Set $PATH here
 PATH="${HOME}/scripts:${PATH}"
@@ -26,10 +28,15 @@ PATH="${PATH}:${GOROOT}/bin"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:${PATH}"
 PATH="${HOME}/bin:${PATH}"
 
+
 # claude code
 export PATH="$HOME/.local/bin:$PATH"
-export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-4-7"
-export ANTHROPIC_MODEL="claude-opus-4-7"
+export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-5-5"
+export ANTHROPIC_MODEL="claude-opus-5-5"
+# disable that stupid fullscreen mode
+export CLAUDE_CODE_NO_FLICKER=0
+# disable stupid complaints about deepseek model
+export CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT=1
 
 # gemini
 source $HOME/.gemini_api_key
@@ -162,3 +169,10 @@ fi;
 touch ${HOME}/.hushlogin
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export FILTER_BRANCH_SQUELCH_WARNING=1
+
+# rustup
+source "$HOME/.cargo/env"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
