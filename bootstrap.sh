@@ -4,23 +4,7 @@ git pull gh main;
 
 function doIt() {
     rsync \
-        --exclude ".git" \
-        --exclude ".gitignore" \
-        --exclude ".DS_Store" \
-        --exclude "bootstrap.sh" \
-        --exclude "brew_install.sh" \
-        --exclude "diff_dotfiles.sh" \
-        --exclude "go_install.sh" \
-        --exclude "go_setup.sh" \
-        --exclude "mac_settings.sh" \
-        --exclude "pre_bootstrap.sh" \
-        --exclude "python_install.sh" \
-        --exclude "python_setup.sh" \
-        --exclude "scripts_setup.sh" \
-        --exclude "set_machine_name.sh" \
-        --exclude "vim_setup.sh" \
-        --exclude "README.md" \
-        --exclude "LICENSE" \
+        --exclude-from "bootstrap_exclude.txt" \
         -avh --no-perms . ~;
     source ~/.bash_profile;
 }
