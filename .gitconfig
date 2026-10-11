@@ -12,6 +12,8 @@
     name = Charles Reid
 [includeIf "gitdir:~/code/"]
     path = .gitconfig_charlesreid1
+[includeIf "gitdir:~/castles/"]
+    path = .gitconfig_eeggwall
 [includeIf "gitdir:~/golly/"]
     path = .gitconfig_ch4zm
 
