@@ -16,44 +16,85 @@ git() {
 # Use the aws profile claude to run the command claude
 
 # ANTHROPIC
-alias aws-claude="ANTHROPIC_MODEL='global.anthropic.claude-opus-4-6-v1' aws-vault exec claude -- claude"
-alias aws-opus="ANTHROPIC_MODEL='global.anthropic.claude-opus-4-6-v1' aws-vault exec claude -- claude"
-alias aws-sonnet="ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-6' aws-vault exec claude -- claude"
-alias claude55="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5' aws-vault exec claude -- claude"
 
-# OPENCODE ANTHROPIC
-alias opencode-claude="aws-vault exec claude -- opencode --model amazon-bedrock/anthropic.claude-opus-4-6-v1"
-alias opencode-opus="aws-vault   exec claude -- opencode --model amazon-bedrock/anthropic.claude-opus-4-6-v1"
-alias opencode-sonnet="aws-vault exec claude -- opencode --model amazon-bedrock/anthropic.claude-sonnet-5"
+# 5.5
+alias aws-claude="echo 'use claude-aws' && ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
 
-# Plain Opencode
-alias opencode="aws-vault        exec claude -- opencode"
+# claude: Opus 5.5 for new sessions. On --resume <id> / --continue, reuse the
+# model the session last ran on (read from its transcript) instead of 5.5.
+unalias claude 2>/dev/null
+_claude_session_model() {
+    # $1 = session id; empty = most recent session in $PWD (for --continue)
+    local f m
+    if [ -n "$1" ]; then
+        for f in ~/.claude/projects/*/"$1".jsonl; do break; done
+    else
+        f=$(command ls -t ~/.claude/projects/"$(printf '%s' "$PWD" | sed 's/[^a-zA-Z0-9]/-/g')"/*.jsonl 2>/dev/null | head -1)
+    fi
+    [ -f "$f" ] || return 1
+    m=$(jq -r 'select(.type=="assistant") | .message.model // empty' "$f" 2>/dev/null | command grep -v '^<' | tail -1)
+    # transcripts often store the bare name; map back to the Bedrock ID we launch with
+    case "$m" in
+        us.*|global.*|eu.*|apac.*|arn:*) ;;
+        claude-opus-5-5)   m="us.anthropic.claude-opus-5-5[1m]" ;;
+        claude-fable-5-1)  m="global.anthropic.claude-fable-5-1" ;;
+        claude-sonnet-4-6) m="global.anthropic.claude-sonnet-4-6" ;;
+        claude-*)          m="us.anthropic.$m" ;;
+        *) return 1 ;;
+    esac
+    printf '%s\n' "$m"
+}
+claude() {
+    local model="us.anthropic.claude-opus-5-5[1m]" mode= sid= prev= a m
+    for a in "$@"; do
+        case "$prev" in -r|--resume) case "$a" in -*) ;; *) sid=$a ;; esac ;; esac
+        case "$a" in
+            -c|--continue) mode=continue ;;
+            --resume=*)    sid=${a#--resume=} ;;
+        esac
+        prev=$a
+    done
+    if [ -n "$sid" ] || [ "$mode" = continue ]; then
+        m=$(_claude_session_model "$sid") && model=$m && echo "claude: resuming on $model" >&2
+    fi
+    # aws-vault refuses to nest: inside an `aws-vault exec claude` shell (e.g. a
+    # Claude Code Bash tool), reuse its creds; inside another profile, drop the marker
+    if [ "$AWS_VAULT" = claude ]; then
+        ANTHROPIC_MODEL="$model" command claude "$@"
+    else
+        ANTHROPIC_MODEL="$model" env -u AWS_VAULT aws-vault exec claude -- claude "$@"
+    fi
+}
+alias claude-aws="claude"
+alias claude-opus="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
+alias claude55="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
+alias claude47="ANTHROPIC_MODEL='us.anthropic.claude-opus-4-7' aws-vault exec claude -- claude"
+alias claude-sonnet="ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-6' aws-vault exec claude -- claude"
+alias fable="ANTHROPIC_MODEL='global.anthropic.claude-fable-5-1' aws-vault exec claude -- claude"
+
+alias c55='claude55'
+alias cc55='claude55'
+
+
+# 5.5
+# opencode 2.x main command has no --model flag: model goes in inline config.
+# --standalone = private server per launch, so it inherits the aws-vault creds.
+alias opencode="OPENCODE_CONFIG_CONTENT='{\"model\":\"amazon-bedrock/us.anthropic.claude-opus-5-5\"}' aws-vault exec claude -- opencode --standalone"
+alias opencode-claude="opencode"
+alias opencode-opus="opencode"
+alias opencode-sonnet="OPENCODE_CONFIG_CONTENT='{\"model\":\"amazon-bedrock/global.anthropic.claude-sonnet-5-5\"}' aws-vault exec claude -- opencode --standalone"
 
 # backwards-compat: aws-* variants -> canonical opencode-*
 alias aws-opencode="opencode"
+alias opencode-aws="opencode"
 alias aws-opencode-claude="opencode-claude"
 alias aws-opencode-opus="opencode-opus"
 alias aws-opencode-sonnet="opencode-sonnet"
 
-# Advanced Reasoning / Specialist
-alias aws-deepseek="aws-vault exec claude -- opencode --model amazon-bedrock/deepseek.v3.2"
-alias aws-qwen="aws-vault     exec claude -- opencode --model amazon-bedrock/qwen.qwen3-coder-next"
 
-# Highly Capable Alternatives
-alias aws-llama="aws-vault   exec claude -- opencode --model amazon-bedrock/meta.llama3-3-70b-instruct-v1:0"
-alias aws-mistral="aws-vault exec claude -- opencode --model amazon-bedrock/mistral.mistral-large-3-675b-instruct"
-alias aws-gemma="aws-vault   exec claude -- opencode --model amazon-bedrock/google.gemma-3-27b-it"
-alias aws-nova="aws-vault    exec claude -- opencode --model amazon-bedrock/amazon.nova-pro-v1:0"
+# all other opencode aliases are in
+# ~/charlesreid1/opencode-config/.aliases
 
-# OPENCODE PROFILES (oh-my-openagent config swap)
-alias omo-anthropic="command cp ~/natera/creid/oh-my-openagent-config/anthropic.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: anthropic'"
-alias omo-anthropic47="command cp ~/natera/creid/oh-my-openagent-config/anthropic47.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: anthropic47'"
-alias omo-mistral="command cp ~/natera/creid/oh-my-openagent-config/mistral-test.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: mistral-test'"
-alias omo-qwen="command cp ~/natera/creid/oh-my-openagent-config/qwen-test.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: qwen-test'"
-alias omo-multi="command cp ~/natera/creid/oh-my-openagent-config/multi-provider.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: multi-provider'"
-alias omo-budget="command cp ~/natera/creid/oh-my-openagent-config/budget.json ~/.config/opencode/oh-my-openagent.json && echo 'omo: budget'"
-
-alias council="OPENCODE_CONFIG_DIR=~creid/charlesreid1/opencode-config/opencode-council aws-opencode"
 
 
 # get rid of stupid annoying badges
@@ -112,9 +153,13 @@ alias lsop='lsof -nP +c 15 | /usr/bin/grep LISTEN'
 
 # don't clobber
 # -----------------
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+# Interactive-human only. Claude Code sets CLAUDECODE=1 in its shells, and
+# -i prompts on a non-tty silently no-op there.
+if [ -z "$CLAUDECODE" ]; then
+    alias rm='rm -i'
+    alias cp='cp -i'
+    alias mv='mv -i'
+fi
 
 
 
@@ -125,16 +170,15 @@ alias mv='mv -i'
 # Detect which `ls` flavor is in use
 # https://gist.github.com/skyzyx/3438280b18e4f7c490db8a2a2ca0b9da
 
-#if ls --version >/dev/null 2>&1; then 
+#if ls --version >/dev/null 2>&1; then
 #    # GNU ls
 #else
 #    # BSD ls
 #fi
 
-LSBIN=$(which ls)
 
 # the --color flag works with either verison of ls
-alias ls='$LSBIN -lh --color'
+alias ls='command ls -lh --color'
 alias sl='ls'
 
 # List all files colorized in long format
@@ -150,8 +194,6 @@ alias lsd="ls -lF --color | grep --color=never '^d'"
 
 alias lr='ls -r' # reverse
 alias llr='ll -r' # reverse
-
-alias lt='$LS -lhAFt -G' # time
 
 alias lt='ls -t' # time
 alias llt='ll -t' # time
@@ -313,6 +355,7 @@ function burro() {
 
 # tmux list sessions: tls = tmux list-sessions
 alias tls='tmux list-sessions'
+alias tl='tmux list-sessions'
 
 # tmux new session: tns [name] = tmux new session named [name]
 alias tns='tmux new -s'
@@ -341,11 +384,11 @@ alias trw='tmux rename-window '
 # tmux vertical split window
 # tvsp
 # PREFIX + "
-tvsp='tmux split-window'
+alias tvsp='tmux split-window'
 
 # tmux horizontal split window
 # thsp
-thsp='tmux split-window -h'
+alias thsp='tmux split-window -h'
 
 
 
@@ -392,7 +435,13 @@ alias h="history"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
-alias grep='grep -i --color=auto --exclude-dir=vp'
+# -i is interactive-human only; inside Claude Code (CLAUDECODE=1) it would
+# silently change search results.
+if [ -z "$CLAUDECODE" ]; then
+    alias grep='grep -i --color=auto --exclude-dir=vp'
+else
+    alias grep='grep --color=auto --exclude-dir=vp'
+fi
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
@@ -482,3 +531,7 @@ alias reload="exec ${SHELL} -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
+
+# opencode-config aliases
+export OPENCODE_CONFIG_REPO="/Users/creid/charlesreid1/opencode-config"
+[ -f "$OPENCODE_CONFIG_REPO/.aliases" ] && source "$OPENCODE_CONFIG_REPO/.aliases"
