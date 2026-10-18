@@ -1,0 +1,27 @@
+[commit]
+    gpgsign = false
+[user]
+    email = charlesreid1@gmail.com
+    name = Charles Reid
+[includeIf "gitdir:~/code/"]
+    path = ~/.gitconfig_charlesreid1
+[includeIf "gitdir:~/castles/"]
+    path = ~/.gitconfig_eeggwall
+[includeIf "gitdir:~/golly/"]
+    path = ~/.gitconfig_ch4zm
+
+# Personal URL shorthands (not installed as defaults on the corporate laptop).
+[url "ssh://git@git.charlesreid1.com:222/"]
+    insteadOf = "cmr:"
+[url "git@github.com:"]
+    insteadOf = "gh:"
+    pushInsteadOf = "github:"
+    pushInsteadOf = "git://github.com/"
+[url "git://github.com/"]
+    insteadOf = "github:"
+[url "git@gist.github.com:"]
+    insteadOf = "gst:"
+    pushInsteadOf = "gist:"
+    pushInsteadOf = "git://gist.github.com/"
+[url "git://gist.github.com/"]
+    insteadOf = "gist:"

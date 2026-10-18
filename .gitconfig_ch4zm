@@ -1,0 +1,5 @@
+[user]
+    email = ch4zm.of.hellmouth@gmail.com
+    name = Ch4zm of Hellmouth
+[core]
+    sshCommand = "ssh -i ~/.ssh/id_rsa_ch4zm -o IdentitiesOnly=yes"

@@ -5,15 +5,9 @@
 ## replace any git@github stuff with gh:
 ## replace any ssh://git@g.... with cmr:
 
-[commit]
-    gpgsign = true
 [user]
-    email = creid@natera.com
-    name = Chaz Reid
-    signingkey = 836EB56BCCC83AE08C8A6F966DCC6C631CC1CC59
-[includeIf "gitdir:~/charlesreid1/"] 
-    path = .gitconfig_charlesreid1
-    # path = ~/.gitconfig_charlesreid1
+    # Do not infer an identity if bootstrap has not selected a machine yet.
+    useConfigOnly = true
 
 [credential]
     helper = cache
@@ -123,7 +117,7 @@
     # Commit all changes
     ca = !git add -A && git commit -av
 
-    # Switch to a branch, creating it 
+    # Switch to a branch, creating it
     # from the current branch if necessary
     go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
@@ -161,10 +155,6 @@
 [core]
 
     editor = vim
-
-    # Use custom `.gitignore` and `.gitattributes`
-    excludesfile = ~/.gitignore
-    attributesfile = ~/.gitattributes
 
     # Treat spaces before tabs and all kinds of trailing whitespace as an error
     # [default] trailing-space: looks for spaces at the end of a line
@@ -246,3 +236,7 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+
+# bootstrap.sh installs the selected machine's identity and signing settings.
+[include]
+    path = ~/.gitconfig_machine

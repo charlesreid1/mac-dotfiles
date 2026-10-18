@@ -44,12 +44,14 @@ else
 	yellow="\e[1;33m";
 fi;
 
-if [[ "${HOSTNAME}" == "maya" ]]; then
+if [[ "${DOTFILES_HOSTNAME:-$HOSTNAME}" == "maya" ]]; then
     userStyle="${orange}"
-elif [[ "${HOSTNAME}" == "cronus" ]]; then
+elif [[ "${DOTFILES_HOSTNAME:-$HOSTNAME}" == "cronus" ]]; then
     userStyle="${yellow}"
-elif [[ "${HOSTNAME}" == "aptos" ]]; then
+elif [[ "${DOTFILES_HOSTNAME:-$HOSTNAME}" == "aptos" ]]; then
     userStyle="${blue}"
+elif [[ "${DOTFILES_MACHINE}" == "kraken" ]]; then
+    userStyle="${cyan}"
 else
     userStyle="${green}"
 fi
@@ -71,7 +73,7 @@ PS1="\[\033]0;\W\007\]"; # working directory base name
 PS1+="\[${bold}\]\n"; # newline
 PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\] on ";
-PS1+="\[${hostStyle}\]natty"; # host
+PS1+="\[${hostStyle}\]${DOTFILES_MACHINE_LABEL:-\h}"; # host (natty or kraken)
 PS1+="\[${white}\] at ";
 PS1+="[ \D{%Y-%m-%d} - \t ] "; # date and time stamp
 PS1+="in ";

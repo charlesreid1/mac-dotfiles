@@ -9,94 +9,7 @@ git() {
     fi
 }
 
-
-# ai tools
-# ---------------
-### alias opencode="echo 'use aws-* aliases (opus, deepseek, llama, mistral, qwen, gemma, kimi)'"
-# Use the aws profile claude to run the command claude
-
-# ANTHROPIC
-
-# 5.5
-alias aws-claude="echo 'use claude-aws' && ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
-
-# claude: Opus 5.5 for new sessions. On --resume <id> / --continue, reuse the
-# model the session last ran on (read from its transcript) instead of 5.5.
-unalias claude 2>/dev/null
-_claude_session_model() {
-    # $1 = session id; empty = most recent session in $PWD (for --continue)
-    local f m
-    if [ -n "$1" ]; then
-        for f in ~/.claude/projects/*/"$1".jsonl; do break; done
-    else
-        f=$(command ls -t ~/.claude/projects/"$(printf '%s' "$PWD" | sed 's/[^a-zA-Z0-9]/-/g')"/*.jsonl 2>/dev/null | head -1)
-    fi
-    [ -f "$f" ] || return 1
-    m=$(jq -r 'select(.type=="assistant") | .message.model // empty' "$f" 2>/dev/null | command grep -v '^<' | tail -1)
-    # transcripts often store the bare name; map back to the Bedrock ID we launch with
-    case "$m" in
-        us.*|global.*|eu.*|apac.*|arn:*) ;;
-        claude-opus-5-5)   m="us.anthropic.claude-opus-5-5[1m]" ;;
-        claude-fable-5-1)  m="global.anthropic.claude-fable-5-1" ;;
-        claude-sonnet-4-6) m="global.anthropic.claude-sonnet-4-6" ;;
-        claude-*)          m="us.anthropic.$m" ;;
-        *) return 1 ;;
-    esac
-    printf '%s\n' "$m"
-}
-claude() {
-    local model="us.anthropic.claude-opus-5-5[1m]" mode= sid= prev= a m
-    for a in "$@"; do
-        case "$prev" in -r|--resume) case "$a" in -*) ;; *) sid=$a ;; esac ;; esac
-        case "$a" in
-            -c|--continue) mode=continue ;;
-            --resume=*)    sid=${a#--resume=} ;;
-        esac
-        prev=$a
-    done
-    if [ -n "$sid" ] || [ "$mode" = continue ]; then
-        m=$(_claude_session_model "$sid") && model=$m && echo "claude: resuming on $model" >&2
-    fi
-    # aws-vault refuses to nest: inside an `aws-vault exec claude` shell (e.g. a
-    # Claude Code Bash tool), reuse its creds; inside another profile, drop the marker
-    if [ "$AWS_VAULT" = claude ]; then
-        ANTHROPIC_MODEL="$model" command claude "$@"
-    else
-        ANTHROPIC_MODEL="$model" env -u AWS_VAULT aws-vault exec claude -- claude "$@"
-    fi
-}
-alias claude-aws="claude"
-alias claude-opus="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
-alias claude55="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
-alias claude47="ANTHROPIC_MODEL='us.anthropic.claude-opus-4-7' aws-vault exec claude -- claude"
-alias claude-sonnet="ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-6' aws-vault exec claude -- claude"
-alias fable="ANTHROPIC_MODEL='global.anthropic.claude-fable-5-1' aws-vault exec claude -- claude"
-
-alias c55='claude55'
-alias cc55='claude55'
-
-
-# 5.5
-# opencode 2.x main command has no --model flag: model goes in inline config.
-# --standalone = private server per launch, so it inherits the aws-vault creds.
-alias opencode="OPENCODE_CONFIG_CONTENT='{\"model\":\"amazon-bedrock/us.anthropic.claude-opus-5-5\"}' aws-vault exec claude -- opencode --standalone"
-alias opencode-claude="opencode"
-alias opencode-opus="opencode"
-alias opencode-sonnet="OPENCODE_CONFIG_CONTENT='{\"model\":\"amazon-bedrock/global.anthropic.claude-sonnet-5-5\"}' aws-vault exec claude -- opencode --standalone"
-
-# backwards-compat: aws-* variants -> canonical opencode-*
-alias aws-opencode="opencode"
-alias opencode-aws="opencode"
-alias aws-opencode-claude="opencode-claude"
-alias aws-opencode-opus="opencode-opus"
-alias aws-opencode-sonnet="opencode-sonnet"
-
-
-# all other opencode aliases are in
-# ~/charlesreid1/opencode-config/.aliases
-
-
-
+# Machine-specific AI aliases are loaded at the end of this file.
 # get rid of stupid annoying badges
 # ---------------------------------
 alias clearbadges='defaults write com.apple.systempreferences AttentionPrefBundleIDs 0 && killall Dock'
@@ -119,13 +32,11 @@ alias uuid="uuidgen"
 # ------------
 # https://unix.stackexchange.com/a/459586
 alias vp="[ -d vp ] || virtualenv -p python3 vp && source vp/bin/activate"
-if [[ "${HOSTNAME}" == "aptos" ]]; then
+if [[ "${DOTFILES_HOSTNAME:-$HOSTNAME}" == "aptos" ]]; then
     alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.9-7.3.9/bin/pypy3 vpp && source vpp/bin/activate"
-elif [[ "${HOSTNAME}" == "maya" ]]; then
+elif [[ "${DOTFILES_HOSTNAME:-$HOSTNAME}" == "maya" ]]; then
     alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.10-7.3.13/bin/pypy3 vpp && source vpp/bin/activate"
-elif [[ "${HOSTNAME}" == "kraken" ]]; then
-    alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.11-7.3.20/bin/pypy3 vpp && source vpp/bin/activate"
-elif [[ "${HOSTNAME}" == "creid-mac" ]]; then
+elif [[ "${DOTFILES_MACHINE}" == "kraken" || "${DOTFILES_MACHINE}" == "natty" ]]; then
     alias vpp="[ -d vpp ] || virtualenv --python ${HOME}/.pyenv/versions/pypy3.11-7.3.20/bin/pypy3 vpp && source vpp/bin/activate"
 fi
 
@@ -169,14 +80,6 @@ fi
 # --------------------
 # Detect which `ls` flavor is in use
 # https://gist.github.com/skyzyx/3438280b18e4f7c490db8a2a2ca0b9da
-
-#if ls --version >/dev/null 2>&1; then
-#    # GNU ls
-#else
-#    # BSD ls
-#fi
-
-
 # the --color flag works with either verison of ls
 alias ls='command ls -lh --color'
 alias sl='ls'
@@ -333,16 +236,6 @@ function seawater() {
   ~/ssh.file > /dev/null
   rm -f ~/ssh.file
   export IP="charlesreid1.party"
-  ssh -p 5778 -Y charles@${IP} # the actual ssh call
-}
-
-alias burro="burro"
-function burro() {
-  ssh-agent > ~/ssh.file # env vars in ssh.file
-  chmod +x ~/ssh.file # execute file
-  ~/ssh.file > /dev/null
-  rm -f ~/ssh.file
-  export IP="173.255.210.178"
   ssh -p 5778 -Y charles@${IP} # the actual ssh call
 }
 
@@ -532,6 +425,7 @@ alias reload="exec ${SHELL} -l"
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
-# opencode-config aliases
-export OPENCODE_CONFIG_REPO="/Users/creid/charlesreid1/opencode-config"
-[ -f "$OPENCODE_CONFIG_REPO/.aliases" ] && source "$OPENCODE_CONFIG_REPO/.aliases"
+# Corporate/personal tools stay isolated, while common aliases stay above.
+if [ -r "$HOME/.config/dotfiles/machines/$DOTFILES_MACHINE/aliases.sh" ]; then
+    source "$HOME/.config/dotfiles/machines/$DOTFILES_MACHINE/aliases.sh"
+fi

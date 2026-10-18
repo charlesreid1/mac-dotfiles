@@ -4,6 +4,10 @@ Repository containing dotfiles appropriate for use on Mac laptops.
 
 # Quick Start
 
+Both laptops use the same branch and files; machine differences are selected
+automatically. You no longer need a separate `natera` branch after the unified
+configuration has been merged into `main`.
+
 Before you begin, you should review all of the
 steps in this quick start, so that you understand
 what will happen when you run these scripts.
@@ -39,6 +43,9 @@ before you run any scripts.
 
 ## Step 2: Bootstrap
 
+Update the checkout explicitly before installing (`git pull --ff-only` on the
+shared branch). Bootstrap does **not** pull or switch branches for you.
+
 The bootstrap script will do a diff between your
 dotfiles and the new dotfiles, so you can see
 all the changes that you will lose (in red) and
@@ -58,6 +65,60 @@ Again, the bootstrap script will ask you for your
 confirmation before overwriting your files,
 but **you _will_ lose unsaved changes in your
 existing dotfiles**!
+
+After installing, open a new terminal or run `exec bash -l` to load the new
+configuration. Bootstrap does not source the profile inside its installer shell.
+
+## Machine Profiles
+
+`.config/dotfiles/machine.sh` is the single source of machine detection. It uses
+the `hostname` command and strips domain suffixes such as `.local`:
+
+| Hostname | Profile / prompt name | Settings |
+| --- | --- | --- |
+| `creid-mac` (also `natty`) | `natty` | Natera AWS/Okta, Netskope certificates, Bedrock tools, Synapse, signed work commits |
+| `kraken` | `kraken` | Personal AI tools and API keys, Go/Android/Spicetify, personal Git identities, unsigned commits |
+| Anything else | `generic` / actual hostname | Common shell settings; no corporate or personal AI setup or default Git identity |
+
+Common settings stay in `.bash_profile`, `.aliases`, `.exports`, `.gitconfig`,
+and the other top-level dotfiles. Each laptop's differences live under
+`.config/dotfiles/machines/<profile>/`:
+
+* `profile.sh`: environment variables, tool paths, optional local secret files.
+* `aliases.sh`: machine-specific aliases and functions (loaded after common aliases).
+* `gitconfig`: Git identity, signing, and per-directory identity overrides.
+
+Homebrew prefers `/opt/homebrew` on natty and `/usr/local` on kraken, falling back
+to the installed prefix if necessary. Both use `main`'s newer tmux shortcuts.
+Shared Ghostty, cmux, and uv configuration is retained.
+
+Git cannot test a hostname in its config, so bootstrap copies the selected
+`gitconfig` to `~/.gitconfig_machine`, which the shared `~/.gitconfig` includes.
+Shell startup does not change Git configuration. Re-run bootstrap after renaming
+a laptop or changing its Git profile. The existing `~/.gitconfig_eeggwall` for
+`~/castles/` is still a local file, not supplied by this repository.
+
+API keys remain in local files (`~/.synapse_api_key` on natty;
+`~/.gemini_api_key` and `~/.deepseek_api_key` on kraken). Missing keys, Rust setup,
+or pyenv no longer cause startup errors. Keep other private settings in
+`~/.extra`, which is still loaded last among the shell dotfiles.
+
+For testing or a renamed laptop, explicitly override detection:
+
+```bash
+DOTFILES_MACHINE=natty ./diff_dotfiles.sh
+DOTFILES_MACHINE=kraken ./diff_dotfiles.sh
+# Use the same override for bootstrap and future shell startup if needed.
+```
+
+Do not switch profiles inside an already configured shell: aliases and exported
+variables from the previous profile may remain. Use a fresh shell/environment.
+
+Run the isolated tests (they install only into temporary homes, not your home):
+
+```bash
+python3 -B tests/test_machine_profiles.py
+```
 
 # How Does This Repo Work?
 

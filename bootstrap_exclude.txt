@@ -1,0 +1,30 @@
+# Repo files that bootstrap.sh does not copy into ~ (rsync --exclude-from).
+# diff_dotfiles.sh reads this too, so the preview matches what gets copied.
+
+# git and macOS metadata
+.git
+.gitignore
+.DS_Store
+.gitconfig_machine
+
+# setup scripts
+bootstrap.sh
+bootstrap_exclude.txt
+brew_install.sh
+diff_dotfiles.sh
+go_install.sh
+go_setup.sh
+mac_settings.sh
+pre_bootstrap.sh
+python_install.sh
+python_setup.sh
+scripts_setup.sh
+set_machine_name.sh
+vim_setup.sh
+tests
+
+# repo docs
+README.md
+LICENSE
+plan-general-improvements.md
+VIMRC_REFACTOR.md

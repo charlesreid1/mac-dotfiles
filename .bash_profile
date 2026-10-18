@@ -6,70 +6,8 @@
 # use ~/.extra
 
 
-#######################################################
-# okta-aws-cli for legacy account cli access
-
-export OKTA_AWSCLI_ORG_DOMAIN=natera.okta.com
-export OKTA_AWSCLI_OIDC_CLIENT_ID=0oaqmmhpit3hj0xl2297
-export OKTA_AWSCLI_OPEN_BROWSER="true"
-export OKTA_AWSCLI_WRITE_AWS_CREDENTIALS="true"
-
-# make sure to create ~/.okta/okta.yaml with this:
-# ---
-# awscli:
-#   profiles:
-#     natera-ecd-dev:
-#       aws-acct-fed-app-id: "0oa1oj1zdvEEV8WPJ297"
-#       aws-iam-idp: "arn:aws:iam::169413595963:saml-provider/OktaSSO-TF"
-#       aws-iam-role: "arn:aws:iam::169413595963:role/ReadOnly"
-
-export AWS_VAULT_BACKEND=file
-export AWS_VAULT_PROMPT=terminal
-# AWS_VAULT_FILE_PASSPHRASE lives in ~/.extra (mode 600, sourced below)
-
-
-
-###################################
-# Natera Netskope
-export AWS_CA_BUNDLE=~/.aws/nskp_config/netskope-cert-bundle.pem
-export REQUESTS_CA_BUNDLE=~/.aws/nskp_config/netskope-cert-bundle.pem
-export SSL_CERT_FILE=~/.aws/nskp_config/netskope-cert-bundle.pem
-export NODE_EXTRA_CA_CERTS=~/.aws/nskp_config/netskope-cert-bundle.pem
-
-##################################
-# Natera Claude Code
-# https://go.confluence.natera.com/wiki/spaces/SRETOOLS/pages/383356332/Claude+Code+Onboarding
-export PATH="$HOME/.local/bin:$PATH"
-export CLAUDE_CODE_USE_BEDROCK=1
-export AWS_REGION=us-west-2
-export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2
-export AWS_PROFILE="claude"
-
-
-# Thinking depth and output length are governed by effortLevel in ~/.claude/settings.json
-
-# # Just pick the one you want through claude code, or set it in ~/.claude/settings.json
-# # This way of managing things gets too messy, available bedrock model names are inconsistent, it is a pain
-#export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-20250514-v1:0
-#export ANTHROPIC_MODEL=us.anthropic.claude-opus-4-1-20250805-v1:0
-#export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0
-#export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-5-20251101-v1:0
-#export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-6-v1:0
-#export ANTHROPIC_MODEL=global.anthropic.claude-sonnet-5
-#export ANTHROPIC_MODEL=global.anthropic.claude-opus-4-8-v1
-#export ANTHROPIC_DEFAULT_HAIKU_MODEL=us.anthropic.claude-haiku-4-5-20251001-v1:0
-
-export AWS_VAULT_KEYCHAIN_NAME="login"
-
-
-###################################
-# Natera Synapse
-
-source ~creid/.synapse_api_key
-
-
-# SILENCE
-export BASH_SILENCE_DEPRECATION_WARNING=1
+# Select the laptop once; all shell settings use the same profile.
+source "$HOME/.config/dotfiles/machine.sh" || return
 
 # Must
 EDITOR="vim"
@@ -78,38 +16,74 @@ GIT_EDITOR="vim"
 # Better man pages
 PAGER="most"
 
-# Set $PATH here
-PATH="${HOME}/scripts:${PATH}"
-PATH="/opt/homebrew/bin:$PATH"
-PATH="/opt/homebrew/sbin:${PATH}" # homebrew admin tools
-PATH="${HOME}/bin:${PATH}"
-PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+# Homebrew: prefer each laptop's existing install, with an architecture fallback.
+case "$DOTFILES_MACHINE" in
+    natty) HOMEBREW_PREFIX=/opt/homebrew ;;
+    kraken) HOMEBREW_PREFIX=/usr/local ;;
+    *)
+        if [ -x /opt/homebrew/bin/brew ]; then
+            HOMEBREW_PREFIX=/opt/homebrew
+        else
+            HOMEBREW_PREFIX=/usr/local
+        fi
+        ;;
+esac
+if [ ! -x "$HOMEBREW_PREFIX/bin/brew" ]; then
+    if [ -x /opt/homebrew/bin/brew ]; then
+        HOMEBREW_PREFIX=/opt/homebrew
+    elif [ -x /usr/local/bin/brew ]; then
+        HOMEBREW_PREFIX=/usr/local
+    fi
+fi
+if [ -x "$HOMEBREW_PREFIX/bin/brew" ]; then
+    eval "$("$HOMEBREW_PREFIX/bin/brew" shellenv)"
+fi
 
-# Tell git not to look for getext.sh
-# since pyenv has trouble with that
-export GIT_INTERNAL_GETTEXT_TEST_FALLBACKS=1
+# Set common PATH entries after brew shellenv so GNU coreutils remain preferred.
+PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin:$PATH"
+PATH="$HOME/.local/bin:$HOME/bin:$HOME/scripts:$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
 
-##################################################
-# Natera-specific things
-
-# Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-##################################################
-# goenv installer
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-
-# Only enable this if you are using go.
-# This will add half a second every time you
-# open a new shell.
-#eval "$(goenv init -)"
-
-# pyenv installer
-# https://github.com/pyenv/pyenv-installer
+# pyenv (optional on a freshly bootstrapped machine)
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
+PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init --path)"
+fi
+
+# Machine-specific environment precedes aliases so local API keys are available.
+if [ -r "$HOME/.config/dotfiles/machines/$DOTFILES_MACHINE/profile.sh" ]; then
+    source "$HOME/.config/dotfiles/machines/$DOTFILES_MACHINE/profile.sh"
+fi
+
+# Preserve the older laptop's optional setup without applying it to either new one.
+if [[ "$DOTFILES_HOSTNAME" == "maya" ]]; then
+
+	# Setting PATH for homebrew
+	PATH="$HOME/Library/Python/3.6/bin:$PATH"
+
+    # pypy
+    # this should go after /usr/local/bin
+    PATH="${PATH}:/usr/local/share/pypy3"
+
+	# Set up google cloud SDK
+	F1="/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+	F2="/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+	if [[ -f $F1 ]]; then
+		source $F1
+	fi
+	if [[ -f $F2 ]]; then
+		source $F2
+	fi
+
+    # git tab completion
+    [ ! -r "$HOME/.git-completion.bash" ] || source "$HOME/.git-completion.bash"
+
+    # Enable tab completion for `g` by marking it as an alias for `git`
+    if type _git &> /dev/null && [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
+        complete -o default -o nospace -F _git g;
+    fi;
+
+fi
 
 export PATH
 
@@ -141,14 +115,14 @@ shopt -s no_empty_cmd_completion
 #############################
 # ssh-agent setup
 ### SSH_ENV="$HOME/.ssh/agent-environment"
-### 
+###
 ### function start_agent {
 ###     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
 ###     chmod 600 "${SSH_ENV}"
 ###     . "${SSH_ENV}" > /dev/null
 ###     /usr/bin/ssh-add;
 ### }
-### 
+###
 ### # Source SSH settings, if applicable
 ### if [ -f "${SSH_ENV}" ]; then
 ###     . "${SSH_ENV}" > /dev/null
@@ -193,14 +167,10 @@ fi;
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export FILTER_BRANCH_SQUELCH_WARNING=1
 
-# Added by Antigravity
-export PATH="/Users/creid/.antigravity/antigravity/bin:$PATH"
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-. "$HOME/.cargo/env"
+[ ! -r "$HOME/.cargo/env" ] || source "$HOME/.cargo/env"
 
 # Dedupe PATH (first occurrence wins). ~/.bashrc re-sources this file in
 # non-login shells, which would otherwise prepend every entry again.

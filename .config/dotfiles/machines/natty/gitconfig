@@ -1,0 +1,8 @@
+[commit]
+    gpgsign = true
+[user]
+    email = creid@natera.com
+    name = Chaz Reid
+    signingkey = 836EB56BCCC83AE08C8A6F966DCC6C631CC1CC59
+[includeIf "gitdir:~/charlesreid1/"]
+    path = ~/.gitconfig_charlesreid1

@@ -1,0 +1,3 @@
+# Unknown machines must configure their own identity before committing.
+[user]
+    useConfigOnly = true
