@@ -26,5 +26,5 @@ tests
 # repo docs
 README.md
 LICENSE
-plan-general-improvements.md
+plans
 VIMRC_REFACTOR.md
