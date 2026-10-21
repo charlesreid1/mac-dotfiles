@@ -199,6 +199,22 @@ printf '%s' "$PATH"
                 self.assertEqual(len(entries), len(set(entries)))
                 self.assertEqual((self.home / ".gitconfig_machine").read_bytes(), before)
 
+    def test_bashrc_skips_profile_only_for_natty_ssh_commands(self):
+        for hostname, prompt, loaded in (
+            ("creid-mac", "", False),
+            ("creid-mac", "$ ", True),
+            ("kraken", "", True),
+        ):
+            with self.subTest(hostname=hostname, prompt=prompt):
+                self.install(hostname)
+                result = self.shell(f'''
+PS1='{prompt}'
+source "$HOME/.bashrc"
+printf '%s' "${{PYENV_ROOT-}}"
+''')
+                self.assertEqual(result.stderr, "")
+                self.assertEqual(result.stdout == str(self.home / ".pyenv"), loaded)
+
     def test_optional_secrets_precede_aliases_and_extra_can_override(self):
         self.install("kraken")
         (self.home / ".deepseek_api_key").write_text("export DEEPSEEK_API_KEY=test-key\n")
