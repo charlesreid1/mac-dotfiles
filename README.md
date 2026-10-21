@@ -76,7 +76,7 @@ the `hostname` command and strips domain suffixes such as `.local`:
 
 | Hostname | Profile / prompt name | Settings |
 | --- | --- | --- |
-| `creid-mac` (also `natty`) | `natty` | Natera AWS/Okta, Netskope certificates, Bedrock tools, Synapse, signed work commits |
+| `creid-mac` (also `natty`) | `natty` | Natera AWS/Okta, Netskope certificates, Bedrock tools, Synapse, work and personal Git identities, unsigned commits |
 | `kraken` | `kraken` | Personal AI tools and API keys, Go/Android/Spicetify, personal Git identities, unsigned commits |
 | Anything else | `generic` / actual hostname | Common shell settings; no corporate or personal AI setup or default Git identity |
 

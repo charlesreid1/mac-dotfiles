@@ -1,3 +1,5 @@
+[commit]
+    gpgsign = false
 [user]
     email = charlesreid1@gmail.com
     name = Charles Reid

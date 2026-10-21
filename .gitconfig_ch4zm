@@ -1,3 +1,5 @@
+[commit]
+    gpgsign = false
 [user]
     email = ch4zm.of.hellmouth@gmail.com
     name = Ch4zm of Hellmouth

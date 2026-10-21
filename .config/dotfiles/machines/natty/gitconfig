@@ -1,8 +1,14 @@
 [commit]
-    gpgsign = true
+    gpgsign = false
 [user]
     email = creid@natera.com
     name = Chaz Reid
     signingkey = 836EB56BCCC83AE08C8A6F966DCC6C631CC1CC59
 [includeIf "gitdir:~/charlesreid1/"]
     path = ~/.gitconfig_charlesreid1
+[includeIf "gitdir:~/pkg/"]
+    path = ~/.gitconfig_charlesreid1
+[includeIf "gitdir:~/golly/"]
+    path = ~/.gitconfig_ch4zm
+[includeIf "gitdir:~/castles/"]
+    path = ~/.gitconfig_eeggwall

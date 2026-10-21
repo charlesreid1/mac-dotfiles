@@ -148,7 +148,7 @@ test -z "${AWS_PROFILE-}${AWS_CA_BUNDLE-}${ANTHROPIC_MODEL-}"
 
     def test_git_identity_and_signing(self):
         for hostname, email, name, signing in (
-            ("creid-mac", "creid@natera.com", "Chaz Reid", "true"),
+            ("creid-mac", "creid@natera.com", "Chaz Reid", "false"),
             ("kraken", "charlesreid1@gmail.com", "Charles Reid", "false"),
         ):
             with self.subTest(hostname=hostname):
@@ -167,12 +167,19 @@ test -z "${AWS_PROFILE-}${AWS_CA_BUNDLE-}${ANTHROPIC_MODEL-}"
     def test_git_per_directory_overrides(self):
         for hostname, relative, email in (
             ("creid-mac", "charlesreid1/project", "charlesreid1@gmail.com"),
+            ("creid-mac", "pkg/project", "charlesreid1@gmail.com"),
+            ("creid-mac", "golly/project", "ch4zm.of.hellmouth@gmail.com"),
+            ("creid-mac", "castles/project", "engelbert.eggwall@gmail.com"),
             ("kraken", "golly/project", "ch4zm.of.hellmouth@gmail.com"),
         ):
-            with self.subTest(hostname=hostname):
+            with self.subTest(hostname=hostname, relative=relative):
                 self.install(hostname)
+                # The eeggwall identity is a local file, not part of the repo.
+                (self.home / ".gitconfig_eeggwall").write_text(
+                    "[user]\n    email = engelbert.eggwall@gmail.com\n"
+                )
                 repo = self.home / relative
-                repo.mkdir(parents=True)
+                repo.mkdir(parents=True, exist_ok=True)
                 self.run_command(["git", "init", str(repo)])
                 self.assertEqual(self.config("user.email", repo), email)
 
