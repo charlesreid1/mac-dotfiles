@@ -110,6 +110,7 @@ type -t claude
 alias opencode vpp
 alias gemini-pro claude-deep 2>/dev/null && exit 1
 test -z "${ANTHROPIC_DEFAULT_OPUS_MODEL-}"
+test "$CMUX_CLAUDE_HOOKS_DISABLED" = 1
 ''')
         self.assertEqual(result.stderr, "")
         self.assertIn("natty\nclaude\n1\n", result.stdout)
@@ -126,7 +127,7 @@ shopt -s expand_aliases
 source "$HOME/.bash_profile"
 printf '%s\\n' "$DOTFILES_MACHINE" "$ANTHROPIC_MODEL" "$PS1" "$LSCOLORS"
 alias claude gemini-pro claude-deep omo-pd council vpp
-test -z "${AWS_PROFILE-}${AWS_CA_BUNDLE-}${CLAUDE_CODE_USE_BEDROCK-}${OKTA_AWSCLI_ORG_DOMAIN-}${OPENCODE_CONFIG_REPO-}"
+test -z "${AWS_PROFILE-}${AWS_CA_BUNDLE-}${CLAUDE_CODE_USE_BEDROCK-}${OKTA_AWSCLI_ORG_DOMAIN-}${OPENCODE_CONFIG_REPO-}${CMUX_CLAUDE_HOOKS_DISABLED-}"
 ''')
         self.assertEqual(result.stderr, "")
         self.assertIn("kraken\nclaude-opus-5-5\n", result.stdout)

@@ -31,6 +31,7 @@ export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=us-west-2
 export ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2
 export AWS_PROFILE="claude"
+export CMUX_CLAUDE_HOOKS_DISABLED=1
 # Thinking depth/output length: effortLevel in ~/.claude/settings.json.
 
 # Natera Synapse (optional local secret)
