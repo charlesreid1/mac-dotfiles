@@ -1,0 +1,7 @@
+[commit]
+    gpgsign = false
+[user]
+    email = engelbert.eggwall@gmail.com
+    name = Engelbert Eggwall
+[core]
+    sshCommand = ssh -i ~/.ssh/id_rsa_eegg -o IdentitiesOnly=yes

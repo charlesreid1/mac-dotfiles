@@ -171,18 +171,51 @@ test -z "${AWS_PROFILE-}${AWS_CA_BUNDLE-}${ANTHROPIC_MODEL-}"
             ("creid-mac", "pkg/project", "charlesreid1@gmail.com"),
             ("creid-mac", "golly/project", "ch4zm.of.hellmouth@gmail.com"),
             ("creid-mac", "castles/project", "engelbert.eggwall@gmail.com"),
+            ("kraken", "code/project", "charlesreid1@gmail.com"),
             ("kraken", "golly/project", "ch4zm.of.hellmouth@gmail.com"),
+            ("kraken", "castles/project", "engelbert.eggwall@gmail.com"),
         ):
             with self.subTest(hostname=hostname, relative=relative):
                 self.install(hostname)
-                # The eeggwall identity is a local file, not part of the repo.
-                (self.home / ".gitconfig_eeggwall").write_text(
-                    "[user]\n    email = engelbert.eggwall@gmail.com\n"
-                )
                 repo = self.home / relative
                 repo.mkdir(parents=True, exist_ok=True)
                 self.run_command(["git", "init", str(repo)])
                 self.assertEqual(self.config("user.email", repo), email)
+
+    def test_overlay_installs_only_the_selected_machines_files(self):
+        for hostname, keys in (
+            ("creid-mac", {
+                ".gitconfig_charlesreid1": "id_charlesreid1_ed25519",
+                ".gitconfig_ch4zm": "id_ch4zm_ed25519",
+                ".gitconfig_eeggwall": "id_eeggwall_ed25519",
+            }),
+            ("kraken", {
+                ".gitconfig_ch4zm": "id_rsa_ch4zm",
+                ".gitconfig_eeggwall": "id_rsa_eegg",
+            }),
+            ("unrecognized", {}),
+        ):
+            with self.subTest(hostname=hostname):
+                # rsync never deletes, so each machine needs a fresh home.
+                self.home = self.base / hostname
+                self.home.mkdir()
+                self.env["HOME"] = str(self.home)
+                self.install(hostname)
+                for name in (".gitconfig_charlesreid1", ".gitconfig_ch4zm", ".gitconfig_eeggwall"):
+                    path = self.home / name
+                    if name in keys:
+                        self.assertIn(f"~/.ssh/{keys[name]} ", path.read_text())
+                    else:
+                        self.assertFalse(path.exists(), name)
+                self.assertFalse((self.home / ".config/dotfiles/machines/natty/home").exists())
+
+    def test_no_overlay_file_shadows_a_shared_file(self):
+        # The overlay rsync runs second, so a shared copy would silently lose.
+        for overlay in (ROOT / ".config/dotfiles/machines").glob("*/home"):
+            for path in overlay.rglob("*"):
+                if path.is_file():
+                    relative = path.relative_to(overlay)
+                    self.assertFalse((ROOT / relative).exists(), relative)
 
     def test_shell_reload_keeps_path_deduplicated_and_git_unchanged(self):
         for hostname in ("creid-mac", "kraken"):
@@ -259,6 +292,8 @@ alias claude-deep
         result = self.run_command(["/bin/bash", str(ROOT / "diff_dotfiles.sh")])
         self.assertIn("Previewing dotfiles for kraken", result.stdout)
         self.assertIn(str(self.home / ".gitconfig_machine"), result.stdout)
+        self.assertIn(str(self.home / ".gitconfig_eeggwall"), result.stdout)
+        self.assertNotIn(str(self.home / ".gitconfig_charlesreid1"), result.stdout)
         self.assertIn(str(self.home / ".config/dotfiles/machine.sh"), result.stdout)
         self.assertIn("New file:", result.stdout)
         self.assertNotIn(str(self.home / "tests/test_machine_profiles.py"), result.stdout)

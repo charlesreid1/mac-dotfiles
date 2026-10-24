@@ -37,6 +37,10 @@ while IFS= read -r file; do
     preview_file "$HOME/$file" "$SCRIPT_DIR/$file" || exit 1
 done <<< "$FILES"
 
-# This selected include is installed separately after rsync.
-preview_file "$HOME/.gitconfig_machine" \
-    "$SCRIPT_DIR/.config/dotfiles/machines/$DOTFILES_MACHINE/gitconfig" || exit 1
+# The selected machine's home/ overlay is installed separately after rsync.
+OVERLAY="$SCRIPT_DIR/.config/dotfiles/machines/$DOTFILES_MACHINE/home"
+OVERLAY_FILES=$(rsync -an --out-format '%n' "$OVERLAY/" "$EMPTY_DIR/") || exit 1
+while IFS= read -r file; do
+    case "$file" in ''|*/) continue ;; esac
+    preview_file "$HOME/$file" "$OVERLAY/$file" || exit 1
+done <<< "$OVERLAY_FILES"

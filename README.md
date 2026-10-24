@@ -86,7 +86,11 @@ and the other top-level dotfiles. Each laptop's differences live under
 
 * `profile.sh`: environment variables, tool paths, optional local secret files.
 * `aliases.sh`: machine-specific aliases and functions (loaded after common aliases).
-* `gitconfig`: Git identity, signing, and per-directory identity overrides.
+* `home/`: files copied into `~` after the shared dotfiles, for files whose
+  contents differ per laptop. `home/.gitconfig_machine` holds the Git identity,
+  signing, and per-directory identity overrides; the `.gitconfig_ch4zm`,
+  `.gitconfig_eeggwall`, and (natty only) `.gitconfig_charlesreid1` identities
+  name that laptop's SSH key.
 
 Homebrew prefers `/opt/homebrew` on natty and `/usr/local` on kraken, falling back
 to the installed prefix if necessary. Both use `main`'s newer tmux shortcuts.
@@ -95,10 +99,12 @@ Shared Ghostty, cmux, and uv configuration is retained. cmux reads
 app is older.
 
 Git cannot test a hostname in its config, so bootstrap copies the selected
-`gitconfig` to `~/.gitconfig_machine`, which the shared `~/.gitconfig` includes.
-Shell startup does not change Git configuration. Re-run bootstrap after renaming
-a laptop or changing its Git profile. The existing `~/.gitconfig_eeggwall` for
-`~/castles/` is still a local file, not supplied by this repository.
+profile's `home/` into `~`; the shared `~/.gitconfig` includes the
+`~/.gitconfig_machine` it installs. Shell startup does not change Git
+configuration. Re-run bootstrap after renaming a laptop or changing its Git
+profile. A file must not exist both at the top level and in a `home/` overlay:
+the overlay is copied second and would silently win. Bootstrap never deletes, so
+a file dropped from an overlay stays in `~` until removed by hand.
 
 API keys remain in local files (`~/.synapse_api_key` on natty;
 `~/.gemini_api_key` and `~/.deepseek_api_key` on kraken). Missing keys, Rust setup,

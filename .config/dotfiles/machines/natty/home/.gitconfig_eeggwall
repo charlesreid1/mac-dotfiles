@@ -1,0 +1,7 @@
+[commit]
+    gpgsign = false
+[user]
+    email = engelbert.eggwall@gmail.com
+    name = Engelbert Eggwall
+[core]
+    sshCommand = ssh -i ~/.ssh/id_eeggwall_ed25519 -o IdentitiesOnly=yes

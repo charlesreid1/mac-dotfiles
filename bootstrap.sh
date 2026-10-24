@@ -10,10 +10,11 @@ function doIt() {
         --exclude-from "$SCRIPT_DIR/bootstrap_exclude.txt" \
         -avh --no-perms "$SCRIPT_DIR/" "$HOME/" || return 1
 
-    # Git cannot branch on hostname. Install an include file using the same
-    # machine selection as the shell, with no Git mutations during shell startup.
-    cp "$SCRIPT_DIR/.config/dotfiles/machines/$DOTFILES_MACHINE/gitconfig" \
-        "$HOME/.gitconfig_machine" || return 1
+    # Files that differ per laptop (Git identities, SSH keys) come from the
+    # selected machine's home/ overlay. No --exclude-from: its .gitconfig_machine
+    # line would block the overlay's copy.
+    rsync -avh --no-perms \
+        "$SCRIPT_DIR/.config/dotfiles/machines/$DOTFILES_MACHINE/home/" "$HOME/" || return 1
 
     # cmux before 0.64.0 silently ignores ~/.config/cmux/cmux.json.
     local cmux_version cmux_major cmux_minor
