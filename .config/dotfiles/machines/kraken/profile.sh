@@ -1,8 +1,5 @@
 # Personal laptop (hostname: kraken).
 
-GOROOT="$HOME/go"
-GOPATH="$HOME/go"
-PATH="$PATH:$GOROOT/bin"
 export ANDROID_HOME="$HOMEBREW_PREFIX/share/android-commandlinetools"
 
 export ANTHROPIC_DEFAULT_OPUS_MODEL="claude-opus-5-5"
