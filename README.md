@@ -90,7 +90,9 @@ and the other top-level dotfiles. Each laptop's differences live under
 
 Homebrew prefers `/opt/homebrew` on natty and `/usr/local` on kraken, falling back
 to the installed prefix if necessary. Both use `main`'s newer tmux shortcuts.
-Shared Ghostty, cmux, and uv configuration is retained.
+Shared Ghostty, cmux, and uv configuration is retained. cmux reads
+`~/.config/cmux/cmux.json` only from 0.64.0 on; bootstrap warns when the installed
+app is older.
 
 Git cannot test a hostname in its config, so bootstrap copies the selected
 `gitconfig` to `~/.gitconfig_machine`, which the shared `~/.gitconfig` includes.
