@@ -5,7 +5,7 @@ alias astra='opencode --model openrouter/openai/gpt-6-astra-pro'
 alias gemini-flash='gemini --model gemini-3-flash-preview'
 alias gemini-pro='gemini --model gemini-3-pro-preview'
 
-alias claude='command claude --model claude-opus-5-5 --settings ~/.claude/contexts/personal/settings.json'
+alias claude='command claude --model claude-opus-5-5 --settings ~/.claude/contexts/kraken/settings.json'
 alias claude-haiku='claude --model claude-haiku-4-5'
 alias claude-sonnet='claude --model claude-sonnet-4-6'
 
