@@ -98,7 +98,7 @@ With `-c`, you give the whole command line and `{t}` stands for each item.
 This is how the workflows below start their agents:
 
 ```bash
-hc swarm -c 'claude --plugin-dir ~/.config/hc/workflows/jira-team -w {t} -n {t} "/jira-team:ticket-mr {t}"' JIRA-101 JIRA-102
+hc swarm -c 'claude --plugin-dir ~/.claude/session-plugins/jira-team -w {t} -n {t} "/jira-team:ticket-mr {t}"' JIRA-101 JIRA-102
 ```
 
 Item names may use letters, digits, `.`, `_` and `-`, since each one becomes a
@@ -157,11 +157,12 @@ workflow answers the same five questions:
 * **Lead:** what the lead does with the reports: collect them once, or run
   rounds that send work back.
 
-Two workflows ship with this repo, under `.config/hc/workflows/` (installed
-to `~/.config/hc/workflows/` by bootstrap). The first is a single round, the
-second runs repeated rounds, so between them they show both shapes.
+The workflows live in the dot-claude repo, in `session-plugins/`
+(`~/.claude/session-plugins/` on each machine; its Readme's "Session plugins"
+section covers the folder). Two are there now: the first is a single round,
+the second runs repeated rounds, so between them they show both shapes.
 
-### Roles and recipes are Claude plugins
+### Roles and recipes as Claude plugins
 
 A workflow's recipes and roles live in a Claude Code plugin: a folder that
 Claude loads for one session with `--plugin-dir`. Nothing is installed
@@ -180,7 +181,7 @@ docs-team/
   `skills/draft-doc` becomes `/docs-team:draft-doc`. Putting the skill at the
   start of the prompt runs it, and the text after it reaches the skill as
   `$ARGUMENTS`:
-  `claude --plugin-dir ~/.config/hc/workflows/docs-team "/docs-team:draft-doc intro"`.
+  `claude --plugin-dir ~/.claude/session-plugins/docs-team "/docs-team:draft-doc intro"`.
   The same works through `hc send`, so a lead can hand an agent its next step:
   `hc send intro "/docs-team:revise-doc intro 1"`.
 * **A role is an agent definition.** `--agent docs-team:reviewer` starts the
@@ -211,7 +212,7 @@ docs-team/
 Start a lead in the repo's workspace (a plain `claude` in its first tab) and
 tell it:
 
-> Run `hc swarm -c 'claude --plugin-dir ~/.config/hc/workflows/jira-team -w {t} -n {t} "/jira-team:ticket-mr {t}"' JIRA-101 JIRA-102 JIRA-103`.
+> Run `hc swarm -c 'claude --plugin-dir ~/.claude/session-plugins/jira-team -w {t} -n {t} "/jira-team:ticket-mr {t}"' JIRA-101 JIRA-102 JIRA-103`.
 > Answer questions from the reports if the tickets settle them; otherwise ask
 > me. When every ticket has reported, list the merge requests with a
 > one-line summary each.
@@ -264,15 +265,15 @@ To run it, open a tab in the project directory and start the lead with the
 plugin:
 
 ```bash
-claude --plugin-dir ~/.config/hc/workflows/docs-team -n lead "/docs-team:run-rounds 2"
+claude --plugin-dir ~/.claude/session-plugins/docs-team -n lead "/docs-team:run-rounds 2"
 ```
 
 ### Making a new workflow
 
 * **Answer the five questions** first, in a few lines each.
-* **Copy a plugin:** start from `docs-team` (rounds) or `jira-team` (one
-  pass), rename the folder, and set the new name in
-  `.claude-plugin/plugin.json`.
+* **Copy a plugin:** in dot-claude's `session-plugins/`, start from
+  `docs-team` (rounds) or `jira-team` (one pass), rename the folder, and set
+  the new name in `.claude-plugin/plugin.json`.
 * **Write the recipes:** each one names its inputs, the one file or branch it
   may change, and ends with exactly one `hc report` command in a fixed
   format. The lead reads those reports, so the format is the interface
@@ -285,7 +286,7 @@ claude --plugin-dir ~/.config/hc/workflows/docs-team -n lead "/docs-team:run-rou
 * **Validate** with `claude plugin validate`, then try it on two items before
   twenty.
 
-### Why not Claude Code's agent teams
+### Claude Code's agent teams
 
 Claude Code has a built-in "agent teams" feature with a lead, teammates and
 messaging. It is experimental and off by default, it ignores an agent

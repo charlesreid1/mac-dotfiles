@@ -1,1 +1,0 @@
-{"name": "jira-team", "version": "0.1.0", "description": "One agent per Jira ticket, each opening a merge request and reporting to a lead"}
