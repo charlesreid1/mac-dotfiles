@@ -1,0 +1,40 @@
+# herdr config (~/.config/herdr/config.toml), installed by bootstrap.sh.
+# Keys follow ~/.tmux.conf so tmux habits carry over; HERDR.md in the dotfiles
+# repo is the cheat sheet. Every default: herdr --default-config
+# Apply changes: prefix R, or herdr server reload-config
+
+onboarding = false
+
+[keys]
+prefix = "ctrl+t"
+
+# Tabs are tmux windows: c, n/p, space/backspace, 1-9.
+new_tab = ["prefix+c", "prefix+ctrl+c"]
+next_tab = ["prefix+n", "prefix+ctrl+n", "prefix+space"]
+previous_tab = ["prefix+p", "prefix+ctrl+p", "prefix+backspace"]
+rename_tab = ["prefix+shift+t", "prefix+comma"]
+close_tab = ["prefix+shift+x", "prefix+&"]
+
+# Splits: v | % side by side, s _ - stacked (s was settings).
+split_vertical = ["prefix+v", "prefix+|", "prefix+%"]
+split_horizontal = ["prefix+s", "prefix+_", "prefix+minus"]
+settings = "prefix+shift+s"
+
+# Workspaces are tmux sessions: ( ) cycle, $ renames, d detaches.
+previous_workspace = "prefix+("
+next_workspace = "prefix+)"
+rename_workspace = ["prefix+shift+w", "prefix+$"]
+detach = ["prefix+q", "prefix+d"]
+
+# Agents: a / A walk the agents, o jumps to the latest notification,
+# g opens the picker (b = blocked, d = done).
+next_agent = "prefix+a"
+previous_agent = "prefix+shift+a"
+
+[ui]
+# The agent list puts blocked and done ahead of working.
+agent_panel_sort = "priority"
+prompt_new_workspace_name = false
+
+[ui.toast]
+delivery = "herdr"

@@ -41,6 +41,10 @@ echo "About to run brew installation script"
 sleep 2
 ./brew_install.sh
 
+echo "About to install herdr"
+sleep 2
+./herdr_install.sh
+
 echo "About to set shell to bash"
 if [ -f "/usr/local/bin/bash" ]; then
     BASH="/usr/local/bin/bash"

@@ -33,6 +33,7 @@ This script does the following:
   side-by-side)
 * Installs Homebrew (the Mac package manager)
 * Installs useful packages using Homebrew
+* Installs herdr from its release binaries (`herdr_install.sh`)
 * Sets bash as the default shell (happens after
   the Homebrew version of bash has been installed)
 
@@ -183,3 +184,9 @@ history is not a pile of unexplained magic:
 * [VIMRC_REFACTOR.md](VIMRC_REFACTOR.md): September 2026 rewrite of `.vimrc`
   with Claude Code. Bugs fixed, dead weight removed, behaviour changes,
   and the new plugin-free `,bb` Black shortcut.
+
+# herdr
+
+[HERDR.md](HERDR.md) is the crash course: herdr (an agent-aware terminal
+multiplexer) with tmux's keys from `.config/herdr/config.toml`, and the
+`scripts/hc` wrapper for one-agent-per-ticket swarms.

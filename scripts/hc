@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+# hc: herdr helpers for agent swarms. One workspace per repo, one tab per
+# ticket, and helpers report back to the pane that started them.
+# Guide: HERDR.md in the mac dotfiles repo.
+set -euo pipefail
+
+die() { printf 'hc: %s\n' "$*" >&2; exit 1; }
+
+usage() {
+    cat <<'EOF'
+Core:
+hc run [--fg] [--name N] [--cwd D] -- CMD [ARG...]
+                                   new tab in the repo's workspace running CMD
+hc swarm [-p TEMPLATE] TICKET...   a tab per ticket: claude -w T -n T "TEMPLATE"
+                                   ({t} in TEMPLATE becomes the ticket)
+hc report TEXT...                  submit TEXT (or stdin) to the pane that ran hc run
+
+Secondary:
+hc send TARGET TEXT...             submit TEXT to a tab label, agent name or pane id
+hc ls                              agents and their states
+hc mop [DIR]                       prune worktrees; list the agent worktrees left
+hc space [DIR]                     workspace id for DIR's repo (created if missing)
+EOF
+}
+
+# Main checkout of the repo containing $1, even from inside a worktree.
+repo_root() {
+    local common
+    common=$(git -C "$1" rev-parse --path-format=absolute --git-common-dir 2>/dev/null) \
+        || die "$1 is not inside a git repository"
+    dirname "$common"
+}
+
+cmd_space() {
+    local root label ws
+    root=$(repo_root "${1:-$PWD}")
+    label=$(basename "$root")
+    ws=$(herdr workspace list | jq -r --arg l "$label" \
+        'first(.result.workspaces[] | select(.label == $l) | .workspace_id) // empty')
+    [ -n "$ws" ] || ws=$(herdr workspace create --cwd "$root" --label "$label" --no-focus \
+        | jq -r '.result.workspace.workspace_id')
+    printf '%s\n' "$ws"
+}
+
+cmd_run() {
+    local name= cwd=$PWD focus=--no-focus ws tab pane
+    local -a env=()
+    while [ $# -gt 0 ]; do
+        case $1 in
+            --fg) focus=--focus ;;
+            --name) name=$2; shift ;;
+            --cwd) cwd=$2; shift ;;
+            --) shift; break ;;
+            *) break ;;
+        esac
+        shift
+    done
+    [ $# -gt 0 ] || die "run: no command"
+    name=${name:-$(basename "$1")}
+    env=(--env "HC_NAME=$name")
+    [ -z "${HERDR_PANE_ID:-}" ] || env+=(--env "HC_LEAD=$HERDR_PANE_ID")
+    ws=$(cmd_space "$cwd")
+    tab=$(herdr tab create --workspace "$ws" --cwd "$cwd" --label "$name" "${env[@]}" "$focus")
+    pane=$(jq -r '.result.root_pane.pane_id' <<<"$tab")
+    # Typed into the tab's login shell, so aliases such as claude apply.
+    herdr pane run "$pane" "$(printf '%q ' "$@")" >/dev/null
+    printf '%s\t%s\n' "$pane" "$name"
+}
+
+cmd_swarm() {
+    local template='Work on ticket {t}.' t prompt
+    if [ "${1:-}" = -p ]; then template=$2; shift 2; fi
+    [ $# -gt 0 ] || die "swarm: no tickets"
+    for t in "$@"; do
+        prompt=${template//\{t\}/$t}
+        [ -z "${HERDR_PANE_ID:-}" ] || \
+            prompt+=" When finished, run: hc report \"$t: <one-line summary>\""
+        cmd_run --name "$t" -- claude -w "$t" -n "$t" "$prompt"
+    done
+}
+
+# Tab label or agent name -> pane id; pane ids (w1:p2) pass through.
+resolve() {
+    case $1 in *:*) printf '%s\n' "$1"; return ;; esac
+    local tab pane=
+    tab=$(herdr tab list | jq -r --arg l "$1" \
+        'first(.result.tabs[] | select(.label == $l) | .tab_id) // empty')
+    [ -z "$tab" ] || pane=$(herdr pane list | jq -r --arg t "$tab" \
+        'first(.result.panes[] | select(.tab_id == $t) | .pane_id) // empty')
+    printf '%s\n' "${pane:-$1}"
+}
+
+cmd_send() {
+    [ $# -ge 2 ] || die "send: need TARGET and TEXT"
+    local target
+    target=$(resolve "$1"); shift
+    herdr agent prompt "$target" "$*" >/dev/null
+}
+
+cmd_report() {
+    [ -n "${HC_LEAD:-}" ] || die "report: no HC_LEAD (this tab was not started by hc run inside herdr)"
+    local text from file
+    if [ $# -gt 0 ]; then text="$*"; else text=$(cat); fi
+    from=${HC_NAME:-${HERDR_PANE_ID:-unknown}}
+    # A prompt must be one line: long reports go to a file, the lead gets the path.
+    if [ "$(printf '%s\n' "$text" | wc -l)" -gt 1 ] || [ ${#text} -gt 500 ]; then
+        file="${TMPDIR:-/tmp}/hc-reports/$from-$(date +%Y%m%d-%H%M%S).md"
+        mkdir -p "$(dirname "$file")"
+        printf '%s\n' "$text" >"$file"
+        text="$(printf '%s\n' "$text" | head -n 1 | cut -c1-200) (full report: $file)"
+    fi
+    herdr agent prompt "$HC_LEAD" "[report from $from] $text" >/dev/null
+}
+
+cmd_ls() {
+    # status, tab label (the ticket), agent kind, pane id
+    jq -rn --argjson tabs "$(herdr tab list)" --argjson agents "$(herdr agent list)" '
+        ($tabs.result.tabs | map({(.tab_id): .label}) | add) as $label
+        | $agents.result.agents[]
+        | [.agent_status, ($label[.tab_id] // "-"), .agent, .pane_id] | @tsv'
+}
+
+cmd_mop() {
+    local root
+    root=$(repo_root "${1:-$PWD}")
+    git -C "$root" worktree prune -v
+    git -C "$root" worktree list | grep '/.claude/worktrees/' || echo "no agent worktrees left"
+}
+
+sub=${1:-}; [ $# -eq 0 ] || shift
+case $sub in
+    space|run|swarm|send|report|ls|mop) "cmd_$sub" "$@" ;;
+    ""|-h|--help|help) usage ;;
+    *) usage >&2; exit 2 ;;
+esac

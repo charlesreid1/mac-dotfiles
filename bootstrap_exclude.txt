@@ -17,6 +17,7 @@ brew_install.sh
 diff_dotfiles.sh
 go_install.sh
 go_setup.sh
+herdr_install.sh
 mac_settings.sh
 pre_bootstrap.sh
 python_install.sh
@@ -31,3 +32,4 @@ README.md
 LICENSE
 plans
 VIMRC_REFACTOR.md
+HERDR.md

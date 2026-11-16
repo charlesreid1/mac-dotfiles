@@ -66,6 +66,7 @@ class MachineProfilesTest(unittest.TestCase):
             ".bash_profile", ".bashrc", ".bash_prompt", ".aliases", ".exports"
         )]
         files += list((ROOT / ".config/dotfiles").rglob("*.sh"))
+        files.append(ROOT / "scripts/hc")
         for path in files:
             with self.subTest(file=path.name):
                 self.run_command(["/bin/bash", "-n", str(path)])
