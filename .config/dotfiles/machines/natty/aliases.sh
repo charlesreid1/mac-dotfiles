@@ -1,5 +1,5 @@
 # Corporate AI tools (formerly on natera).
-alias aws-claude="echo 'use claude-aws' && ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
+alias aws-claude="echo 'use claude-aws' && ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
 
 # New sessions use Opus 5.5; --resume/--continue reuse the transcript's model.
 unalias claude 2>/dev/null
@@ -22,6 +22,7 @@ _claude_session_model() {
     esac
     printf '%s\n' "$m"
 }
+# Natera context: settings from ~/.claude/contexts/natera (dot-claude repo).
 claude() {
     local model="us.anthropic.claude-opus-5-5[1m]" mode= sid= prev= a m
     for a in "$@"; do
@@ -37,17 +38,17 @@ claude() {
     fi
     # aws-vault refuses to nest; reuse this profile's creds when already inside it.
     if [ "$AWS_VAULT" = claude ]; then
-        ANTHROPIC_MODEL="$model" command claude "$@"
+        ANTHROPIC_MODEL="$model" command claude --settings ~/.claude/contexts/natera/settings.json "$@"
     else
-        ANTHROPIC_MODEL="$model" env -u AWS_VAULT aws-vault exec claude -- claude "$@"
+        ANTHROPIC_MODEL="$model" env -u AWS_VAULT aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json "$@"
     fi
 }
 alias claude-aws="claude"
-alias claude-opus="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
-alias claude55="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude"
-alias claude47="ANTHROPIC_MODEL='us.anthropic.claude-opus-4-7' aws-vault exec claude -- claude"
-alias claude-sonnet="ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-6' aws-vault exec claude -- claude"
-alias fable="ANTHROPIC_MODEL='global.anthropic.claude-fable-5-1' aws-vault exec claude -- claude"
+alias claude-opus="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
+alias claude55="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
+alias claude47="ANTHROPIC_MODEL='us.anthropic.claude-opus-4-7' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
+alias claude-sonnet="ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-6' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
+alias fable="ANTHROPIC_MODEL='global.anthropic.claude-fable-5-1' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
 alias c55='claude55'
 alias cc55='claude55'
 
