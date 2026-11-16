@@ -128,6 +128,32 @@ Run the isolated tests (they install only into temporary homes, not your home):
 python3 -B tests/test_machine_profiles.py
 ```
 
+# Claude Code (dot-claude)
+
+Claude Code's configuration lives in its own private repo, dot-claude
+(`git@git.charlesreid1.com:ai/dot-claude.git`,
+[web](https://git.charlesreid1.com/ai/dot-claude)), checked out as `~/.claude`.
+Its `~/.claude/Readme.md` explains that repo, its `bin/claude-config` helper,
+and how to bootstrap a machine. The two repos split one job: this repo decides
+which context a machine uses and how `claude` starts; dot-claude holds what
+Claude Code loads.
+
+This repo's part:
+
+* `.config/dotfiles/machines/<profile>/aliases.sh` has the `claude` launchers.
+  Each passes `--settings ~/.claude/contexts/<context>/settings.json`, which
+  layers that machine's dot-claude context over the shared settings: natty's
+  launchers pass `contexts/natera`, kraken's `claude` alias passes
+  `contexts/kraken`. A session started another way (`command claude`, an IDE)
+  skips the context's settings.
+* `.config/dotfiles/machines/<profile>/profile.sh` exports what Claude Code
+  needs at startup: natty's `AWS_PROFILE` for Bedrock, and any variable that a
+  dot-claude MCP manifest references as `${VAR}`.
+
+On a new machine, run this repo's bootstrap first, then dot-claude's: clone it
+to `~/.claude` and run `~/.claude/bin/claude-config bootstrap <context>`. A new
+machine profile here needs a matching `contexts/<context>/` in dot-claude.
+
 # How Does This Repo Work?
 
 This repository contains dotfiles in the top
