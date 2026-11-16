@@ -16,6 +16,7 @@ _claude_session_model() {
         us.*|global.*|eu.*|apac.*|arn:*) ;;
         claude-opus-5-5)   m="us.anthropic.claude-opus-5-5[1m]" ;;
         claude-fable-5-1)  m="global.anthropic.claude-fable-5-1" ;;
+        claude-fable-5-2)  m="global.anthropic.claude-fable-5-2" ;;
         claude-sonnet-4-6) m="global.anthropic.claude-sonnet-4-6" ;;
         claude-*)          m="us.anthropic.$m" ;;
         *) return 1 ;;
@@ -48,7 +49,7 @@ alias claude-opus="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault 
 alias claude55="ANTHROPIC_MODEL='us.anthropic.claude-opus-5-5[1m]' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
 alias claude47="ANTHROPIC_MODEL='us.anthropic.claude-opus-4-7' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
 alias claude-sonnet="ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-6' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
-alias fable="ANTHROPIC_MODEL='global.anthropic.claude-fable-5-1' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
+alias fable="ANTHROPIC_MODEL='global.anthropic.claude-fable-5-2' aws-vault exec claude -- claude --settings ~/.claude/contexts/natera/settings.json"
 alias c55='claude55'
 alias cc55='claude55'
 
