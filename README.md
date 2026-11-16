@@ -188,5 +188,6 @@ history is not a pile of unexplained magic:
 # herdr
 
 [HERDR.md](HERDR.md) is the crash course: herdr (an agent-aware terminal
-multiplexer) with tmux's keys from `.config/herdr/config.toml`, and the
-`scripts/hc` wrapper for one-agent-per-ticket swarms.
+multiplexer) with tmux's keys from `.config/herdr/config.toml`, the
+`scripts/hc` wrapper for one-agent-per-item swarms, and the example workflow
+plugins in `.config/hc/workflows/`.

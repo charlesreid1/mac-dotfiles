@@ -2,8 +2,8 @@
 
 herdr is a terminal multiplexer built for coding agents: tmux-like panes and
 tabs, plus a sidebar that shows which agents need you. This repo sets it up
-with tmux's keys (prefix `ctrl+t`) and a small wrapper, `hc`, for running one
-agent per ticket.
+with tmux's keys (prefix `ctrl+t`), a small wrapper, `hc`, for running one
+agent per work item, and two example workflows built on Claude plugins.
 
 The goal is to watch agents by exception. Many agents run at once, the sidebar
 flags the few that are blocked or done, and helpers report to a lead agent
@@ -94,6 +94,16 @@ hc swarm JIRA-101 JIRA-102 JIRA-103
 hc swarm -p 'Fix {t} according to the Jira spec.' JIRA-104 JIRA-105
 ```
 
+With `-c`, you give the whole command line and `{t}` stands for each item.
+This is how the workflows below start their agents:
+
+```bash
+hc swarm -c 'claude --plugin-dir ~/.config/hc/workflows/jira-team -w {t} -n {t} "/jira-team:ticket-mr {t}"' JIRA-101 JIRA-102
+```
+
+Item names may use letters, digits, `.`, `_` and `-`, since each one becomes a
+tab label, a worktree name and part of a command line.
+
 For any other command, `hc run` does the same for one tab:
 
 ```bash
@@ -111,11 +121,13 @@ Start a lead agent in the repo's workspace, then ask it to run the swarm:
 > when it finishes. Collect the reports and tell me which branches are ready
 > to merge.
 
-When `hc run` runs inside a herdr pane (as it does from the lead's Bash tool),
-it gives each new tab the variable `HC_LEAD` set to the lead's pane, and
-`hc swarm` adds this to each helper's prompt:
+When `hc run` or `hc swarm` runs inside a herdr pane (as it does from the
+lead's Bash tool), it gives each new tab the variable `HC_LEAD` set to the
+lead's pane. Without `-c`, `hc swarm` also adds this to each helper's prompt:
 
 > When finished, run: hc report "JIRA-101: <one-line summary>"
+
+With `-c`, the recipe the helper follows says when and what to report.
 
 `hc report` types `[report from JIRA-101] ...` into the lead's prompt and
 presses Enter. A report longer than one line goes to a file under
@@ -130,6 +142,157 @@ Other directions:
 * **Permission prompts:** a helper asks permission before running
   `hc report`, and that shows up as blocked. To skip the prompt, allow
   `Bash(hc report:*)` in Claude's settings (the dot-claude repo).
+
+## Workflows
+
+A workflow is a repeatable way of splitting a job across agents. Every
+workflow answers the same five questions:
+
+* **Unit:** what gets one tab each (a ticket, a document).
+* **Recipe:** the steps each agent follows, written once as a Claude skill.
+* **Isolation:** how the agents avoid colliding (a git worktree each, or a
+  separate output file each).
+* **Reply:** what each agent reports to the lead with `hc report`. A report is
+  one line; real content lives in files and the report names the file.
+* **Lead:** what the lead does with the reports: collect them once, or run
+  rounds that send work back.
+
+Two workflows ship with this repo, under `.config/hc/workflows/` (installed
+to `~/.config/hc/workflows/` by bootstrap). The first is a single round, the
+second runs repeated rounds, so between them they show both shapes.
+
+### Roles and recipes are Claude plugins
+
+A workflow's recipes and roles live in a Claude Code plugin: a folder that
+Claude loads for one session with `--plugin-dir`. Nothing is installed
+globally, so a session sees a workflow's skills only when it was started for
+that workflow.
+
+```
+docs-team/
+  .claude-plugin/plugin.json     the plugin's name
+  skills/draft-doc/SKILL.md      a recipe
+  skills/review-doc/SKILL.md
+  agents/reviewer.md             a role
+```
+
+* **A recipe is a skill.** A plugin's skills are named after the plugin, so
+  `skills/draft-doc` becomes `/docs-team:draft-doc`. Putting the skill at the
+  start of the prompt runs it, and the text after it reaches the skill as
+  `$ARGUMENTS`:
+  `claude --plugin-dir ~/.config/hc/workflows/docs-team "/docs-team:draft-doc intro"`.
+  The same works through `hc send`, so a lead can hand an agent its next step:
+  `hc send intro "/docs-team:revise-doc intro 1"`.
+* **A role is an agent definition.** `--agent docs-team:reviewer` starts the
+  session as the role in `agents/reviewer.md`: its own instructions, tools and
+  model. The role's text replaces Claude Code's built-in system prompt, so
+  use roles where a narrow job is the point (a reviewer that only reads and
+  writes one file) and leave them off for agents that write code.
+* **Roles do not carry skills.** An agent definition can list `skills:` to
+  preload, but that list has no effect when the agent is the whole session
+  (`--agent`). Tested with Claude Code 2.1.318: the session started as the
+  role and did not have the listed skill's content. So always name the
+  recipe in the prompt, as above; a session started with `--agent` still runs
+  any skill named that way.
+* **Check a plugin** with `claude plugin validate DIR`.
+
+### Workflow one: tickets to merge requests
+
+* **Unit:** one ticket per tab, labelled with the ticket key.
+* **Recipe:** `jira-team:ticket-mr`: read the ticket, implement, test, commit,
+  push, open the merge request, report. The shipped skill is a skeleton;
+  replace its steps with the team's merge-request recipe.
+* **Isolation:** Claude's `-w` gives each ticket its own worktree.
+* **Reply:** `JIRA-101: <merge request link> <summary>`, or a question if the
+  spec is unclear.
+* **Lead:** collects the links, answers questions with `hc send`, and tells you
+  which merge requests are ready to review.
+
+Start a lead in the repo's workspace (a plain `claude` in its first tab) and
+tell it:
+
+> Run `hc swarm -c 'claude --plugin-dir ~/.config/hc/workflows/jira-team -w {t} -n {t} "/jira-team:ticket-mr {t}"' JIRA-101 JIRA-102 JIRA-103`.
+> Answer questions from the reports if the tickets settle them; otherwise ask
+> me. When every ticket has reported, list the merge requests with a
+> one-line summary each.
+
+### Workflow two: corpus to reviewed documents
+
+Agents draft technical documents from source material, independent reviewers
+check them, and drafts go back for revision until the reviews are clean or a
+round limit is reached.
+
+The project is a git repository laid out like this:
+
+* **`plan.md`:** one `## <name>` section per document, giving its reader,
+  purpose and outline. The section names become the tab names.
+* **`corpus/`:** the source material, the only source of facts.
+* **`drafts/<name>.md`:** written by that document's drafter.
+* **`reviews/<name>-r<round>.md`:** written by that round's reviewer, with the
+  drafter's answer in `reviews/<name>-r<round>-response.md`.
+* **`status.md`:** the lead's running record of where each document stands.
+
+The five answers:
+
+* **Unit:** one document per drafter tab.
+* **Recipes:** `draft-doc`, `review-doc`, `revise-doc`, and `run-rounds` for
+  the lead.
+* **Isolation:** each agent writes only its own files, so no worktrees are
+  needed and only the lead commits.
+* **Reply:** `intro draft ready`, `intro round 1: 2 blocking`,
+  `intro revised for round 1`.
+* **Lead:** runs the rounds, below.
+
+The rounds:
+
+* **Drafting:** the lead starts one drafter per document with `hc swarm -c`.
+  Drafters stay open for the whole run, so each keeps its document in
+  context between rounds.
+* **Review:** when a draft is ready, the lead starts a new reviewer tab
+  (`intro-r1`) with the `reviewer` role. A fresh reviewer each round reads the
+  draft cold, without the drafter's reasoning or an earlier reviewer's
+  opinions.
+* **Revision:** if the review found blocking issues, the lead sends the drafter
+  `/docs-team:revise-doc intro 1` with `hc send`. When the drafter reports
+  back, the next round's reviewer starts.
+* **Stopping:** a document is done when a review finds nothing blocking, or
+  after the round limit (default 2) with its open issues listed.
+* **Record:** the lead commits after each round (`docs: round 1`), so git
+  holds every draft and review.
+
+To run it, open a tab in the project directory and start the lead with the
+plugin:
+
+```bash
+claude --plugin-dir ~/.config/hc/workflows/docs-team -n lead "/docs-team:run-rounds 2"
+```
+
+### Making a new workflow
+
+* **Answer the five questions** first, in a few lines each.
+* **Copy a plugin:** start from `docs-team` (rounds) or `jira-team` (one
+  pass), rename the folder, and set the new name in
+  `.claude-plugin/plugin.json`.
+* **Write the recipes:** each one names its inputs, the one file or branch it
+  may change, and ends with exactly one `hc report` command in a fixed
+  format. The lead reads those reports, so the format is the interface
+  between them.
+* **Add roles** only where an agent should be narrower than a normal Claude
+  session, such as a reviewer that must not edit.
+* **Write the lead's recipe:** how to start the workers (`hc swarm -c`), what
+  each report means and what to do next, when to stop, what to commit, and
+  what to tell you at the end.
+* **Validate** with `claude plugin validate`, then try it on two items before
+  twenty.
+
+### Why not Claude Code's agent teams
+
+Claude Code has a built-in "agent teams" feature with a lead, teammates and
+messaging. It is experimental and off by default, it ignores an agent
+definition's `skills:` list, and its split-pane view needs tmux or iTerm2, so
+teammates would not show in herdr's sidebar. herdr plus `hc` uses only
+ordinary Claude sessions and plain herdr commands, and every worker is a tab
+whose state you can see.
 
 ## Tearing down
 

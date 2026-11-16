@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # hc: herdr helpers for agent swarms. One workspace per repo, one tab per
-# ticket, and helpers report back to the pane that started them.
+# work item, and helpers report back to the pane that started them.
 # Guide: HERDR.md in the mac dotfiles repo.
 set -euo pipefail
 
@@ -11,8 +11,9 @@ usage() {
 Core:
 hc run [--fg] [--name N] [--cwd D] -- CMD [ARG...]
                                    new tab in the repo's workspace running CMD
-hc swarm [-p TEMPLATE] TICKET...   a tab per ticket: claude -w T -n T "TEMPLATE"
-                                   ({t} in TEMPLATE becomes the ticket)
+hc swarm [-c CMD | -p PROMPT] ITEM...
+                                   a tab per item, running CMD ({t} = the item);
+                                   default CMD: claude -w {t} -n {t} "PROMPT"
 hc report TEXT...                  submit TEXT (or stdin) to the pane that ran hc run
 
 Secondary:
@@ -43,8 +44,7 @@ cmd_space() {
 }
 
 cmd_run() {
-    local name= cwd=$PWD focus=--no-focus ws tab pane
-    local -a env=()
+    local name= cwd=$PWD focus=--no-focus
     while [ $# -gt 0 ]; do
         case $1 in
             --fg) focus=--focus ;;
@@ -56,26 +56,43 @@ cmd_run() {
         shift
     done
     [ $# -gt 0 ] || die "run: no command"
-    name=${name:-$(basename "$1")}
-    env=(--env "HC_NAME=$name")
-    [ -z "${HERDR_PANE_ID:-}" ] || env+=(--env "HC_LEAD=$HERDR_PANE_ID")
-    ws=$(cmd_space "$cwd")
-    tab=$(herdr tab create --workspace "$ws" --cwd "$cwd" --label "$name" "${env[@]}" "$focus")
-    pane=$(jq -r '.result.root_pane.pane_id' <<<"$tab")
-    # Typed into the tab's login shell, so aliases such as claude apply.
-    herdr pane run "$pane" "$(printf '%q ' "$@")" >/dev/null
-    printf '%s\t%s\n' "$pane" "$name"
+    launch "${name:-$(basename "$1")}" "$cwd" "$focus" "$(printf '%q ' "$@")"
 }
 
+# launch NAME CWD FOCUS LINE: new tab labelled NAME in CWD's repo workspace,
+# then LINE is typed into its login shell, so aliases such as claude apply.
+launch() {
+    local -a env=(--env "HC_NAME=$1")
+    local ws tab pane
+    [ -z "${HERDR_PANE_ID:-}" ] || env+=(--env "HC_LEAD=$HERDR_PANE_ID")
+    ws=$(cmd_space "$2")
+    tab=$(herdr tab create --workspace "$ws" --cwd "$2" --label "$1" "${env[@]}" "$3")
+    pane=$(jq -r '.result.root_pane.pane_id' <<<"$tab")
+    herdr pane run "$pane" "$4" >/dev/null
+    printf '%s\t%s\n' "$pane" "$1"
+}
+
+# With -c the recipe in CMD owns reporting; the default prompt asks for a report.
 cmd_swarm() {
-    local template='Work on ticket {t}.' t prompt
-    if [ "${1:-}" = -p ]; then template=$2; shift 2; fi
-    [ $# -gt 0 ] || die "swarm: no tickets"
+    local cmd= prompt='Work on ticket {t}.' t p line
+    while [ $# -gt 0 ]; do
+        case $1 in
+            -c) cmd=$2; shift 2 ;;
+            -p) prompt=$2; shift 2 ;;
+            *) break ;;
+        esac
+    done
+    [ $# -gt 0 ] || die "swarm: no items"
     for t in "$@"; do
-        prompt=${template//\{t\}/$t}
-        [ -z "${HERDR_PANE_ID:-}" ] || \
-            prompt+=" When finished, run: hc report \"$t: <one-line summary>\""
-        cmd_run --name "$t" -- claude -w "$t" -n "$t" "$prompt"
+        case $t in ''|*[!A-Za-z0-9._-]*) die "swarm: item names use only A-Z a-z 0-9 . _ -: '$t'" ;; esac
+        if [ -n "$cmd" ]; then
+            line=${cmd//\{t\}/$t}
+        else
+            p=${prompt//\{t\}/$t}
+            [ -z "${HERDR_PANE_ID:-}" ] || p+=" When finished, run: hc report \"$t: <one-line summary>\""
+            line="claude -w $t -n $t $(printf '%q' "$p")"
+        fi
+        launch "$t" "$PWD" --no-focus "$line"
     done
 }
 
